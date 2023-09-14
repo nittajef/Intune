@@ -1,6 +1,6 @@
 @{
     # Settings imported in to Convert-xccdf.ps1 policy generator
-    InputSTIGFile = "C:\stig.xccdf"
+    InputSTIGFile = "C:\stig-xccdf.xml"
     InputChecksFile = "C:\checks.psd1"
 
     # Select which severity rules to generate policy for
@@ -37,13 +37,4 @@
     'V-220706' = @{
         LatestServicingLevel = "23H2"
     }
-    
-    AllNodes = @(
-        @{
-            NodeName = 'DSC-01'
-        }
-        @{
-            NodeName = 'DSC-02'
-        }
-    )
 }
