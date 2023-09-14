@@ -1,4 +1,5 @@
 @{
+    # Settings imported in to Convert-xccdf.ps1 policy generator
     InputSTIGFile = "C:\stig.xccdf"
     InputChecksFile = "C:\checks.psd1"
 
@@ -18,7 +19,11 @@
     JSONFileStyle = "debug"
     JSONFileInfoURL = "https://contoso.com"
     JSONFileNoCheckRules = "include"
-    
+
+    # PowerShell output to upload as script in Intune Custom Compliance
+    # Style:   verbose - Add all of the STIG rule comments (Discussion, Check, Fix)
+    #          mini - 
+    #          zen - Only include STIG rule title
     OutputPSFile = "C:\stig.ps1"
     PSFileStyle = ""
 
