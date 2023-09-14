@@ -31,6 +31,10 @@
     LocalAdminAccounts = "root"
     LocalBackupOperatorAccounts = ""
     LocalHyperVAdminAccounts = ""
+
+    # Overrides - Settings here will override respective STIG rule values
+    #             Rules with overrides will be indicated with trailing -OVR
+    LatestServicingLevel = ""
     
     AllNodes = @(
         @{
