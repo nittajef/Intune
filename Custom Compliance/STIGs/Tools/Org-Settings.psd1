@@ -1,10 +1,16 @@
 @{
     InputSTIGFile = "C:\stig.xccdf"
+    InputChecksFile = "C:\checks.psd1"
+
+    # Select which severity rules to generate policy for
+    CAT1 = $true
+    CAT2 = $false
+    CAT3 = $false
 
     # JSON output to upload in to Intune Custom Compliance policy
-    # Style:   verbose - 
+    # Style:   verbose - Put STIG rule "Discussion" section in to Remediation Description
     #          mini - 
-    #          debug - 
+    #          debug - Change description to show rule evaluation values in Company Portal
     # NoCheck: include - Keep rules with no technical checks in compliance policy (append rule name w/NoChk)
     #          exclude - Remove rules with no technical checks from compliance policy
     #
