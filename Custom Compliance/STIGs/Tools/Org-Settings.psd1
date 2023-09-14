@@ -34,7 +34,9 @@
 
     # Overrides - Settings here will override respective STIG rule values
     #             Rules with overrides will be indicated with trailing -OVR
-    LatestServicingLevel = ""
+    'V-220706' = @{
+        LatestServicingLevel = "23H2"
+    }
     
     AllNodes = @(
         @{
