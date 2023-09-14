@@ -1,40 +1,63 @@
 @{
     # Settings imported in to Convert-xccdf.ps1 policy generator
-    InputSTIGFile = "C:\stig-xccdf.xml"
-    InputChecksFile = "C:\checks.psd1"
+    input = @{
+        STIG = "U_MS_Windows_10_STIG_V2R7_Manual-xccdf.xml"
+        Checks = "Checks.psd1"
+    }
 
-    # Select which severity rules to generate policy for
-    CAT1 = $true
-    CAT2 = $false
-    CAT3 = $false
+    output = @{
+        # JSON output to upload in to Intune Custom Compliance policy
+        # Style:   discussion - Put STIG rule "Discussion" section in to Remediation Description
+        #          fix - Put STIG rule "Fix" section in to Remediation Description
+        #          debug - Description shows rule evaluation values in Company Portal, but need to adjust PS check returns to be useful
+        # NoCheck: include - Keep rules with no code checks in compliance policy (auto-pass & append rule name w/NoChk)
+        #          exclude - Remove rules with no technical checks from compliance policy
+        #
+        JSON = "cc_json.json"
+        JSONStyle = "fix"
+        JSONInfoURL = "https://contoso.com"
+        JSONNoCheckRules = "include"
 
-    # JSON output to upload in to Intune Custom Compliance policy
-    # Style:   verbose - Put STIG rule "Discussion" section in to Remediation Description
-    #          mini - 
-    #          debug - Change description to show rule evaluation values in Company Portal
-    # NoCheck: include - Keep rules with no technical checks in compliance policy (append rule name w/NoChk)
-    #          exclude - Remove rules with no technical checks from compliance policy
-    #
-    OutputJSONFile = "C:\stig.json"
-    JSONFileStyle = "debug"
-    JSONFileInfoURL = "https://contoso.com"
-    JSONFileNoCheckRules = "include"
+        # PowerShell output to upload as script in Intune Custom Compliance
+        # Style:   verbose - Add all of the STIG rule comments (Discussion, Check, Fix)
+        #          mini - Add STIG rule title and additional metadata
+        #          zen - Only include STIG rule title
+        PS = "cc_ps.ps1"
+        PSStyle = "zen"
+    }
 
-    # PowerShell output to upload as script in Intune Custom Compliance
-    # Style:   verbose - Add all of the STIG rule comments (Discussion, Check, Fix)
-    #          mini - 
-    #          zen - Only include STIG rule title
-    OutputPSFile = "C:\stig.ps1"
-    PSFileStyle = ""
+    accounts = @{
+        # List all accounts that should not be evaluated in STIG rule checks (one account per line)
+        Administrators = @(
+            "root"
+        )
+        BackupOperators = @(
+        )
+        HyperVAdministrators = @(
+        )
+    }    
 
-    # List all accounts that should not be evaluated in STIG rule checks
-    LocalAdminAccounts = "root"
-    LocalBackupOperatorAccounts = ""
-    LocalHyperVAdminAccounts = ""
+    severity = @{
+        # Select which severity rules to generate policy for
+        CAT1 = $true
+        CAT2 = $false
+        CAT3 = $false
+    }
+
+    # List all rules that are manual/process checks
+    nocode = @(
+        "V-220705"
+        "V-220733"
+        "V-220735"
+        "V-220737"
+        "V-220738"
+    )
 
     # Overrides - Settings here will override respective STIG rule values
     #             Rules with overrides will be indicated with trailing -OVR
-    'V-220706' = @{
-        LatestServicingLevel = "23H2"
+    overrides = @{
+        'V-220706' = @{
+            LatestServicingLevel = "23H2"
+        }
     }
 }
