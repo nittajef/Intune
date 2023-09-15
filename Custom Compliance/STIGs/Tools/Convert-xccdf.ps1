@@ -79,10 +79,10 @@ function Generate-CCPolicy() {
 
 function Format-Text ($input_txt) {
     # Replace non-Latin characters that Intune doesn't like
-    $input_txt = $input_txt -replace ('“|”', '"')
-    $input_txt = $input_txt -replace ('…', '...')
-    $input_txt = $input_txt -replace ('™', '')
-    $input_txt = $input_txt -replace ('–', '-')
+    $input_txt = $input_txt -replace ('â€œ|â€', '"')
+    $input_txt = $input_txt -replace ('â€¦', '...')
+    $input_txt = $input_txt -replace ('â„¢', '')
+    $input_txt = $input_txt -replace ('â€“', '-')
 
     foreach ($sub_txt in $input_txt) {
         if ($sub_txt -eq "`n") {
@@ -106,6 +106,8 @@ function Format-Text ($input_txt) {
 if ($RuleChecks.gather_info) {
     $checks += $RuleChecks.gather_info + "`r`n"
 }
+
+$EmptyRules = 0
 
 # Iterate through all rules in the STIG document
 foreach ($rule in $stig.Benchmark.Group.Rule) {
@@ -212,6 +214,7 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
             "    $" + $ruleVarName + ' = $false'
             "}`r`n`r`n"
         ) -join "`r`n"
+        $i++
     }
 
     # Output full check/logic test text for each rule
@@ -258,3 +261,4 @@ $checks += $ret_hash
 
 Generate-CCPolicy | ConvertTo-Json -Depth 4 | Out-File $OrgSettings.output.JSON
 $checks | Out-File -FilePath $OrgSettings.output.PS
+Write-Host("$EmptyRules empty rule checks")
