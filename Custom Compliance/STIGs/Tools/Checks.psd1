@@ -1,37 +1,49 @@
 @{
-    'gather_info' = @'
-$Computer_info = Get-ComputerInfo | Select-Object -Property WindowsProductName,OsBuildNumber,OsArchitecture
+    'CAT1' = @(
+        'ComputerInfo'
+        'SecurityPolicy'
+    )
+    'CAT2' = @(
+    )
+    'CAT3' = @(
+    )
 
+    'ComputerInfo' = @'
+$ComputerInfo = Get-ComputerInfo | Select-Object -Property WindowsProductName,OsBuildNumber,OsArchitecture
+'@
+
+    'SecurityPolicy' = @'
 # Create hash of local security policies (exported in .ini format)
 # Ref: Ingest .ini file: https://devblogs.microsoft.com/scripting/use-powershell-to-work-with-any-ini-file/
 $SPFile = [System.Environment]::GetEnvironmentVariable('TEMP','Machine') + "\secpol.cfg"
 secedit /export /cfg $SPFile | Out-Null
 
-$secpol = @{}  
+$SecurityPolicy = @{}  
 switch -regex -file $SPFile
 {
     "^\[(.+)\]$" # Section
     {
         $section = $matches[1]
-        $secpol[$section] = @{}
+        $SecurityPolicy[$section] = @{}
     }
     "(.+?)\s*=\s*(.*)" # Key
     {
         if (!($section))
         {
             $section = "No-Section"
-            $secpol[$section] = @{}
+            $SecurityPolicy[$section] = @{}
         }
         $name,$value = $matches[1..2]
-        $secpol[$section][$name] = $value
+        $SecurityPolicy[$section][$name] = $value
     }
 }
 Remove-Item -Force $SPFile -Confirm:$false
 '@
+
     'V-220697' = @'
 try {
     if ($Computer_info.OsArchitecture -eq "64-bit") {
-        if ($Computer_info.WindowsProductName -eq "Windows 10 Enterprise" -or $Computer_info.WindowsProductName -eq "Windows 11 Enterprise") {
+        if ($ComputerInfo.WindowsProductName -eq "Windows 10 Enterprise" -or $ComputerInfo.WindowsProductName -eq "Windows 11 Enterprise") {
             $V220697 = $true
         }
     }
@@ -102,7 +114,12 @@ try {
 '@
     'V-220706' = @'
 try {
-    if ("19044", "19045", "22000", "22621" -contains $Computer_info.OsBuildNumber) {
+    if ($override) {
+        $builds = $override.SupportedBuilds
+    } else {
+        $builds = @("19044", "19045", "22000", "22621")
+    }
+    if ($builds -contains $ComputerInfo.OsBuildNumber) {
         $V220706 = $true
     } else {
         $V220706 = $false
