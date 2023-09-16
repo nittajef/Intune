@@ -1,4 +1,4 @@
-$OrgSettings = Import-PowerShellDataFile "Org-Settings.psd1"
+$OrgSettings = Import-PowerShellDataFile "Org-Settings-W10.psd1"
 $RuleChecks = Import-PowerShellDataFile $OrgSettings.input.Checks
 [xml]$stig = Get-Content -Path $OrgSettings.input.STIG -Encoding UTF8
 
@@ -6,8 +6,13 @@ $checks = @()
 $results = [ordered]@{}
 
 $header = @(
+    "##"
     "# " + $stig.Benchmark.title
-    "# Version: " + $stig.Benchmark.version + ", " + $stig.Benchmark.'plain-text'.'#text'[0]+ "`r`n`r`n"
+    "# Version: " + $stig.Benchmark.version + ", " + $stig.Benchmark.'plain-text'.'#text'[0]
+    "#"
+    "# PowerShell script and accompanying JSON file for Intune Custom Compliance"
+    "# were generated with: https://github.com/nittajef/Intune/"
+    "##`r`n`r`n"
 )
 
 $checks += $header
@@ -103,15 +108,32 @@ function Format-Text ($input_txt) {
     $formatted_text
 }
 
-if ($RuleChecks.gather_info) {
-    $checks += $RuleChecks.gather_info + "`r`n"
+# Add any shared info needed by multiple rule checks
+$SharedInfo = @()
+if ($OrgSettings.severity.CAT1) {
+    $SharedInfo += $RuleChecks.CAT1
+}
+if ($OrgSettings.severity.CAT2) {
+    $SharedInfo += $RuleChecks.CAT2
+}
+if ($OrgSettings.severity.CAT3) {
+    $SharedInfo += $RuleChecks.CAT3
+}
+if ($SharedInfo) {
+    $checks += "#`r`n# Gather data used across multiple rule checks`r`n#`r`n"
+    foreach ($data in $SharedInfo) {
+        $checks += $RuleChecks.$data + "`r`n"
+    }
+    $checks += "`r`n"
 }
 
 $EmptyRules = 0
 
 # Iterate through all rules in the STIG document
 foreach ($rule in $stig.Benchmark.Group.Rule) {
-    # Continue if rule is in a CAT category specified above
+    #
+    # Skip rule if it's not in a selected severity level or in "nocheck" or "exemptions" list
+    #
     if (($OrgSettings.severity.CAT1 -and $rule.severity -eq "high") -or
         ($OrgSettings.severity.CAT2 -and $rule.severity -eq "medium") -or
         ($OrgSettings.severity.CAT3 -and $rule.severity -eq "low")) {
@@ -127,7 +149,9 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
         }
     }
 
+    #
     # Create rule comments (title, description, check, fix, ids)
+    #
     # Split description/check/fix fields by blank lines to preserver spacing
     $formatted_title = Format-Text($rule.title)
     # Match text in VulnDiscussion section, but remove the VulnDiscussion tags
@@ -142,10 +166,10 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
                     "high" {"CAT I"}
                 }
 
-    # Try to auto create checks for rules with registry values
-    # $regchecks holds a collection of individual registry checks, some rules have multiple
-    $regChecks = [System.Collections.ArrayList]@()
-    $regCheck = @()
+    # If there are registry tests in rule, generate checks
+    # $registryChecks holds a collection of individual registry checks, some rules have multiple
+    $registryChecks = [System.Collections.ArrayList]@()
+    $registryCheck = @()
     foreach ($line in $rule.check.'check-content'.Split("`n")) {
         if ($line.Contains("Registry Hive")) {
             $hive = switch -regex ($line) {
@@ -165,25 +189,44 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
             } elseif ($line.TrimEnd() -match "(?m)Value:\s+(\d+)$") {
                 $regValue = $Matches[1]
             }
-            $regCheck = $hive, $regPath, $regName, $regValue
-            $regChecks.Add($regCheck) | Out-Null
+            $registryCheck = $hive, $regPath, $regName, $regValue
+            $registryChecks.Add($registryCheck) | Out-Null
         }
     }
 
     # Create check rule logic template
     $ruleVarName = $ruleId -replace "-"
-
-    # Load custom check logic if exists from .psd1 file
-    # Create simple registry check logic if created above
-    # Or create blank try/catch template to be filled in manually
-    if ($RuleChecks.$ruleId) {
+    $override = @{}
+    
+    #
+    # Create PowerShell logic check for the rule, looking in this order
+    # 1. Rule in "exemptions" list
+    # 2. Rule in "nocheck" list
+    # 3. Rule in "overrides" list
+    # 4. Rule in "checks" PSDataFile
+    # 5. Rule has generated registry checks
+    # 6. Empty rule template created
+    #
+    if ($OrgSettings.exemptions -contains $ruleId) {
+        $ruleId = $ruleId + "-EXM"
+        $check_template = @(
+            "$" + $ruleVarName + ' = $true'
+        ) -join "`r`n"
+    } elseif ($OrgSettings.nocode -contains $ruleId) {
+        $ruleId = $ruleId + "-NoChk"
+        $check_template = @(
+            "$" + $ruleVarName + ' = $true'
+        ) -join "`r`n"
+    } elseif ($OrgSettings.overrides -contains $ruleId) {
+        $override = $OrgSettings.overrides.$ruleId
         $check_template = $RuleChecks.$ruleId
-    }
-    elseif ($regchecks) {
+    } elseif ($RuleChecks.$ruleId) {
+        $check_template = $RuleChecks.$ruleId
+    } elseif ($registryChecks) {
         # Template for the PowerShell registry check for the rule
         $psRegChecks = "    if ("
-        foreach ($regCheck in $regChecks) {
-            $psRegChecks += "(Get-ItemPropertyValue -Path `""+ $regCheck[0] + $regCheck[1] + "`" -Name " + $regCheck[2] + " -ErrorAction Stop) -eq " + $regCheck[3] + " -and`r`n        "
+        foreach ($check in $registryChecks) {
+            $psRegChecks += "(Get-ItemPropertyValue -Path `""+ $check[0] + $check[1] + "`" -Name " + $check[2] + " -ErrorAction Stop) -eq " + $check[3] + " -and`r`n        "
         }
         # Replace last entries "-and" and close the "if" conditional
         $psRegChecks = $psRegChecks.TrimEnd(" -and`r`n")
@@ -200,11 +243,6 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
             "    $" + $ruleVarName + ' = $false'
             "}`r`n"
         ) -join "`r`n"
-    } elseif ($OrgSettings.nocode -contains $ruleId) {
-        $ruleId = $ruleId + "-NoChk"
-        $check_template = @(
-            "$" + $ruleVarName + ' = $true'
-        ) -join "`r`n"
     } else {
         $check_template = @(
             "try {"
@@ -214,7 +252,7 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
             "    $" + $ruleVarName + ' = $false'
             "}`r`n`r`n"
         ) -join "`r`n"
-        $i++
+        $EmptyRules++
     }
 
     # Output full check/logic test text for each rule
@@ -261,4 +299,4 @@ $checks += $ret_hash
 
 Generate-CCPolicy | ConvertTo-Json -Depth 4 | Out-File $OrgSettings.output.JSON
 $checks | Out-File -FilePath $OrgSettings.output.PS
-Write-Host("$EmptyRules empty rule checks")
+Write-Host("There are $EmptyRules unfinished rule checks")
