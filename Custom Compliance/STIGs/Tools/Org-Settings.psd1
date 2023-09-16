@@ -2,7 +2,7 @@
     # Settings imported in to Convert-xccdf.ps1 policy generator
     input = @{
         STIG = "U_MS_Windows_10_STIG_V2R7_Manual-xccdf.xml"
-        Checks = "Checks.psd1"
+        Checks = "STIG-W10-V2R7-Checks.psd1"
     }
 
     output = @{
@@ -23,7 +23,7 @@
         #          mini - Add STIG rule title and additional metadata
         #          zen - Only include STIG rule title
         PS = "cc_ps.ps1"
-        PSStyle = "zen"
+        PSStyle = "verbose"
     }
 
     accounts = @{
@@ -54,10 +54,15 @@
     )
 
     # Overrides - Settings here will override respective STIG rule values
-    #             Rules with overrides will be indicated with trailing -OVR
+    #             Rules with overrides will be indicated with trailing -OvR
     overrides = @{
         'V-220706' = @{
-            LatestServicingLevel = "23H2"
+            SupportedBuilds = @("19044", "19045")
         }
     }
+
+    # Exemptions - Rules in this list will have checks return true and 
+    #              exempted rules will be indidcated with trailing -EXM
+    exemptions = @(
+    )
 }
