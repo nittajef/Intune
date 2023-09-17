@@ -114,8 +114,8 @@ try {
 '@
     'V-220706' = @'
 try {
-    if ($override) {
-        $builds = $override.SupportedBuilds
+    if ($SupportedBuilds) {
+        $builds = $SupportedBuilds
     } else {
         $builds = @("19044", "19045", "22000", "22621")
     }
