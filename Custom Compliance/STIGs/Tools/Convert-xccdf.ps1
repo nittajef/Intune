@@ -197,6 +197,7 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
     # Create check rule logic template
     $ruleVarName = $ruleId -replace "-"
     $override = @{}
+    $check_template = ""
     
     #
     # Create PowerShell logic check for the rule, looking in this order
@@ -217,9 +218,22 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
         $check_template = @(
             "$" + $ruleVarName + ' = $true'
         ) -join "`r`n"
-    } elseif ($OrgSettings.overrides -contains $ruleId) {
+    } elseif ($OrgSettings.overrides.ContainsKey($ruleId)) {
         $override = $OrgSettings.overrides.$ruleId
-        $check_template = $RuleChecks.$ruleId
+        foreach ($setting in $override.Keys) {
+            if ($override.$setting -is [array]) {
+                $value = "@("
+                foreach ($val in $override.$setting) {
+                    $value += "`"$val`","
+                }
+                $value = $value.TrimEnd(",")
+                $value += ")"
+            } else {
+                $value = "`"$override.$setting`""
+            }
+            $check_template += "`$${setting} = $value`r`n"
+        }
+        $check_template += $RuleChecks.$ruleId
     } elseif ($RuleChecks.$ruleId) {
         $check_template = $RuleChecks.$ruleId
     } elseif ($registryChecks) {
