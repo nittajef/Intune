@@ -39,9 +39,9 @@
 
     severity = @{
         # Select which severity rules to generate policy for
-        CAT1 = $true
+        CAT1 = $false
         CAT2 = $false
-        CAT3 = $false
+        CAT3 = $true
     }
 
     # List all rules that are manual/process checks
@@ -56,8 +56,14 @@
     # Overrides - Settings here will override respective STIG rule values
     #             Rules with overrides will be indicated with trailing -OvR
     overrides = @{
+        'V-220704' = @{
+            MinimumPIN = 4
+        }
         'V-220706' = @{
             SupportedBuilds = @("19044", "19045")
+        }
+        'V-220918' = @{
+            MaxPwAge = 45
         }
     }
 
