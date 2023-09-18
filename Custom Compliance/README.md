@@ -4,16 +4,34 @@ Custom Compliance PowerShell & JSON files for Windows STIGs are located in the s
 
 The Tools folder contains PowerShell scripts to help generate Intune compatible files for Custom Compliance via the STIG xccdf filess.
 
-You'll need 3 files to run the generator:
+<h2>Generator files</h2>
 
 <h4>Convert-xccdf.ps1</h4> The main script, which will ingest the STIG file and generate matching PS and JSON files.
 
-<h4>Org-Settings.psd1</h4> Needed to specify some file paths as well as other configuration options such as which CAT severity rules to outupt,
-as well as to specify rules that should be skipped or overrriden.
+<h4>Org-Settings.psd1</h4> Needed to specify some file paths as well as other configuration options such as which CAT severity rules to output, as well as to specify rules that should be skipped or overrriden.
 
-<h4>Checks.psd1</h4> Where all of the custom PowerShell code to do the checks is stored. Most simple registry based checks are generated automatically,
-but any others need to be completed and stored in the Checks.psd1 file manually.
+<h4>Checks.psd1</h4> Where all of the custom PowerShell code to do the checks is stored. Most simple registry based checks are generated automatically, but any others need to be completed and stored in the Checks.psd1 file manually.
 
+<h2>Output files</h2>
+
+<h4>PowerShell discovery script (https://learn.microsoft.com/en-us/mem/intune/protect/compliance-custom-script)</h4> 
+This will be uploaded in the "Scripts" section under "Compliance policies":
+<br>
+<img width="201" alt="image" src="https://github.com/nittajef/Intune/assets/77274708/e58879e3-713f-4750-aaf5-0a305aa9162f">
+<br>
+It contains all of the logic checks to determine if the machine meets each STIG rule. Because Custom Compliance doesn't allow for flexible matching in the JSON file, all multi-part or ranged results are evaluated within the discovery script and return a boolean true/false for whether the rule is met or not.
+
+If you are trying to upload a discovery script and nothing seems to happen when you click the "Review + Save" button, it may because of non-Latin characters in the text. You can verify by viewing the browser's console for errors on the page.
+
+
+<h4>JSON file (https://learn.microsoft.com/en-us/mem/intune/protect/compliance-custom-json)</h4>
+This file is uploaded in the Compliance policy (after uploading your script):
+<br>
+<img width="325" alt="image" src="https://github.com/nittajef/Intune/assets/77274708/5619850c-ec35-460d-9012-ad8c8cbabb3a">
+<br>
+The JSON is created using only boolean checks for now, for consistency, since each Intune policy setting can only compare one return value per rule. There is a loss in being able to see the raw values returned to Intune this way, and maybe STIG rules will be broken in to multiple sub-settings in the future (V-252903A, V-252903B, etc).
+
+<h2>Intune Policy</h2>
 Once the two policies files are generated, you can create a new Custom Compliance policy and see results similar to this:
 
 Device policy view:
