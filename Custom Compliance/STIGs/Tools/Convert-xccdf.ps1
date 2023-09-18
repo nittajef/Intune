@@ -88,10 +88,10 @@ function Generate-CCPolicy() {
 
 function Format-Text ($input_txt) {
     # Replace non-Latin characters that Intune doesn't like
-    $input_txt = $input_txt -replace ('â€œ|â€', '"')
-    $input_txt = $input_txt -replace ('â€¦', '...')
-    $input_txt = $input_txt -replace ('â„¢', '')
-    $input_txt = $input_txt -replace ('â€“', '-')
+    $input_txt = $input_txt -replace ('“|”', '"')
+    $input_txt = $input_txt -replace ('…', '...')
+    $input_txt = $input_txt -replace ('™', '')
+    $input_txt = $input_txt -replace ('–', '-')
 
     foreach ($sub_txt in $input_txt) {
         if ($sub_txt -eq "`n") {
