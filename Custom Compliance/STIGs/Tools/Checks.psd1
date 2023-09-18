@@ -163,6 +163,7 @@ try {
     # Check all local accounts except for DefaultAccount/Administrator/Guest
     foreach ($user in $localUsers) {
         if ( ("500", "501", "503") -contains $user.SID.ToString().Substring($user.SID.ToString().Length - 3, 3) -or
+             $OrgSettings.accounts.Administrators -contains $user -or
              $user.Enabled -eq $false) {
              # Skip these accounts
         } else {
@@ -194,8 +195,9 @@ try {
     $V220715 = $true
     # Check for any non-default accounts
     foreach ($user in $localUsers) {
-        if ( ("Administrator", "Guest", "DefaultAccount", "defaultuser0", "WDAGUtilityAccount") -contains $user.Name -and
-             $user.Enabled -eq $true) {
+        if ( (("Administrator", "Guest", "DefaultAccount", "defaultuser0", "WDAGUtilityAccount") -contains $user.Name -and
+             $user.Enabled -eq $true) -or
+             $OrgSettings.accounts.Administrators -contains $user) {
              # Skip these accounts
         } else {
             $V220715 = $false
@@ -307,7 +309,12 @@ try {
 '@
     'V-220918' = @'
 try {
-    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters\" -Name MaximumPasswordAge -ErrorAction Stop) -in 1..30) {
+    if ($MaxPwAge) {
+        $age = $MaxPwAge
+    } else {
+        $age = 30
+    }
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters\" -Name MaximumPasswordAge -ErrorAction Stop) -in 1..$age) {
         $V220918 = $true
     } else {
         $V220918 = $false
