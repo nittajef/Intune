@@ -32,7 +32,12 @@ This file is uploaded in the Compliance policy (after uploading your script):
 The JSON is created using only boolean checks for now, for consistency, since each Intune policy setting can only compare one return value per rule. There is a loss in being able to see the raw values returned to Intune this way, and maybe STIG rules will be broken in to multiple sub-settings in the future (V-252903A, V-252903B, etc).
 
 <h2>Intune Policy</h2>
-Once the two policies files are generated, you can create a new Custom Compliance policy and see results similar to this:
+Once the two policies files are generated, you can create a new Custom Compliance policy and see results similar to the screenshots below.
+
+If you'd like to just see how your clients stack up against the STIG rules, you can change the delay to mark devices as non-compliant to 365 (which is the max) so that you can still see which tests pass/fail, without affecting the devices compliance status.
+<br>
+<img width="231" alt="image" src="https://github.com/nittajef/Intune/assets/77274708/314d250f-308a-4bea-b48b-252308e8d0ff">
+<br>
 
 Device policy view:
 
