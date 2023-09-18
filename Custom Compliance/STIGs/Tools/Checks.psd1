@@ -336,7 +336,7 @@ try {
 '@
     'V-220928' = @'
 try {
-    if ($secpol.'System Access'.LSAAnonymousNameLookup -eq 0) {
+    if ($SecurityPolicy.'System Access'.LSAAnonymousNameLookup -eq 0) {
         $V220928 = $true
     } else {
         $V220928 = $false
@@ -348,7 +348,7 @@ try {
 # TODO: check that this fails if a user/group is granted this right
     'V-220958' = @'
 try {
-    if ($secpol.'Privilege Rights'.SeTcbPrivilege) {
+    if ($SecurityPolicy.'Privilege Rights'.SeTcbPrivilege) {
         $V220958 = $false
     } else {
         $V220958 = $true
@@ -360,7 +360,7 @@ try {
 # TODO: check that this fails if a user/group is granted this right
     'V-220963' = @'
 try {
-    if ($secpol.'Privilege Rights'.SeCreateTokenPrivilege) {
+    if ($SecurityPolicy.'Privilege Rights'.SeCreateTokenPrivilege) {
         $V220963 = $false
     } else {
         $V220963 = $true
@@ -372,7 +372,7 @@ try {
 # TODO: check that this fails if more than just built in admin group is listed
     'V-220967' = @'
 try {
-    if ($secpol.'Privilege Rights'.SeDebugPrivilege -eq '*S-1-5-32-544') {
+    if ($SecurityPolicy.'Privilege Rights'.SeDebugPrivilege -eq '*S-1-5-32-544') {
         $V220967 = $true
     } else {
         $V220967 = $false
