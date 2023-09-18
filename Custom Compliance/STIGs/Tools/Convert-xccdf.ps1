@@ -37,6 +37,10 @@ function Generate-CCPolicy() {
             } else {
                 $settingName = $settingName + "-NoChk"
             }
+        } elseif ($OrgSettings.exemptions -contains $settingName) {
+            $settingName = $settingName + "-EXM"
+        } elseif ($OrgSettings.overrides.ContainsKey($settingName)) {
+            $settingName = $settingName + "-OvR"
         }
 
         # Fill out reference section of entry, which is not used by Intune CC
@@ -142,6 +146,7 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
     }
 
     $ruleId = $rule.id.Substring(1,8)
+    $ruleVarName = $ruleId -replace "-"
 
     if ($OrgSettings.nocode -contains $ruleId) {
         if ($OrgSettings.output.JSONNoCheckRules -eq "exclude") {
@@ -195,7 +200,6 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
     }
 
     # Create check rule logic template
-    $ruleVarName = $ruleId -replace "-"
     $override = @{}
     $check_template = ""
     
@@ -228,12 +232,15 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
                 }
                 $value = $value.TrimEnd(",")
                 $value += ")"
+            } elseif ($override.$setting -is [int]) {
+                $value = $override.$setting
             } else {
-                $value = "`"$override.$setting`""
+                $value = '"' + $override.$setting + '"'
             }
             $check_template += "`$${setting} = $value`r`n"
         }
         $check_template += $RuleChecks.$ruleId
+        $ruleId = $ruleId + "-OvR"
     } elseif ($RuleChecks.$ruleId) {
         $check_template = $RuleChecks.$ruleId
     } elseif ($registryChecks) {
