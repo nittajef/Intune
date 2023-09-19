@@ -114,13 +114,26 @@ function Format-Text ($input_txt) {
 
 # Add any shared info needed by multiple rule checks
 $SharedInfo = @()
+$AccountInfo = @()
 if ($OrgSettings.severity.CAT1) {
     $SharedInfo += $RuleChecks.CAT1
 }
 if ($OrgSettings.severity.CAT2) {
+    foreach ($list in $OrgSettings.accounts.Keys) {
+        if ($OrgSettings.accounts[$list].Length -gt 0) {
+            $AccountInfo += "$" + $list + " = @(`"" + ($OrgSettings.accounts[$list] -join '", "') + "`")`r`n"
+        }
+    }
     $SharedInfo += $RuleChecks.CAT2
 }
 if ($OrgSettings.severity.CAT3) {
+    if (!$AccountInfo) {
+            foreach ($list in $OrgSettings.accounts.Keys) {
+            if ($OrgSettings.accounts[$list].Length -gt 0) {
+                $AccountInfo += "$" + $list + " = @(`"" + ($OrgSettings.accounts[$list] -join '", "') + "`")`r`n"
+            }
+        }
+    }
     $SharedInfo += $RuleChecks.CAT3
 }
 if ($SharedInfo) {
@@ -128,6 +141,11 @@ if ($SharedInfo) {
     foreach ($data in $SharedInfo) {
         $checks += $RuleChecks.$data + "`r`n"
     }
+    $checks += "`r`n"
+}
+if ($AccountInfo) {
+    $checks += "#`r`n# List of accounts used across multiple rule checks`r`n#"
+    $checks += $AccountInfo
     $checks += "`r`n"
 }
 
