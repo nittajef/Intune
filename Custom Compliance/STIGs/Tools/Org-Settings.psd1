@@ -30,8 +30,10 @@
         # List all accounts that should not be evaluated in STIG rule checks (one account per line)
         Administrators = @(
             "root"
+            "admin"
         )
         BackupOperators = @(
+            "test"
         )
         HyperVAdministrators = @(
         )
@@ -56,15 +58,15 @@
     # Overrides - Settings here will override respective STIG rule values
     #             Rules with overrides will be indicated with trailing -OvR
     overrides = @{
-        'V-220704' = @{
-            MinimumPIN = 4
-        }
-        'V-220706' = @{
-            SupportedBuilds = @("19044", "19045")
-        }
-        'V-220918' = @{
-            MaxPwAge = 45
-        }
+        #'V-220704' = @{
+        #    MinimumPIN = 4
+        #}
+        #'V-220706' = @{
+        #    SupportedBuilds = @("19044", "19045")
+        #}
+        #'V-220918' = @{
+        #    MaxPwAge = 45
+        #}
     }
 
     # Exemptions - Rules in this list will have checks return true and 
