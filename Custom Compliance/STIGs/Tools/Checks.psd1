@@ -163,7 +163,7 @@ try {
     # Check all local accounts except for DefaultAccount/Administrator/Guest
     foreach ($user in $localUsers) {
         if ( ("500", "501", "503") -contains $user.SID.ToString().Substring($user.SID.ToString().Length - 3, 3) -or
-             $OrgSettings.accounts.Administrators -contains $user -or
+             $Administrators -contains $user -or
              $user.Enabled -eq $false) {
              # Skip these accounts
         } else {
@@ -197,7 +197,7 @@ try {
     foreach ($user in $localUsers) {
         if ( (("Administrator", "Guest", "DefaultAccount", "defaultuser0", "WDAGUtilityAccount") -contains $user.Name -and
              $user.Enabled -eq $true) -or
-             $OrgSettings.accounts.Administrators -contains $user) {
+             $Administrators -contains $user) {
              # Skip these accounts
         } else {
             $V220715 = $false
