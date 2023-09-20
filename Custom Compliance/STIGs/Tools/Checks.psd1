@@ -1,15 +1,22 @@
 @{
     'CAT1' = @(
         'ComputerInfo'
+        'DeviceGuard'
         'SecurityPolicy'
     )
     'CAT2' = @(
+        'SecurityPolicy'
     )
     'CAT3' = @(
+        'DeviceGuard'
     )
 
     'ComputerInfo' = @'
 $ComputerInfo = Get-ComputerInfo | Select-Object -Property WindowsProductName,OsBuildNumber,OsArchitecture
+'@
+
+    'DeviceGuard' = @'
+$DeviceGuard = Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard
 '@
 
     'SecurityPolicy' = @'
@@ -42,7 +49,7 @@ Remove-Item -Force $SPFile -Confirm:$false
 
     'V-220697' = @'
 try {
-    if ($Computer_info.OsArchitecture -eq "64-bit") {
+    if ($ComputerInfo.OsArchitecture -eq "64-bit") {
         if ($ComputerInfo.WindowsProductName -eq "Windows 10 Enterprise" -or $ComputerInfo.WindowsProductName -eq "Windows 11 Enterprise") {
             $V220697 = $true
         }
@@ -84,15 +91,22 @@ try {
     $V220700 = $false
 }
 '@
-# Needs manual check for ESS software
-    'V-220701' = @'
-$V220701 = $true
+    'V-220702' = @'
+try {
+    if (Get-BitLockerVolume | Where-Object { $_.ProtectionStatus -eq "Off" }) {
+        $V220702 = $false
+    } else {
+        $V220702 = $true
+    }
+} catch {
+    $V220702 = $false
+}
 '@
     'V-220703' = @'
 try {
     if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -Name UseAdvancedStartup -ErrorAction Stop) -eq 1 -and
-        ((1, 2) -contains (Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -Name UseTPMPIN -ErrorAction Stop)) -and
-        ((1, 2) -contains (Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -Name UseTPMKeyPIN -ErrorAction Stop))) {
+        (((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -Name UseTPMPIN -ErrorAction Stop) -in @(1,2)) -or
+        ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -Name UseTPMKeyPIN -ErrorAction Stop) -in @(1,2)))) {
         $V220703 = $true
     } else {
         $V220703 = $false
@@ -103,7 +117,12 @@ try {
 '@
     'V-220704' = @'
 try {
-    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -Name MinimumPIN -ErrorAction Stop) -ge 6) {
+    if ($MinimumPIN) {
+        $pin = $MinimumPIN
+    } else {
+        $pin = 6
+    }
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -Name MinimumPIN -ErrorAction Stop) -ge $pin) {
         $V220704 = $true
     } else {
         $V220704 = $false
@@ -184,9 +203,38 @@ try {
         if ($member.Name -match "\Domain Admins") {
             $V220712 = $false
         }
+        if ($member.Name -notin $Administrators) {
+            $V220712 = $false
+        }
     }
 } catch {
     $V220712 = $false
+}
+'@
+    'V-220713' = @'
+try {
+    $members = Get-LocalGroupMember -Group "Backup Operators"
+    $V220713 = $true
+    foreach ($member in $members) {
+        if ($member.Name -notin $BackupOperators) {
+            $V220713 = $false
+        }
+    }
+} catch {
+    $V220713 = $false
+}
+'@
+    'V-220714' = @'
+try {
+    $members = Get-LocalGroupMember -Group "Hyper-V Administrators"
+    $V220714 = $true
+    foreach ($member in $members) {
+        if ($member.Name -notin $HyperVAdministrators) {
+            $V220714 = $false
+        }
+    }
+} catch {
+    $V220714 = $false
 }
 '@
     'V-220715' = @'
@@ -252,6 +300,28 @@ try {
     $V220720 = $false
 }
 '@
+    'V-220721' = @'
+try {
+    if (Test-Path -Path "C:\Windows\System32\telnet.exe") {
+        $V220721 = $false
+    } else {
+        $V220721 = $true
+    }
+} catch {
+    $V220721 = $false
+}
+'@
+    'V-220722' = @'
+try {
+    if (Test-Path -Path "C:\Windows\System32\tftp.exe") {
+        $V220722 = $false
+    } else {
+        $V220722 = $true
+    }
+} catch {
+    $V220722 = $false
+}
+'@
     'V-220726' = @'
 try {
     $DEP = Get-CimInstance -ClassName Win32_OperatingSystem | Select-Object -Property DataExecutionPrevention_SupportPolicy
@@ -262,6 +332,105 @@ try {
     }
 } catch {
     $V220726 = $false
+}
+'@
+    'V-220728' = @'
+try {
+    $V220728 = $true
+    if ((Get-WindowsOptionalFeature -Online | Where FeatureName -like *PowerShellv2* | Select-Object -ExpandProperty State) -contains "Enabled") {
+        $V220728 = $false
+    }
+} catch {
+    $V220728 = $false
+}
+'@
+    'V-220729' = @'
+try {
+    $V220729 = $true
+    if ((Get-WindowsOptionalFeature -Online | Where FeatureName -eq SMB1Protocol | Select-Object -ExpandProperty State) -contains "Enabled") {
+        $V220729 = $false
+    }
+} catch {
+    $V220729 = $false
+}
+'@
+    'V-220732' = @'
+try {
+    $V220732
+    $svc = Get-Service -Name "seclogon" | Select-Object Status,StartType
+    if ($svc.StartType -ne "Disabled" -or $svc.Status -eq "Running") {
+        $V220732 = $false
+    }
+} catch {
+    $V220732 = $false
+}
+'@
+    'V-220739' = @'
+try {
+    if ($LockoutDuration) {
+        $lock = $LockoutDuration
+    } else {
+        $lock = 14
+    }
+    if ($lock -eq 0) {
+        if ($SecurityPolicy.'System Access'.LockoutDuration -eq 0) {
+            $V220739 = $true
+        }
+    } elseif ($SecurityPolicy.'System Access'.LockoutDuration -ne 1..$lock) {
+            $V220739 = $true
+    } else {
+        $V220739 = $false
+    }
+} catch {
+    $V220739 = $false
+}
+'@
+    'V-220740' = @'
+try {
+    if ($LockoutThreshold) {
+        $thresh = $LockoutThreshold
+    } else {
+        $thresh = 3
+    }
+    if ($SecurityPolicy.'System Access'.LockoutBadCount -eq 1..$thresh) {
+        $V220740 = $true
+    } else {
+        $V220740 = $false
+    }
+} catch {
+    $V220740 = $false
+}
+'@
+    'V-220741' = @'
+try {
+    if ($ResetCounter) {
+        $reset = $ResetCounter
+    } else {
+        $reset = 15
+    }
+    if ($SecurityPolicy.'System Access'.ResetLockoutCount -ge $reset) {
+        $V220741 = $true
+    } else {
+        $V220741 = $false
+    }
+} catch {
+    $V220741 = $false
+}
+'@
+    'V-220742' = @'
+try {
+    if ($PWHistory) {
+        $hist = $PWHistory
+    } else {
+        $hist = 24
+    }
+    if ($SecurityPolicy.'System Access'.PasswordHistorySize -ge $hist) {
+        $V220742 = $true
+    } else {
+        $V220742 = $false
+    }
+} catch {
+    $V220742 = $false
 }
 '@
 # TODO: Test that this is correct key
@@ -279,8 +448,10 @@ try {
 # TODO: Additional checks needed besides reg checks
     'V-220811' = @'
 try {
-    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard\" -Name EnableVirtualizationBasedSecurity -ErrorAction Stop) -eq 1 -and
-        (Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard\" -Name RequirePlatformSecurityFeatures -ErrorAction Stop) -eq 1) {
+    if ($DeviceGuard.RequiredSecurityProperties -contains 2 -and
+        $DeviceGuard.VirtualizationBasedSecurityStatus -eq 2 -and
+        (Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard\" -Name EnableVirtualizationBasedSecurity -ErrorAction Stop) -eq 1 -and
+        (Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard\" -Name RequirePlatformSecurityFeatures -ErrorAction Stop) -in @(1,3)) {
         $V220811 = $true
     } else {
         $V220811 = $false
@@ -290,10 +461,23 @@ try {
 }
 '@
     'V-220812' = @'
-if (((Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard).SecurityServicesRunning) -eq 1) {
+if ($DeviceGuard.SecurityServicesRunning -contains 1) {
     $V220812 = $true
 } else {
     $V220812 = $false
+}
+'@
+    'V-220835' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization\" -Name DODownloadMode -ErrorAction Stop) -eq 3) {
+        # Below for non-domain machines only
+        #(Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config\" -Name DODownloadMode -ErrorAction Stop) -eq 0) {
+        $V220835 = $false
+    } else {
+        $V220835 = $true
+    }
+} catch {
+    $V220835 = $false
 }
 '@
     'V-220838' = @'
@@ -309,18 +493,24 @@ try {
 '@
     'V-220918' = @'
 try {
-    if ($MaxPwAge) {
-        $age = $MaxPwAge
-    } else {
-        $age = 30
-    }
-    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters\" -Name MaximumPasswordAge -ErrorAction Stop) -in 1..$age) {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters\" -Name MaximumPasswordAge -ErrorAction Stop) -in 1..30) {
         $V220918 = $true
     } else {
         $V220918 = $false
     }
 } catch {
     $V220918 = $false
+}
+'@
+    'V-220922' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name LegalNoticeCaption -ErrorAction Stop) -ne "") {
+        $V220922 = $true
+    } else {
+        $V220922 = $false
+    }
+} catch {
+    $V220922 = $false
 }
 '@
     'V-220923' = @'
@@ -379,6 +569,18 @@ try {
     }
 } catch {
     $V220967 = $false
+}
+'@
+    'V-252903' = @'
+try {
+    if ($DeviceGuard.SecurityServicesRunning -contains 2 -
+       (Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard\" -Name HypervisorEnforcedCodeIntegrity -ErrorAction Stop) -in @(1,2)) {
+        $V252903 = $true
+    } else {
+        $V252903 = $false
+    }
+} catch {
+    $V252903 = $false
 }
 '@
 }
