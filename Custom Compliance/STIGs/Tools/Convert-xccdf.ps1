@@ -116,6 +116,11 @@ function Format-Text ($input_txt) {
 $SharedInfo = @()
 $AccountInfo = @()
 if ($OrgSettings.severity.CAT1) {
+    foreach ($list in $OrgSettings.accounts.Keys) {
+        if ($OrgSettings.accounts[$list].Length -gt 0) {
+            $AccountInfo += "$" + $list + " = @(`"" + ($OrgSettings.accounts[$list] -join '", "') + "`")`r`n"
+        }
+    }
     $SharedInfo += $RuleChecks.CAT1
 }
 if ($OrgSettings.severity.CAT2) {
