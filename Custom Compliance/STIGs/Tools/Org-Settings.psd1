@@ -79,6 +79,15 @@
         #'V-220742' = @{
         #    PWHistory = 24
         #}
+        #'V-220743' = @{
+        #    MaxPwAge = 60
+        #}
+        #'V-220744' = @{
+        #    MinPwAge = 1
+        #}
+        #'V-220745' = @{
+        #    MinPwLength = 14
+        #}
     }
 
     # Exemptions - Rules in this list will have checks return true and 
