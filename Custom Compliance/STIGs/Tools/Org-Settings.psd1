@@ -29,11 +29,9 @@
     accounts = @{
         # List all accounts that should not be evaluated in STIG rule checks (one account per line)
         Administrators = @(
-            "root"
-            "admin"
+            "\Administrator"
         )
         BackupOperators = @(
-            "test"
         )
         HyperVAdministrators = @(
         )
@@ -42,17 +40,22 @@
     severity = @{
         # Select which severity rules to generate policy for
         CAT1 = $false
-        CAT2 = $false
-        CAT3 = $true
+        CAT2 = $true
+        CAT3 = $false
     }
 
     # List all rules that are manual/process checks
     nocode = @(
-        "V-220705"
-        "V-220733"
-        "V-220735"
+        "V-220701" # ESS?
+        "V-220705" # App allow-list
+        "V-220710" # Share permissions
+        "V-220725" # Firewall allows for mgmt
+        "V-220733" # Remove orphaned SIDs
+        "V-220734" # Disable Bluetooth - Not sure best way to check
+        "V-220735" # Bluetooth turned off when not in use
+        "V-220736" # Bluetooth connect alert
         "V-220737"
-        "V-220738"
+        "V-220738" # VDI 24 hour sessions
     )
 
     # Overrides - Settings here will override respective STIG rule values
@@ -64,8 +67,17 @@
         #'V-220706' = @{
         #    SupportedBuilds = @("19044", "19045")
         #}
-        #'V-220918' = @{
-        #    MaxPwAge = 45
+        #'V-220739' = @{
+        #    LockoutDuration = 15
+        #}
+        #'V-220740' = @{
+        #    LockoutThreshold = 3
+        #}
+        #'V-220741' = @{
+        #    ResetCounter = 15
+        #}
+        #'V-220742' = @{
+        #    PWHistory = 24
         #}
     }
 
