@@ -433,6 +433,65 @@ try {
     $V220742 = $false
 }
 '@
+    'V-220743' = @'
+try {
+    if ($MaxPwAge) {
+        $age = $MaxPwAge
+    } else {
+        $age = 60
+    }
+    if ($SecurityPolicy.'System Access'.MaximumPasswordAge -eq 1..$age) {
+        $V220743 = $true
+    } else {
+        $V220743 = $false
+    }
+} catch {
+    $V220743 = $false
+}
+'@
+    'V-220744' = @'
+try {
+    if ($MinPwAge) {
+        $age = $MinPwAge
+    } else {
+        $age = 1
+    }
+    if ($SecurityPolicy.'System Access'.MinimumPasswordAge -le $age) {
+        $V220744 = $true
+    } else {
+        $V220744 = $false
+    }
+} catch {
+    $V220744 = $false
+}
+'@
+    'V-220745' = @'
+try {
+    if ($MinPwLength) {
+        $length = $MinPwLength
+    } else {
+        $length = 14
+    }
+    if ($SecurityPolicy.'System Access'.MinimumPasswordLength -ge $length) {
+        $V220745 = $true
+    } else {
+        $V220745 = $false
+    }
+} catch {
+    $V220745 = $false
+}
+'@
+    'V-220746' = @'
+try {
+    if ($SecurityPolicy.'System Access'.PasswordComplexity -eq 1) {
+        $V220746 = $true
+    } else {
+        $V220746 = $false
+    }
+} catch {
+    $V220746 = $false
+}
+'@
 # TODO: Test that this is correct key
     'V-220747' = @'
 try {
