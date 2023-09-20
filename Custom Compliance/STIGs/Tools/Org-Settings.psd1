@@ -1,346 +1,88 @@
-$OrgSettings = Import-PowerShellDataFile "Org-Settings-W10.psd1"
-$RuleChecks = Import-PowerShellDataFile $OrgSettings.input.Checks
-[xml]$stig = Get-Content -Path $OrgSettings.input.STIG -Encoding UTF8
-
-$checks = @()
-$results = [ordered]@{}
-
-$header = @(
-    "##"
-    "# " + $stig.Benchmark.title
-    "# Version: " + $stig.Benchmark.version + ", " + $stig.Benchmark.'plain-text'.'#text'[0]
-    "#"
-    "# PowerShell script and accompanying JSON file for Intune Custom Compliance"
-    "# were generated with: https://github.com/nittajef/Intune/"
-    "##`r`n`r`n"
-)
-
-$checks += $header
-
-function Generate-CCPolicy() {
-    $rules = @()
-
-    foreach ($rule in $stig.Benchmark.Group.Rule) {
-        # Continue if rule is in a CAT category specified above
-        if (($OrgSettings.severity.CAT1 -and $rule.severity -eq "high") -or
-            ($OrgSettings.severity.CAT2 -and $rule.severity -eq "medium") -or
-            ($OrgSettings.severity.CAT3 -and $rule.severity -eq "low")) {
-        } else {
-            continue
-        }
-
-        $settingName = $rule.id.Substring(1,8)
-
-        if ($OrgSettings.nocode -contains $settingName) {
-            if ($OrgSettings.output.JSONNoCheckRules -eq "exclude") {
-                continue
-            } else {
-                $settingName = $settingName + "-NoChk"
-            }
-        } elseif ($OrgSettings.exemptions -contains $settingName) {
-            $settingName = $settingName + "-EXM"
-        } elseif ($OrgSettings.overrides.ContainsKey($settingName)) {
-            $settingName = $settingName + "-OvR"
-        }
-
-        # Fill out reference section of entry, which is not used by Intune CC
-        $reference = [ordered]@{}
-        $reference.Add('Severity', $rule.severity)
-        $reference.Add('Rule_ID', $rule.id)
-        $reference.Add('STIG_ID', $rule.version)
-
-        $cciId = @()
-        $legacyId = @() 
-
-        foreach ($ident in $rule.ident) {
-            if ($ident.system -eq 'http://cyber.mil/cci') {
-                $cciId += $ident.'#text'
-            } elseif ($ident.system -eq 'http://cyber.mil/legacy') {
-                $legacyId += $ident.'#text'
-            }
-        }
-        if ($cciId.Count -gt 0) {$reference.Add('CCI', $cciId -join ',')}
-        if ($legacyId.Count -gt 0) {$reference.Add('Legacy_IDs', $legacyId -join ',')}
-
-        $description = switch ($OrgSettings.output.JSONStyle) {
-                           "description" { [regex]::Matches($rule.description,'<VulnDiscussion>([\s\S]*)</VulnDiscussion>').Groups[1].Value }
-                           "fix"    { $rule.fixtext.'#text' }
-                           "debug"   { "Rule check return value: {ActualValue}" } # Need to adjust PS check returns to make this useful
-                       }
-        $setting = [ordered]@{
-                        SettingName = $settingName
-                        Operator = "IsEquals"
-                        DataType = "Boolean"
-                        Operand = $true
-                        MoreInfoUrl = $OrgSettings.output.JSONInfoURL
-                        RemediationStrings = @(([ordered]@{
-                            Language = "en_US"
-                            Title = $settingName + " - " + $rule.title
-                            Description = $description
-                        }))
-                        Reference = $reference
-                    }
-        $rules += $setting
+@{
+    # Settings imported in to Convert-xccdf.ps1 policy generator
+    input = @{
+        STIG = "U_MS_Windows_10_STIG_V2R7_Manual-xccdf.xml"
+        Checks = "STIG-W10-V2R7-Checks.psd1"
     }
 
-    @{"Rules" = $rules}
+    output = @{
+        # JSON output to upload in to Intune Custom Compliance policy
+        # Style:   discussion - Put STIG rule "Discussion" section in to Remediation Description
+        #          fix - Put STIG rule "Fix" section in to Remediation Description
+        #          debug - Description shows rule evaluation values in Company Portal, but need to adjust PS check returns to be useful
+        # NoCheck: include - Keep rules with no code checks in compliance policy (auto-pass & append rule name w/NoChk)
+        #          exclude - Remove rules with no technical checks from compliance policy
+        #
+        JSON = "cc_json.json"
+        JSONStyle = "fix"
+        JSONInfoURL = "https://contoso.com"
+        JSONNoCheckRules = "include"
+
+        # PowerShell output to upload as script in Intune Custom Compliance
+        # Style:   verbose - Add all of the STIG rule comments (Discussion, Check, Fix)
+        #          mini - Add STIG rule title and additional metadata
+        #          zen - Only include STIG rule title
+        PS = "cc_ps.ps1"
+        PSStyle = "verbose"
+    }
+
+    accounts = @{
+        # List all accounts that should not be evaluated in STIG rule checks (one account per line)
+        Administrators = @(
+            "\Administrator"
+        )
+        BackupOperators = @(
+        )
+        HyperVAdministrators = @(
+        )
+    }    
+
+    severity = @{
+        # Select which severity rules to generate policy for
+        CAT1 = $false
+        CAT2 = $true
+        CAT3 = $false
+    }
+
+    # List all rules that are manual/process checks
+    nocode = @(
+        "V-220701" # ESS?
+        "V-220705" # App allow-list
+        "V-220710" # Share permissions
+        "V-220725" # Firewall allows for mgmt
+        "V-220733" # Remove orphaned SIDs
+        "V-220734" # Disable Bluetooth - Not sure best way to check
+        "V-220735" # Bluetooth turned off when not in use
+        "V-220736" # Bluetooth connect alert
+        "V-220737"
+        "V-220738" # VDI 24 hour sessions
+    )
+
+    # Overrides - Settings here will override respective STIG rule values
+    #             Rules with overrides will be indicated with trailing -OvR
+    overrides = @{
+        #'V-220704' = @{
+        #    MinimumPIN = 4
+        #}
+        #'V-220706' = @{
+        #    SupportedBuilds = @("19044", "19045")
+        #}
+        #'V-220739' = @{
+        #    LockoutDuration = 15
+        #}
+        #'V-220740' = @{
+        #    LockoutThreshold = 3
+        #}
+        #'V-220741' = @{
+        #    ResetCounter = 15
+        #}
+        #'V-220742' = @{
+        #    PWHistory = 24
+        #}
+    }
+
+    # Exemptions - Rules in this list will have checks return true and 
+    #              exempted rules will be indidcated with trailing -EXM
+    exemptions = @(
+    )
 }
-
-function Format-Text ($input_txt) {
-    # Replace non-Latin characters that Intune doesn't like
-    $input_txt = $input_txt -replace ('“|”', '"')
-    $input_txt = $input_txt -replace ('…', '...')
-    $input_txt = $input_txt -replace ('™', '')
-    $input_txt = $input_txt -replace ('–', '-')
-
-    foreach ($sub_txt in $input_txt) {
-        if ($sub_txt -eq "`n") {
-            # Add the blank lines back in for spacing
-            $formatted_text += "#`r`n"
-        } else {
-            $sub_txt = [regex]::Matches($sub_txt,'(?<=\s|^)(.{1,110})(?=\s|$)')
-            foreach ($snip in $sub_txt) {
-                $formatted_text += "# " + $snip.Groups[1].Value + "`r`n"
-            }
-        }
-        $formatted_text += "#`r`n"
-    }
-
-    # Remove last extra blank line
-    $formatted_text = $formatted_text.TrimEnd("`r`n")
-
-    $formatted_text
-}
-
-# Add any shared info needed by multiple rule checks
-$SharedInfo = @()
-$AccountInfo = @()
-if ($OrgSettings.severity.CAT1) {
-    foreach ($list in $OrgSettings.accounts.Keys) {
-        if ($OrgSettings.accounts[$list].Length -gt 0) {
-            $AccountInfo += "$" + $list + " = @(`"" + ($OrgSettings.accounts[$list] -join '", "') + "`")`r`n"
-        }
-    }
-    $SharedInfo += $RuleChecks.CAT1
-}
-if ($OrgSettings.severity.CAT2) {
-    foreach ($list in $OrgSettings.accounts.Keys) {
-        if ($OrgSettings.accounts[$list].Length -gt 0) {
-            $AccountInfo += "$" + $list + " = @(`"" + ($OrgSettings.accounts[$list] -join '", "') + "`")`r`n"
-        }
-    }
-    $SharedInfo += $RuleChecks.CAT2
-}
-if ($OrgSettings.severity.CAT3) {
-    if (!$AccountInfo) {
-            foreach ($list in $OrgSettings.accounts.Keys) {
-            if ($OrgSettings.accounts[$list].Length -gt 0) {
-                $AccountInfo += "$" + $list + " = @(`"" + ($OrgSettings.accounts[$list] -join '", "') + "`")`r`n"
-            }
-        }
-    }
-    $SharedInfo += $RuleChecks.CAT3
-}
-if ($SharedInfo) {
-    $checks += "#`r`n# Gather data used across multiple rule checks`r`n#`r`n"
-    foreach ($data in $SharedInfo) {
-        $checks += $RuleChecks.$data + "`r`n"
-    }
-    $checks += "`r`n"
-}
-if ($AccountInfo) {
-    $checks += "#`r`n# List of accounts used across multiple rule checks`r`n#"
-    $checks += $AccountInfo
-    $checks += "`r`n"
-}
-
-$EmptyRules = 0
-
-# Iterate through all rules in the STIG document
-foreach ($rule in $stig.Benchmark.Group.Rule) {
-    #
-    # Skip rule if it's not in a selected severity level or in "nocheck" or "exemptions" list
-    #
-    if (($OrgSettings.severity.CAT1 -and $rule.severity -eq "high") -or
-        ($OrgSettings.severity.CAT2 -and $rule.severity -eq "medium") -or
-        ($OrgSettings.severity.CAT3 -and $rule.severity -eq "low")) {
-    } else {
-        continue
-    }
-
-    $ruleId = $rule.id.Substring(1,8)
-    $ruleVarName = $ruleId -replace "-"
-
-    if ($OrgSettings.nocode -contains $ruleId) {
-        if ($OrgSettings.output.JSONNoCheckRules -eq "exclude") {
-            continue
-        }
-    }
-
-    #
-    # Create rule comments (title, description, check, fix, ids)
-    #
-    # Split description/check/fix fields by blank lines to preserver spacing
-    $formatted_title = Format-Text($rule.title)
-    # Match text in VulnDiscussion section, but remove the VulnDiscussion tags
-    $desc_txt = [regex]::Matches($rule.description,'<VulnDiscussion>([\s\S]*)</VulnDiscussion>').Groups[1].Value
-    $formatted_description = Format-Text($desc_txt -split "(?:\r?\n){2,}")
-    $formatted_check = Format-Text($rule.check.'check-content' -split "(?:\r?\n){2,}")
-    $formatted_fix = Format-Text($rule.fixtext.'#text' -split "(?:\r?\n){2,}")
-    # Convert severity to CAT I/II/III
-    $severity = switch ($rule.severity) {
-                    "low" {"CAT III"}
-                    "medium" {"CAT II"}
-                    "high" {"CAT I"}
-                }
-
-    # If there are registry tests in rule, generate checks
-    # $registryChecks holds a collection of individual registry checks, some rules have multiple
-    $registryChecks = [System.Collections.ArrayList]@()
-    $registryCheck = @()
-    foreach ($line in $rule.check.'check-content'.Split("`n")) {
-        if ($line.Contains("Registry Hive")) {
-            $hive = switch -regex ($line) {
-                'Registry Hive:\s+HKEY_LOCAL_MACHINE' { "HKLM:" }
-                'Registry Hive:\s+HKEY_CURRENT_USER' { "HKCU:" }
-                default { $null }
-            }
-        } elseif ($line.Contains("Registry Path:")) {
-            $regPath = $line -replace 'Registry Path:\s+', "".Trim()
-        } elseif ($line.Contains("Value Name:")) {
-            $regName = $line -replace 'Value Name:\s+', "".Trim()
-        } elseif ($line.Contains("Value:")) {
-            # Match these: Value: 0x00000001 (1) (Enabled with UEFI lock)
-            #              Value: 1
-            if ($line.TrimEnd() -match '0x.{8}\s+\((\d+)\)') {
-                $regValue = $Matches[1]
-            } elseif ($line.TrimEnd() -match "(?m)Value:\s+(\d+)$") {
-                $regValue = $Matches[1]
-            }
-            $registryCheck = $hive, $regPath, $regName, $regValue
-            $registryChecks.Add($registryCheck) | Out-Null
-        }
-    }
-
-    # Create check rule logic template
-    $override = @{}
-    $check_template = ""
-    
-    #
-    # Create PowerShell logic check for the rule, looking in this order
-    # 1. Rule in "exemptions" list
-    # 2. Rule in "nocheck" list
-    # 3. Rule in "overrides" list
-    # 4. Rule in "checks" PSDataFile
-    # 5. Rule has generated registry checks
-    # 6. Empty rule template created
-    #
-    if ($OrgSettings.exemptions -contains $ruleId) {
-        $ruleId = $ruleId + "-EXM"
-        $check_template = @(
-            "$" + $ruleVarName + ' = $true'
-        ) -join "`r`n"
-    } elseif ($OrgSettings.nocode -contains $ruleId) {
-        $ruleId = $ruleId + "-NoChk"
-        $check_template = @(
-            "$" + $ruleVarName + ' = $true'
-        ) -join "`r`n"
-    } elseif ($OrgSettings.overrides.ContainsKey($ruleId)) {
-        $override = $OrgSettings.overrides.$ruleId
-        foreach ($setting in $override.Keys) {
-            if ($override.$setting -is [array]) {
-                $value = "@("
-                foreach ($val in $override.$setting) {
-                    $value += "`"$val`","
-                }
-                $value = $value.TrimEnd(",")
-                $value += ")"
-            } elseif ($override.$setting -is [int]) {
-                $value = $override.$setting
-            } else {
-                $value = '"' + $override.$setting + '"'
-            }
-            $check_template += "`$${setting} = $value`r`n"
-        }
-        $check_template += $RuleChecks.$ruleId
-        $ruleId = $ruleId + "-OvR"
-    } elseif ($RuleChecks.$ruleId) {
-        $check_template = $RuleChecks.$ruleId
-    } elseif ($registryChecks) {
-        # Template for the PowerShell registry check for the rule
-        $psRegChecks = "    if ("
-        foreach ($check in $registryChecks) {
-            $psRegChecks += "(Get-ItemPropertyValue -Path `""+ $check[0] + $check[1] + "`" -Name " + $check[2] + " -ErrorAction Stop) -eq " + $check[3] + " -and`r`n        "
-        }
-        # Replace last entries "-and" and close the "if" conditional
-        $psRegChecks = $psRegChecks.TrimEnd(" -and`r`n")
-        $psRegChecks += ") {"
-
-        $check_template = @(
-            "try {"
-                $psRegChecks
-            "        $" + $ruleVarName + ' = $true'
-            "    } else {"
-            "        $" + $ruleVarName + ' = $false'
-            "    }"
-            "} catch {"
-            "    $" + $ruleVarName + ' = $false'
-            "}`r`n"
-        ) -join "`r`n"
-    } else {
-        $check_template = @(
-            "try {"
-            "    "
-            "    #$" + $ruleVarName + ' = $true'
-            "} catch {"
-            "    $" + $ruleVarName + ' = $false'
-            "}`r`n`r`n"
-        ) -join "`r`n"
-        $EmptyRules++
-    }
-
-    # Output full check/logic test text for each rule
-    $check = "##`r`n"
-    $check += "# " + $ruleId + "`r`n"
-    $check += $formatted_title + "`r`n"
-    if ($OrgSettings.output.PSStyle -eq 'verbose') {
-        $check += "##`r`n"
-        $check += "# DISCUSSION: `r`n"
-        $check += $formatted_description + "`r`n"
-    }
-    if ($OrgSettings.output.PSStyle -eq 'verbose') {
-        $check += "##`r`n"
-        $check += "# CHECK: `r`n"
-        $check += $formatted_check + "`r`n"
-    }
-    if ($OrgSettings.output.PSStyle -eq 'verbose') {
-        $check += "##`r`n"
-        $check += "# FIX: `r`n"
-        $check += $formatted_fix + "`r`n"
-    }
-    if ($OrgSettings.output.PSStyle -ne 'zen') {
-        $check += "##`r`n"
-        $check += "# SEVERITY: " + $severity + "`r`n"
-        $check += "# RULE ID: " + $rule.id + "`r`n"
-        $check += "# STIG ID: " + $rule.version + "`r`n"
-        $check += "# REFERENCE: `r`n"
-    }
-    $check += "##`r`n"
-    $check += $check_template + "`r`n"
-
-    $checks += $check
-    $results.Add($ruleId, "$" + $ruleVarName)
-}
-
-# Create the return hash of check values
-$ret_hash = '$hash = [ordered]@{' + "`r`n"
-foreach ($key in $results.Keys) {
-    $ret_hash += "    '" + $key + "' = " + $($results[$key]) + "`r`n"
-}
-$ret_hash += "}`r`n`r`n"
-$ret_hash += 'return $hash | ConvertTo-Json -Compress'
-$checks += $ret_hash  
-
-Generate-CCPolicy | ConvertTo-Json -Depth 4 | Out-File $OrgSettings.output.JSON
-$checks | Out-File -FilePath $OrgSettings.output.PS
-Write-Host("There are $EmptyRules unfinished rule checks")
