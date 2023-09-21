@@ -13,6 +13,8 @@
 
 $ComputerInfo = Get-ComputerInfo | Select-Object -Property WindowsProductName,OsBuildNumber,OsArchitecture
 
+$DeviceGuard = Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard
+
 # Create hash of local security policies (exported in .ini format)
 # Ref: Ingest .ini file: https://devblogs.microsoft.com/scripting/use-powershell-to-work-with-any-ini-file/
 $SPFile = [System.Environment]::GetEnvironmentVariable('TEMP','Machine') + "\secpol.cfg"
@@ -38,6 +40,13 @@ switch -regex -file $SPFile
     }
 }
 Remove-Item -Force $SPFile -Confirm:$false
+
+
+
+#
+# List of accounts used across multiple rule checks
+#
+$Administrators = @("\Administrator")
 
 
 
@@ -273,6 +282,9 @@ try {
     $V220712 = $true
     foreach ($member in $members) {
         if ($member.Name -match "\Domain Admins") {
+            $V220712 = $false
+        }
+        if ($member.Name -notin $Administrators) {
             $V220712 = $false
         }
     }
@@ -604,7 +616,7 @@ try {
 # STIG ID: WN10-CC-000075
 # REFERENCE: 
 ##
-if (((Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard).SecurityServicesRunning) -eq 1) {
+if ($DeviceGuard.SecurityServicesRunning -contains 1) {
     $V220812 = $true
 } else {
     $V220812 = $false
