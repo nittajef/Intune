@@ -88,6 +88,15 @@
         #'V-220745' = @{
         #    MinPwLength = 14
         #}
+        #'V-220779' = @{
+        #    AppEventLogSize = 32768
+        #}
+        #'V-220780' = @{
+        #    SecEventLogSize = 1024000
+        #}
+        #'V-220781' = @{
+        #    SysEventLogSize = 32768
+        #}
     }
 
     # Exemptions - Rules in this list will have checks return true and 
