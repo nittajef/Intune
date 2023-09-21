@@ -5,11 +5,17 @@
         'SecurityPolicy'
     )
     'CAT2' = @(
+        'AuditPolicy'
         'SecurityPolicy'
     )
     'CAT3' = @(
         'DeviceGuard'
     )
+
+    'AuditPolicy' = @'
+$AuditPolicy = @{}
+auditpol /get /category:* /r | ConvertFrom-Csv | % { $AuditPolicy[$_.Subcategory] = $_.'Inclusion Setting' }
+'@
 
     'ComputerInfo' = @'
 $ComputerInfo = Get-ComputerInfo | Select-Object -Property WindowsProductName,OsBuildNumber,OsArchitecture
@@ -504,6 +510,604 @@ try {
     $V220747 = $false
 }
 '@
+    'V-220748' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Credential Validation' -match "Failure") {
+        $V220748 = $true
+    } else {
+        $V220748 = $false
+    }
+} catch {
+    $V220748 = $false
+}
+'@
+    'V-220749' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Credential Validation' -match "Success") {
+        $V220749 = $true
+    } else {
+        $V220749 = $false
+    }
+} catch {
+    $V220748 = $false
+}
+'@
+    'V-220750' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Security Group Management' -match "Success") {
+        $V220750 = $true
+    } else {
+        $V220750 = $false
+    }
+} catch {
+    $V220750 = $false
+}
+'@
+    'V-220751' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'User Account Management' -match "Failure") {
+        $V220751 = $true
+    } else {
+        $V220751 = $false
+    }
+} catch {
+    $V220751 = $false
+}
+'@
+    'V-220752' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'User Account Management' -match "Success") {
+        $V220752 = $true
+    } else {
+        $V220752 = $false
+    }
+} catch {
+    $V220752 = $false
+}
+'@
+    'V-220753' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Plug and Play Events' -match "Success") {
+        $V220753 = $true
+    } else {
+        $V220753 = $false
+    }
+} catch {
+    $V220753 = $false
+}
+'@
+    'V-220754' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Process Creation' -match "Success") {
+        $V220754 = $true
+    } else {
+        $V220754 = $false
+    }
+} catch {
+    $V220754 = $false
+}
+'@
+    'V-220755' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Account Lockout' -match "Failure") {
+        $V220755 = $true
+    } else {
+        $V220755 = $false
+    }
+} catch {
+    $V220755 = $false
+}
+'@
+    'V-220756' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Group Membership' -match "Success") {
+        $V220756 = $true
+    } else {
+        $V220756 = $false
+    }
+} catch {
+    $V220756 = $false
+}
+'@
+    'V-220757' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.Logoff -match "Success") {
+        $V220757 = $true
+    } else {
+        $V220757 = $false
+    }
+} catch {
+    $V220757 = $false
+}
+'@
+    'V-220758' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.Logon -match "Failure") {
+        $V220758 = $true
+    } else {
+        $V220758 = $false
+    }
+} catch {
+    $V220758 = $false
+}
+'@
+    'V-220759' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.Logon -match "Success") {
+        $V220759 = $true
+    } else {
+        $V220759 = $false
+    }
+} catch {
+    $V220759 = $false
+}
+'@
+    'V-220760' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Special Logon' -match "Success") {
+        $V220760 = $true
+    } else {
+        $V220760 = $false
+    }
+} catch {
+    $V220760 = $false
+}
+'@
+    'V-220761' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'File Share' -match "Failure") {
+        $V220761 = $true
+    } else {
+        $V220761 = $false
+    }
+} catch {
+    $V220761 = $false
+}
+'@
+    'V-220762' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'File Share' -match "Success") {
+        $V220762 = $true
+    } else {
+        $V220762 = $false
+    }
+} catch {
+    $V220762 = $false
+}
+'@
+    'V-220763' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Other Object Access Events' -match "Success") {
+        $V220763 = $true
+    } else {
+        $V220763 = $false
+    }
+} catch {
+    $V220763 = $false
+}
+'@
+    'V-220764' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Other Object Access Events' -match "Failure") {
+        $V220764 = $true
+    } else {
+        $V220764 = $false
+    }
+} catch {
+    $V220764 = $false
+}
+'@
+    'V-220765' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Removable Storage' -match "Failure") {
+        $V220765 = $true
+    } else {
+        $V220765 = $false
+    }
+} catch {
+    $V220765 = $false
+}
+'@
+    'V-220766' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Removable Storage' -match "Success") {
+        $V220766 = $true
+    } else {
+        $V220766 = $false
+    }
+} catch {
+    $V220766 = $false
+}
+'@
+    'V-220767' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Audit Policy Change' -match "Success") {
+        $V220767 = $true
+    } else {
+        $V220767 = $false
+    }
+} catch {
+    $V220767 = $false
+}
+'@
+    'V-220768' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Authentication Policy Change' -match "Success") {
+        $V220768 = $true
+    } else {
+        $V220768 = $false
+    }
+} catch {
+    $V220768 = $false
+}
+'@
+    'V-220769' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Authorization Policy Change' -match "Success") {
+        $V220769 = $true
+    } else {
+        $V220769 = $false
+    }
+} catch {
+    $V220769 = $false
+}
+'@
+    'V-220770' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Sensitive Privilege Use' -match "Failure") {
+        $V220770 = $true
+    } else {
+        $V220770 = $false
+    }
+} catch {
+    $V220770 = $false
+}
+'@
+    'V-220771' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Sensitive Privilege Use' -match "Failure") {
+        $V220771 = $true
+    } else {
+        $V220771 = $false
+    }
+} catch {
+    $V220771 = $false
+}
+'@
+    'V-220772' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'IPsec Driver' -match "Failure") {
+        $V220772 = $true
+    } else {
+        $V220772 = $false
+    }
+} catch {
+    $V220772 = $false
+}
+'@
+    'V-220773' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Other System Events' -match "Success") {
+        $V220773 = $true
+    } else {
+        $V220773 = $false
+    }
+} catch {
+    $V220773 = $false
+}
+'@
+    'V-220774' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Other System Events' -match "Failure") {
+        $V220774 = $true
+    } else {
+        $V220774 = $false
+    }
+} catch {
+    $V220774 = $false
+}
+'@
+    'V-220775' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Security State Change' -match "Success") {
+        $V220775 = $true
+    } else {
+        $V220775 = $false
+    }
+} catch {
+    $V220775 = $false
+}
+'@
+    'V-220776' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Security System Extension' -match "Success") {
+        $V220776 = $true
+    } else {
+        $V220776 = $false
+    }
+} catch {
+    $V220776 = $false
+}
+'@
+    'V-220777' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'System Integrity' -match "Failure") {
+        $V220777 = $true
+    } else {
+        $V220777 = $false
+    }
+} catch {
+    $V220777 = $false
+}
+'@
+    'V-220778' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'System Integrity' -match "Success") {
+        $V220778 = $true
+    } else {
+        $V220778 = $false
+    }
+} catch {
+    $V220778 = $false
+}
+'@
+    'V-220779' = @'
+try {
+    if ($AppEventLogSize) {
+        $size = $AppEventLogSize
+    } else {
+        $size = 32768
+    }
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Application\" -Name MaxSize -ErrorAction Stop) -ge $size) {
+        $V220779 = $true
+    } else {
+        $V220779 = $false
+    }
+} catch {
+    $V220779 = $false
+}
+'@
+    'V-220780' = @'
+try {
+    if ($SecEventLogSize) {
+        $size = $SecEventLogSize
+    } else {
+        $size = 1024000
+    }
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Security\" -Name MaxSize -ErrorAction Stop) -eq 1024000) {
+        $V220780 = $true
+    } else {
+        $V220780 = $false
+    }
+} catch {
+    $V220780 = $false
+}
+'@
+    'V-220781' = @'
+try {
+    if ($SysEventLogSize) {
+        $size = $SysEventLogSize
+    } else {
+        $size = 32768
+    }
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Security\" -Name MaxSize -ErrorAction Stop) -eq 1024000) {
+        $V220781 = $true
+    } else {
+        $V220781 = $false
+    }
+} catch {
+    $V220781 = $false
+}
+'@
+    'V-220782' = @'
+try {
+    $acl = Get-Acl (Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Application" -Name File)
+    
+    $V220782 = $true
+    foreach ($entry in $acl.Access) {
+        if ($entry.IdentityReference.Value -in @("NT SERVICE\EventLog", "NT AUTHORITY\SYSTEM", "BUILTIN\Administrators") -and
+            $entry.FileSystemRights -eq "FullControl") {
+            # Okay as default permissions        
+        } elseif ($entry.IdentityReference.Value -eq "APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES") {
+            # Also okay if this has special permissions, not sure on detailed permissions
+        } else {
+            $V220782 = $false
+        }
+    }
+} catch {
+    $V220782 = $false
+}
+'@
+    'V-220783' = @'
+try {
+    $acl = Get-Acl (Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Security" -Name File)
+    
+    $V220783 = $true
+    foreach ($entry in $acl.Access) {
+        if ($entry.IdentityReference.Value -in @("NT SERVICE\EventLog", "NT AUTHORITY\SYSTEM", "BUILTIN\Administrators") -and
+            $entry.FileSystemRights -eq "FullControl") {
+            # Okay as default permissions        
+        } elseif ($entry.IdentityReference.Value -eq "APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES") {
+            # Also okay if this has special permissions, not sure on detailed permissions
+        } else {
+            $V220783 = $false
+        }
+    }
+} catch {
+    $V220783 = $false
+}
+'@
+    'V-220784' = @'
+try {
+    $acl = Get-Acl (Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\System" -Name File)
+    
+    $V220784 = $true
+    foreach ($entry in $acl.Access) {
+        if ($entry.IdentityReference.Value -in @("NT SERVICE\EventLog", "NT AUTHORITY\SYSTEM", "BUILTIN\Administrators") -and
+            $entry.FileSystemRights -eq "FullControl") {
+            # Okay as default permissions        
+        } elseif ($entry.IdentityReference.Value -eq "APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES") {
+            # Also okay if this has special permissions, not sure on detailed permissions
+        } else {
+            $V220784 = $false
+        }
+    }
+} catch {
+    $V220784 = $false
+}
+'@
+    'V-220786' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Other Policy Change Events' -match "Failure") {
+        $V220786 = $true
+    } else {
+        $V220786 = $false
+    }
+} catch {
+    $V220786 = $false
+}
+'@
+    'V-220787' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Other Logon/Logoff Events' -match "Success") {
+        $V220787 = $true
+    } else {
+        $V220787 = $false
+    }
+} catch {
+    $V220787 = $false
+}
+'@
+    'V-220788' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Other Logon/Logoff Events' -match "Failure") {
+        $V220788 = $true
+    } else {
+        $V220788 = $false
+    }
+} catch {
+    $V220788 = $false
+}
+'@
+    'V-220789' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Detailed File Share' -match "Failure") {
+        $V220789 = $true
+    } else {
+        $V220789 = $false
+    }
+} catch {
+    $V220789 = $false
+}
+'@
+    'V-220790' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'MPSSVC Rule-Level Policy Change' -match "Success") {
+        $V220790 = $true
+    } else {
+        $V220790 = $false
+    }
+} catch {
+    $V220790 = $false
+}
+'@
+    'V-220791' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'MPSSVC Rule-Level Policy Change' -match "Failure") {
+        $V220791 = $true
+    } else {
+        $V220791 = $false
+    }
+} catch {
+    $V220791 = $false
+}
+'@
+    'V-220793' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam" -Name Value -ErrorAction Stop) -eq "Deny") {
+        $V220793 = $true
+    } else {
+        $V220793 = $false
+    }
+} catch {
+    $V220793 = $false
+}
+'@
+    'V-220801' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Classes\batfile\shell\runasuser\" -Name SuppressionPolicy -ErrorAction Stop) -eq 4096 -and
+        (Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Classes\cmdfile\shell\runasuser\" -Name SuppressionPolicy -ErrorAction Stop) -eq 4096 -and
+        (Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Classes\exefile\shell\runasuser\" -Name SuppressionPolicy -ErrorAction Stop) -eq 4096 -and
+        (Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Classes\mscfile\shell\runasuser\" -Name SuppressionPolicy -ErrorAction Stop) -eq 4096) {
+        $V220801 = $true
+    } else {
+        $V220801 = $false
+    }
+} catch {
+    $V220801 = $false
+}
+'@
+    'V-220805' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Cryptography\Configuration\SSL\00010002\" -Name EccCurves -ErrorAction Stop) -eq "NistP384 NistP256") {
+        $V220805 = $true
+    } else {
+        $V220805 = $false
+    }
+} catch {
+    $V220805 = $false
+}
+'@
+    'V-220806' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WcmSvc\GroupPolicy\" -Name fMinimizeConnections -ErrorAction Stop) -eq 3) {
+        $V220806 = $true
+    } elseif ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WcmSvc\GroupPolicy\" -Name fMinimizeConnections -ErrorAction Stop) -eq 0) {
+        $V220806 = $false
+    } else {
+        $V220806 = $false
+    }
+} catch {
+    $V220806 = $true
+}
+'@
 # TODO: Additional checks needed besides reg checks
     'V-220811' = @'
 try {
@@ -524,6 +1128,61 @@ if ($DeviceGuard.SecurityServicesRunning -contains 1) {
     $V220812 = $true
 } else {
     $V220812 = $false
+}
+'@
+    'V-220813' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Policies\EarlyLaunch\" -Name DriverLoadPolicy -ErrorAction Stop) -in @(1,3,8)) {
+        $V220813 = $true
+    } elseif ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Policies\EarlyLaunch\" -Name DriverLoadPolicy -ErrorAction Stop) -eq 7) {
+        $V220813 = $false
+    } else {
+        $V220813 = $false
+    }
+} catch {
+    $V220813 = $false
+}
+'@
+    'V0220818' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Kerberos\Parameters\" -Name DevicePKInitEnabled -ErrorAction Stop) -eq 1) {
+        $V220818 = $true
+    } elseif ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Kerberos\Parameters\" -Name DevicePKInitEnabled -ErrorAction Stop) -eq 1) {
+        $V220818 = $false
+    } else {
+        $V220818 = $false
+    }
+} catch {
+    $V220818 = $true
+}
+'@
+    'V-220833' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection\" -Name AllowTelemetry -ErrorAction Stop) -eq 2) {
+        if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection\" -Name LimitEnhancedDiagnosticDataWindowsAnalytics -ErrorAction Stop) -eq 1) {
+            $V220833 = $true
+        } else {
+            $V220833 = $false
+        }
+    } else {
+        $V220833 = $true
+    }
+} catch {
+    $V220833 = $false
+}
+'@
+    'V-220834' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection\" -Name AllowTelemetry -ErrorAction Stop) -in @(0,1)) {
+        $V220834 = $true
+    } elseif ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection\" -Name AllowTelemetry -ErrorAction Stop) -eq 2 -and
+              $V220833 -eq $true) {
+        $V220834 = $true
+    } else {
+        $V220834 = $false
+    }
+} catch {
+    $V220834 = $false
 }
 '@
     'V-220835' = @'
