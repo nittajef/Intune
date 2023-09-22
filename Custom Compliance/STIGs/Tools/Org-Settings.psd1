@@ -23,13 +23,13 @@
         #          mini - Add STIG rule title and additional metadata
         #          zen - Only include STIG rule title
         PS = "cc_ps.ps1"
-        PSStyle = "zen"
+        PSStyle = "verbose"
     }
 
     accounts = @{
         # List all accounts that should not be evaluated in STIG rule checks (one account per line)
         Administrators = @(
-            "root"
+            #"root"
         )
         BackupOperators = @(
         )
@@ -40,8 +40,8 @@
     severity = @{
         # Select which severity rules to generate policy for
         CAT1 = $false
-        CAT2 = $true
-        CAT3 = $false
+        CAT2 = $false
+        CAT3 = $true
     }
 
     # List all rules that are manual/process checks
@@ -54,7 +54,7 @@
         "V-220734" # Disable Bluetooth - Not sure best way to check
         "V-220735" # Bluetooth turned off when not in use
         "V-220736" # Bluetooth connect alert
-        "V-220737"
+        "V-220737" # Admin account internet access
         "V-220738" # VDI 24 hour sessions
         "V-220946" # Use multifactor authentication
     )
