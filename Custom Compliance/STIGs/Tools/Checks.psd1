@@ -8,6 +8,7 @@
     'CAT2' = @(
         'AuditPolicy'
         'ComputerInfo'
+        'DomainSID'
         'LocalUsers'
         'LTSB'
         'SecurityPolicy'
@@ -32,8 +33,16 @@ $ComputerInfo = Get-ComputerInfo | Select-Object -Property WindowsProductName,Os
 $DeviceGuard = Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard
 '@
 
+    'DomainSID' = @'
+# Determine the "Domain SID" that the machine is a member of
+$id = new-object System.Security.Principal.NTAccount($env:COMPUTERNAME + "$")
+$id.Translate([System.Security.Principal.SecurityIdentifier]).toString() -match "(^S-1-5-\d+-\d+-\d+-\d+-)\d+$" | Out-Null
+$DomainSID = $Matches[1]
+'@
+
     'LocalUsers' = @'
 $LocalUsers = Get-LocalUser
+'@
 
     'LTSB' = @'
 $v1507 = "10240"
@@ -1862,9 +1871,225 @@ try {
     $V220967 = $false
 }
 '@
+    'V-220968' = @'
+try {
+    $V220968 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeDenyNetworkLogonRight).Split(",")
+
+    if ($rights -notcontains "*S-1-5-32-546" -or           # Guests group
+        $rights -notcontains "*S-1-5-113" -or              # Local account (https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-security-identifiers)
+        $rights -notcontains "*" + $DomainSID + "512" -or  # Domain Admins
+        $rights -notcontains "*" + $DomainSID + "519") {   # Enterprise Admins
+        $V220968 = $false
+    }
+
+} catch {
+    $V220968 = $false
+}
+'@
+    'V-220969' = @'
+try {
+    $V220969 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeDenyBatchLogonRight).Split(",")
+
+    if ($rights -notcontains "*" + $DomainSID + "512" -or  # Domain Admins
+        $rights -notcontains "*" + $DomainSID + "519") {   # Enterprise Admins
+        $V220969 = $false
+    }
+
+} catch {
+    $V220969 = $false
+}
+'@
+    'V-220970' = @'
+try {
+    $V220970 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeDenyServiceLogonRight).Split(",")
+
+    if ($rights -notcontains "*" + $DomainSID + "512" -or  # Domain Admins
+        $rights -notcontains "*" + $DomainSID + "519") {   # Enterprise Admins
+        $V220970 = $false
+    }
+
+} catch {
+    $V220970 = $false
+}
+'@
+    'V-220971' = @'
+try {
+    $V220971 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeDenyInteractiveLogonRight).Split(",")
+
+    if ($rights -notcontains "*S-1-5-32-546" -or           # Guests group
+        $rights -notcontains "*" + $DomainSID + "512" -or  # Domain Admins
+        $rights -notcontains "*" + $DomainSID + "519") {   # Enterprise Admins
+        $V220971 = $false
+    }
+
+} catch {
+    $V220971 = $false
+}
+'@
+    'V-220972' = @'
+try {
+    $V220972 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeDenyInteractiveLogonRight).Split(",")
+    
+    if ($rights -contains "*S-1-1-0") {
+        # If RDS is not used, adding "Everyone" group is okay
+    } elseif ($rights -notcontains "*S-1-5-32-546" -or     # Guests group
+        $rights -notcontains "*S-1-5-113" -or              # Local account
+        $rights -notcontains "*" + $DomainSID + "512" -or  # Domain Admins
+        $rights -notcontains "*" + $DomainSID + "519") {   # Enterprise Admins
+        $V220972 = $false
+    }
+
+} catch {
+    $V220972 = $false
+}
+'@
+    'V-220973' = @'
+try {
+    if ($SecurityPolicy.'Privilege Rights'.SeEnableDelegationPrivilege -eq "") {
+        $V220973 = $true
+    } else {
+        $V220973 = $false
+    }
+} catch {
+    $V220973 = $false
+}
+'@
+    'V-220974' = @'
+try {
+    $V220974 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeDebugPrivilege).Split(",")
+    foreach ($member in $rights) {
+        if ($member -notin @("*S-1-5-32-544")) {
+            $V220974 = $false
+        }
+    }
+} catch {
+    $V220974 = $false
+}
+'@
+    'V-220975' = @'
+try {
+    $V220975 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeImpersonatePrivilege).Split(",")
+    foreach ($member in $rights) {
+        if ($member -notin @("*S-1-5-32-544", "*S-1-5-19", "*S-1-5-20", "*S-1-5-6")) {
+            $V220975 = $false
+        }
+    }
+} catch {
+    $V220975 = $false
+}
+'@
+    'V-220976' = @'
+try {
+    $V220976 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeLoadDriverPrivilege).Split(",")
+    foreach ($member in $rights) {
+        if ($member -notin @("*S-1-5-32-544")) {
+            $V220976 = $false
+        }
+    }
+} catch {
+    $V220976 = $false
+}
+'@
+    'V-220977' = @'
+try {
+    if ($SecurityPolicy.'Privilege Rights'.SeLockMemoryPrivilege -eq "") {
+        $V220977 = $true
+    } else {
+        $V220977 = $false
+    }
+} catch {
+    $V220977 = $false
+}
+'@
+    'V-220978' = @'
+try {
+    $V220978 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeSecurityPrivilege).Split(",")
+    foreach ($member in $rights) {
+        if ($member -notin @("*S-1-5-32-544")) {
+            $V220978 = $false
+        }
+    }
+} catch {
+    $V220978 = $false
+}
+'@
+    'V-220979' = @'
+try {
+    $V220979 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeSystemEnvironmentPrivilege).Split(",")
+    foreach ($member in $rights) {
+        if ($member -notin @("*S-1-5-32-544")) {
+            $V220979 = $false
+        }
+    }
+} catch {
+    $V220979 = $false
+}
+'@
+    'V-220980' = @'
+try {
+    $V220980 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeManageVolumePrivilege).Split(",")
+    foreach ($member in $rights) {
+        if ($member -notin @("*S-1-5-32-544")) {
+            $V220980 = $false
+        }
+    }
+} catch {
+    $V220980 = $false
+}
+'@
+    'V-220981' = @'
+try {
+    $V220981 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeProfileSingleProcessPrivilege).Split(",")
+    foreach ($member in $rights) {
+        if ($member -notin @("*S-1-5-32-544")) {
+            $V220981 = $false
+        }
+    }
+} catch {
+    $V220981 = $false
+}
+'@
+    'V-220982' = @'
+try {
+    $V220982 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeRestorePrivilege).Split(",")
+    foreach ($member in $rights) {
+        if ($member -notin @("*S-1-5-32-544")) {
+            $V220982 = $false
+        }
+    }
+} catch {
+    $V220982 = $false
+}
+'@
+    'V-220983' = @'
+try {
+    $V220983 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeTakeOwnershipPrivilege).Split(",")
+    foreach ($member in $rights) {
+        if ($member -notin @("*S-1-5-32-544")) {
+            $V220983 = $false
+        }
+    }
+} catch {
+    $V220983 = $false
+}
+'@
     'V-252903' = @'
 try {
-    if ($DeviceGuard.SecurityServicesRunning -contains 2 -
+    if ($DeviceGuard.SecurityServicesRunning -contains 2 -and
        (Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard\" -Name HypervisorEnforcedCodeIntegrity -ErrorAction Stop) -in @(1,2)) {
         $V252903 = $true
     } else {
@@ -1872,6 +2097,17 @@ try {
     }
 } catch {
     $V252903 = $false
+}
+'@
+    'V-256894' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Internet Explorer\Main" -Name NotifyDisableIEOptions -ErrorAction Stop) -eq 0) {
+        $V256894 = $true
+    } else {
+        $V256894 = $false
+    }
+} catch {
+    $V256894 = $false
 }
 '@
 }
