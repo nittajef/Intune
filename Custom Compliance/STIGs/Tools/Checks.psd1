@@ -2,14 +2,21 @@
     'CAT1' = @(
         'ComputerInfo'
         'DeviceGuard'
+        'LTSB'
         'SecurityPolicy'
     )
     'CAT2' = @(
         'AuditPolicy'
+        'ComputerInfo'
+        'LocalUsers'
+        'LTSB'
         'SecurityPolicy'
     )
     'CAT3' = @(
+        'ComputerInfo'
         'DeviceGuard'
+        'LocalUsers'
+        'LTSB'
     )
 
     'AuditPolicy' = @'
@@ -25,6 +32,16 @@ $ComputerInfo = Get-ComputerInfo | Select-Object -Property WindowsProductName,Os
 $DeviceGuard = Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard
 '@
 
+    'LocalUsers' = @'
+$LocalUsers = Get-LocalUser
+
+    'LTSB' = @'
+$v1507 = "10240"
+$v1607 = "14393"
+$v1809 = "17763"
+$v21H2 = "19044"
+$LTSB = @($v1507, $v1607, $v1809, $v21H2)
+'@
     'SecurityPolicy' = @'
 # Create hash of local security policies (exported in .ini format)
 # Ref: Ingest .ini file: https://devblogs.microsoft.com/scripting/use-powershell-to-work-with-any-ini-file/
@@ -123,8 +140,8 @@ try {
 '@
     'V-220704' = @'
 try {
-    if ($MinimumPIN) {
-        $pin = $MinimumPIN
+    if ($MinimumBLPIN) {
+        $pin = $MinimumBLPIN
     } else {
         $pin = 6
     }
@@ -143,6 +160,7 @@ try {
         $builds = $SupportedBuilds
     } else {
         $builds = @("19044", "19045", "22000", "22621")
+        $builds += $LTSB
     }
     if ($builds -contains $ComputerInfo.OsBuildNumber) {
         $V220706 = $true
@@ -183,12 +201,11 @@ try {
 '@
     'V-220711' = @'
 try {
-    $localUsers = Get-LocalUser | Select-Object Name, LastLogon, Enabled, SID
     $V220711 = $true
     # Check all local accounts except for DefaultAccount/Administrator/Guest
-    foreach ($user in $localUsers) {
+    foreach ($user in $LocalUsers) {
         if ( ("500", "501", "503") -contains $user.SID.ToString().Substring($user.SID.ToString().Length - 3, 3) -or
-             $Administrators -contains $user -or
+             $Administrators -contains $user.Name -or
              $user.Enabled -eq $false) {
              # Skip these accounts
         } else {
@@ -245,13 +262,12 @@ try {
 '@
     'V-220715' = @'
 try {
-    $localUsers = Get-LocalUser | Select-Object Name, Enabled
     $V220715 = $true
     # Check for any non-default accounts
-    foreach ($user in $localUsers) {
+    foreach ($user in $LocalUsers) {
         if ( (("Administrator", "Guest", "DefaultAccount", "defaultuser0", "WDAGUtilityAccount") -contains $user.Name -and
              $user.Enabled -eq $true) -or
-             $Administrators -contains $user) {
+             $Administrators -contains $user.Name) {
              # Skip these accounts
         } else {
             $V220715 = $false
@@ -263,10 +279,8 @@ try {
 '@
     'V-220716' = @'
 try {
-    $localUsers = Get-LocalUser | Select-Object Name, Enabled, PasswordExpires
     $V220716 = $true
-    # Check all local accounts except for DefaultAccount/Administrator/Guest
-    foreach ($user in $localUsers) {
+    foreach ($user in $LocalUsers) {
         if ($user.Enabled -eq $true -and $user.PasswordExpires -eq '') {
              $V220716 = $false
         }
@@ -932,7 +946,7 @@ try {
 '@
     'V-220782' = @'
 try {
-    $acl = Get-Acl (Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Application" -Name File)
+    $acl = Get-Acl -Path (Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Application" -Name File)
     
     $V220782 = $true
     foreach ($entry in $acl.Access) {
@@ -951,7 +965,7 @@ try {
 '@
     'V-220783' = @'
 try {
-    $acl = Get-Acl (Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Security" -Name File)
+    $acl = Get-Acl -Path (Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Security" -Name File)
     
     $V220783 = $true
     foreach ($entry in $acl.Access) {
@@ -970,7 +984,7 @@ try {
 '@
     'V-220784' = @'
 try {
-    $acl = Get-Acl (Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\System" -Name File)
+    $acl = Get-Acl -Path (Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\System" -Name File)
     
     $V220784 = $true
     foreach ($entry in $acl.Access) {
@@ -1152,8 +1166,23 @@ try {
     } else {
         $V220818 = $false
     }
-} catch {
+} catch [System.Management.Automation.ItemNotFoundException] {
     $V220818 = $true
+} catch {
+    $V220818 = $false
+}
+'@
+    'V-220825' = @'
+try {
+    if ($ComputerInfo.OsBuildNumber -in $LTSB) {
+        $V220825 = $true
+    } elseif ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name MSAOptional -ErrorAction Stop) -eq 1) {
+        $V220825 = $true
+    } else {
+        $V220825 = $false
+    }
+} catch {
+    $V220825 = $false
 }
 '@
     'V-220833' = @'
@@ -1198,6 +1227,37 @@ try {
     $V220835 = $false
 }
 '@
+    'V-220836' = @'
+try {
+    if (($ComputerInfo.OsBuildNumber -eq $v1507) -and
+        (Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System\" -Name EnableSmartScreen -ErrorAction Stop) -eq 2) {
+        $V220836 = $true
+    } elseif (($ComputerInfo.OsBuildNumber -eq $v1607) -and
+              (Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System\" -Name EnableSmartScreen -ErrorAction Stop) -eq 1) {
+        $V220836 = $true
+    } elseif ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System\" -Name EnableSmartScreen -ErrorAction Stop) -eq 1 -and
+              (Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System\" -Name ShellSmartScreenLevel -ErrorAction Stop) -eq "Block") {
+        $V220836 = $true
+    } else {
+        $V220836 = $false
+    }
+} catch {
+    $V220836 = $false
+}
+'@
+    'V-220837' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer\" -Name NoDataExecutionPrevention -ErrorAction Stop) -eq 0) {
+        $V220837 = $true
+    } else {
+        $V220837 = $false
+    }
+} catch [System.Management.Automation.ItemNotFoundException] {
+    $V220837 = $true
+} catch {
+    $V220837 = $false
+}
+'@
     'V-220838' = @'
 try {
     if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer\" -Name NoHeapTerminationOnCorruption -ErrorAction Stop) -eq 1) {
@@ -1209,6 +1269,315 @@ try {
     $V220838 = $true
 }
 '@
+    'V-220839' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer\" -Name PreXPSP2ShellProtocolBehavior -ErrorAction Stop) -eq 0) {
+        $V220839 = $true
+    } else {
+        $V220839 = $false
+    }
+} catch [System.Management.Automation.ItemNotFoundException] {
+    $V220839 = $true
+} catch {
+    $V220839 = $false
+}
+'@
+    'V-220840' = @'
+try {
+    if ($ComputerInfo.OsBuildNumber -in $LTSB) {
+        $V220840 = $true
+    } elseif ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\PhishingFilter\" -Name PreventOverride -ErrorAction Stop) -eq 1) {
+        $V220840 = $true
+    } else {
+        $V220840 = $false
+    }
+} catch {
+    $V220840 = $false
+}
+'@
+    'V-220841' = @'
+try {
+    if ($ComputerInfo.OsBuildNumber -in $LTSB) {
+        $V220841 = $true
+    } elseif ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\PhishingFilter\" -Name PreventOverrideAppRepUnknown -ErrorAction Stop) -eq 1) {
+        $V220841 = $true
+    } else {
+        $V220841 = $false
+    }
+} catch {
+    $V220841 = $false
+}
+'@
+    'V-220842' = @'
+try {
+    if ($ComputerInfo.OsBuildNumber -in $LTSB) {
+        $V220842 = $true
+    } elseif ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\Internet Settings\" -Name PreventCertErrorOverrides -ErrorAction Stop) -eq 1) {
+        $V220842 = $true
+    } else {
+        $V220842 = $false
+    }
+} catch {
+    $V220842 = $false
+}
+'@
+    'V-220843' = @'
+try {
+    if ($ComputerInfo.OsBuildNumber -in $LTSB) {
+        $V220843 = $true
+    } elseif ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\Main\" -Name FormSuggest Passwords -ErrorAction Stop) -eq "no") {
+        $V220843 = $true
+    } else {
+        $V220843 = $false
+    }
+} catch {
+    $V220843 = $false
+}
+'@
+    'V-220844' = @'
+try {
+    if ($ComputerInfo.OsBuildNumber -in $LTSB) {
+        $V220844 = $true
+    } elseif ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\PhishingFilter\" -Name EnabledV9 -ErrorAction Stop) -eq 1) {
+        $V220844 = $true
+    } else {
+        $V220844 = $false
+    }
+} catch {
+    $V220844 = $false
+}
+'@
+    'V-220845' = @'
+try {
+    if ($ComputerInfo.OsBuildNumber -in @($v1507, $v1607)) {
+        $V220845 = $true
+    } elseif ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR\" -Name AllowGameDVR -ErrorAction Stop) -eq 0) {
+        $V220845 = $true
+    } else {
+        $V220845 = $false
+    }
+} catch {
+    $V220845 = $false
+}
+'@
+    'V-220847' = @'
+try {
+    if ($MinimumPIN) {
+        $pin = $MinimumPIN
+    } else {
+        $pin = 6
+    }
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\PassportForWork\PINComplexity\" -Name MinimumPINLength -ErrorAction Stop) -ge $pin) {
+        $V220847 = $true
+    } else {
+        $V220847 = $false
+    }
+} catch {
+    $V220847 = $false
+}
+'@
+    'V-220854' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Internet Explorer\Feeds\" -Name AllowBasicAuthInClear -ErrorAction Stop) -eq 0) {
+        $V220854 = $true
+    } else {
+        $V220854 = $false
+    }
+} catch [System.Management.Automation.ItemNotFoundException] {
+    $V220854 = $true
+} catch {
+    $V220854 = $false
+}
+'@
+    'V-220858' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Installer\" -Name SafeForScripting -ErrorAction Stop) -eq 0) {
+        $V220858 = $true
+    } else {
+        $V220858 = $false
+    }
+} catch [System.Management.Automation.ItemNotFoundException] {
+    $V220858 = $true
+} catch {
+    $V220858 = $false
+}
+'@
+    'V-220869' = @'
+try {
+    if ($ComputerInfo.OsBuildNumber -ge "18362") {
+        $V220869 = $true
+    } elseif ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy\" -Name LetAppsActivateWithVoice -ErrorAction Stop) -eq 2) {
+        $V220869 = $true
+    } elseif ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy\" -Name LetAppsActivateWithVoiceAboveLock -ErrorAction Stop) -eq 2) {
+        $V220869 = $true
+    } else {
+        $V220869 = $false
+    }
+} catch {
+    $V220869 = $false
+}
+'@
+    'V-220870' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\Software\Policies\Microsoft\Windows\System" -Name AllowDomainPINLogon -ErrorAction Stop) -eq 0) {
+        $V220870 = $true
+    } else {
+        $V220870 = $false
+    }
+} catch {
+    $V220870 = $false
+}
+'@
+    'V-220871' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\Software\Policies\Microsoft\WindowsInkWorkspace" -Name AllowWindowsInkWorkspace -ErrorAction Stop) -eq 1) {
+        $V220871 = $true
+    } else {
+        $V220871 = $false
+    }
+} catch {
+    $V220871 = $false
+}
+'@
+    'V-220902' = @'
+try {
+    if ($ComputerInfo.OsBuildNumber -ge "17134") {
+        $V220902 = $true
+    } elseif ((Get-ItemPropertyValue -Path "HKLM:\Software\Policies\Microsoft\Windows\Kernel DMA Protection" -Name DeviceEnumerationPolicy -ErrorAction Stop) -eq 0) {
+        $V220902 = $true
+    } else {
+        $V220902 = $false
+    }
+} catch {
+    $V220902 = $false
+}
+'@
+    'V-220907' = @'
+try {
+    $V220907 = $true
+
+    $acl = Get-Acl -Path "HKLM:\SECURITY\"
+    foreach ($entry in $acl.Access) {
+        if ($entry.IdentityReference.Value -eq "NT AUTHORITY\SYSTEM" -and
+            $entry.IsInherited -eq "False" -and
+            $entry.AccessControlType -eq "Allow" -and
+            $entry.RegistryRights -eq "FullControl" -and
+            $entry.InheritanceFlags -eq "ContainerInherit") {
+            # Okay as default full control permissions        
+        } elseif ($entry.IdentityReference.Value -eq "BUILTIN\Administrators" -and
+                  $entry.IsInherited -eq "False" -and
+                  $entry.AccessControlType -eq "Allow" -and
+                  $entry.RegistryRights -eq "ReadPermissions, ChangePermissions" -and
+                  $entry.InheritanceFlags -eq "ContainerInherit") {
+            # Okay as default special permissions
+        } else {
+            $V220907 = $false
+        }
+    }
+
+    $acl = Get-Acl -Path "HKLM:\SOFTWARE\"
+    foreach ($entry in $acl.Access) {
+        if ($entry.IdentityReference.Value -in @("CREATOR OWNER", "NT AUTHORITY\SYSTEM", "BUILTIN\Administrators") -and
+            $entry.IsInherited -eq "False" -and
+            $entry.AccessControlType -eq "Allow" -and
+            $entry.RegistryRights -eq "FullControl" -and
+            $entry.InheritanceFlags -eq "ContainerInherit") {
+            # Okay as default full control permissions        
+        } elseif ($entry.IdentityReference.Value -in @("BUILTIN\Users", "APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES") -and
+                  $entry.IsInherited -eq "False" -and
+                  $entry.AccessControlType -eq "Allow" -and
+                  $entry.RegistryRights -eq "ReadKey" -and
+                  $entry.InheritanceFlags -eq "ContainerInherit") {
+            # Okay as default read permissions
+        } elseif ($entry.IdentityReference.Value -eq @("S-1-15-3-1024-1065365936-1281604716-3511738428-1654721687-432734479-3232135806-4053264122-3456934681") -and
+                  $entry.IsInherited -eq "False" -and
+                  $entry.AccessControlType -eq "Allow" -and
+                  $entry.RegistryRights -eq "ReadKey" -and
+                  $entry.InheritanceFlags -eq "ContainerInherit") {
+            # Okay as MS added default read permissions
+        } else {
+            $V220907 = $false
+        }
+    }
+
+    $acl = Get-Acl -Path "HKLM:\SYSTEM\"
+    foreach ($entry in $acl.Access) {
+        if ($entry.IdentityReference.Value -in @("CREATOR OWNER", "NT AUTHORITY\SYSTEM", "BUILTIN\Administrators") -and
+            $entry.IsInherited -eq "False" -and
+            $entry.AccessControlType -eq "Allow" -and
+            $entry.RegistryRights -eq "FullControl" -and
+            $entry.InheritanceFlags -eq "ContainerInherit") {
+            # Okay as default full control permissions        
+        } elseif ($entry.IdentityReference.Value -in @("BUILTIN\Users", "APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES") -and
+                  $entry.IsInherited -eq "False" -and
+                  $entry.AccessControlType -eq "Allow" -and
+                  $entry.RegistryRights -eq "ReadKey" -and
+                  $entry.InheritanceFlags -eq "ContainerInherit") {
+            # Okay as default read permissions
+        } elseif ($entry.IdentityReference.Value -eq @("S-1-15-3-1024-1065365936-1281604716-3511738428-1654721687-432734479-3232135806-4053264122-3456934681") -and
+                  $entry.IsInherited -eq "False" -and
+                  $entry.AccessControlType -eq "Allow" -and
+                  $entry.RegistryRights -eq "ReadKey" -and
+                  $entry.InheritanceFlags -eq "ContainerInherit") {
+            # Okay as MS added default read permissions
+        } else {
+            $V220907 = $false
+        }
+    }
+} catch {
+    $V220907 = $false
+}
+'@
+    'V-220908' = @'
+try {
+    $V220908 = $true
+    foreach ($user in $LocalUsers) {
+        if ($user.SID -like "*-500" -and $user.Enabled -eq $true) {
+             $V220908 = $false
+        }
+    }
+} catch {
+    $V220908 = $false
+}
+'@
+    'V-220909' = @'
+try {
+    $V220909 = $true
+    foreach ($user in $LocalUsers) {
+        if ($user.SID -like "*-501" -and $user.Enabled -eq $true) {
+             $V220909 = $false
+        }
+    }
+} catch {
+    $V220909 = $false
+}
+'@
+    'V-220911' = @'
+try {
+    if ((Get-LocalUser -Name "Administrator" -ErrorAction Stop | Select-Object SID).SID -like "*-500") {
+        $V220911 = $false
+    } else {
+        $V220911 = $true
+    }
+} catch [Microsoft.PowerShell.Commands.UserNotFoundException] {
+    $V220911 = $true
+} catch {
+    $V220911 = $false
+}
+'@
+    'V-220912' = @'
+try {
+    if ((Get-LocalUser -Name "Guest" -ErrorAction Stop | Select-Object SID).SID -like "*-501") {
+        $V220912 = $false
+    } else {
+        $V220912 = $true
+    }
+} catch [Microsoft.PowerShell.Commands.UserNotFoundException] {
+    $V220912 = $true
+} catch {
+    $V220912 = $false
+}
+'@
     'V-220918' = @'
 try {
     if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters\" -Name MaximumPasswordAge -ErrorAction Stop) -in 1..30) {
@@ -1218,6 +1587,33 @@ try {
     }
 } catch {
     $V220918 = $false
+}
+'@
+    'V-220920' = @'
+try {
+    if ($InactivityTimeout) {
+        $sec = $InactivityTimeout
+    } else {
+        $sec = 900
+    }
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name InactivityTimeoutSecs -ErrorAction Stop) -ne 1..$sec) {
+        $V220920 = $true
+    } else {
+        $V220920 = $false
+    }
+} catch {
+    $V220920 = $false
+}
+'@
+    'V-220921' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name LegalNoticeText -ErrorAction Stop) -ne "") {
+        $V220921 = $true
+    } else {
+        $V220921 = $false
+    }
+} catch {
+    $V220921 = $false
 }
 '@
     'V-220922' = @'
@@ -1242,6 +1638,17 @@ try {
     $V220923 = $false
 }
 '@
+    'V-220924' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\" -Name SCRemoveOption -ErrorAction Stop) -in @(1, 2)) {
+        $V220924 = $true
+    } else {
+        $V220924 = $false
+    }
+} catch {
+    $V220924 = $false
+}
+'@
     'V-220928' = @'
 try {
     if ($SecurityPolicy.'System Access'.LSAAnonymousNameLookup -eq 0) {
@@ -1253,22 +1660,150 @@ try {
     $V220928 = $false
 }
 '@
-# TODO: check that this fails if a user/group is granted this right
+    'V-20933' = @'
+try {
+    if ($ComputerInfo.OsBuildNumber -eq $v1507) {
+        $V220933 = $true
+    } elseif ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name RestrictRemoteSAM -ErrorAction Stop) -eq "O:BAG:BAD:(A;;RC;;;BA)") {
+        $V220933 = $true
+    } else {
+        $V220933 = $false
+    }
+} catch {
+    $V220933 = $false
+}
+'@
+    'V-220942' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy\" -Name Enabled -ErrorAction Stop) -eq 1 -or
+        (Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy\" -Name MDMEnabled -ErrorAction Stop) -eq 1) {
+        $V220942 = $true
+    } else {
+        $V220942 = $false
+    }
+} catch {
+    $V220942 = $false
+}
+'@
+    'V-220945' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name ConsentPromptBehaviorAdmin -ErrorAction Stop) -eq 2) {
+        $V220945 = $true
+    } else {
+        $V220945 = $false
+    }
+} catch {
+    $V220945 = $false
+}
+'@
+    'V-220952' = @'
+try {
+    $localAdmins = Get-LocalGroupMember -Name "Administrators"
+    $V220952 = $true
+    foreach ($acct in $localAdmins) {
+    if ($acct.PrincipalSource -eq "Local" -and ($LocalUsers | Where-Object { $_.SID -eq $acct.SID }).Enabled -eq $true) {
+        if ((Get-Date).AddDays(-60) -gt ($LocalUsers | Where-Object { $_.SID -eq $acct.SID }).PasswordLastSet) {
+            $V220952 = $false
+        }
+    }
+}
+} catch {
+    $V220952 = $false
+}
+'@
+    'V-220955' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Attachments\" -Name SaveZoneInformation -ErrorAction Stop) -eq 2) {
+        $V220955 = $true
+    } else {
+        $V220955 = $false
+    }
+} catch [System.Management.Automation.ItemNotFoundException] {
+    $V220955 = $true
+} catch {
+    $V220955 = $false
+}
+'@
+    'V-220956' = @'
+try {
+    if ($SecurityPolicy.'Privilege Rights'.SeTrustedCredManAccessPrivilege -eq "") {
+        $V220956 = $true
+    } else {
+        $V220956 = $false
+    }
+} catch {
+    $V220956 = $false
+}
+'@
     'V-220958' = @'
 try {
-    if ($SecurityPolicy.'Privilege Rights'.SeTcbPrivilege) {
-        $V220958 = $false
-    } else {
-        $V220958 = $true
+    $V220958 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeNetworkLogonRight).Split(",")
+    foreach ($member in $rights) {
+        if ($member -notin @("*S-1-5-32-544", "*S-1-5-32-555")) {
+            $V220958 = $false
+        }
     }
 } catch {
     $V220958 = $false
 }
 '@
-# TODO: check that this fails if a user/group is granted this right
+    'V-220959' = @'
+try {
+    $V220959 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeInteractiveLogonRight).Split(",")
+    foreach ($member in $rights) {
+        if ($member -notin @("*S-1-5-32-544", "*S-1-5-32-545")) {
+            $V220959 = $false
+        }
+    }
+} catch {
+    $V220959 = $false
+}
+'@
+    'V-220960' = @'
+try {
+    $V220960 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeBackupPrivilege).Split(",")
+    foreach ($member in $rights) {
+        if ($member -notin @("*S-1-5-32-544")) {
+            $V220960 = $false
+        }
+    }
+} catch {
+    $V220960 = $false
+}
+'@
+# Check for this account? NT SERVICE\autotimesvc
+    'V-220961' = @'
+try {
+    $V220961 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeBackupPrivilege).Split(",")
+    foreach ($member in $rights) {
+        if ($member -notin @("*S-1-5-32-544", "*S-1-5-19")) {
+            $V220961 = $false
+        }
+    }
+} catch {
+    $V220961 = $false
+}
+'@
+    'V-220962' = @'
+try {
+    $V220962 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeCreatePagefilePrivilege).Split(",")
+    foreach ($member in $rights) {
+        if ($member -notin @("*S-1-5-32-544")) {
+            $V220962 = $false
+        }
+    }
+} catch {
+    $V220962 = $false
+}
+'@
     'V-220963' = @'
 try {
-    if ($SecurityPolicy.'Privilege Rights'.SeCreateTokenPrivilege) {
+    if ($SecurityPolicy.'Privilege Rights'.SeCreateTokenPrivilege -eq "") {
         $V220963 = $false
     } else {
         $V220963 = $true
@@ -1277,13 +1812,51 @@ try {
     $V220963 = $false
 }
 '@
-# TODO: check that this fails if more than just built in admin group is listed
+    'V-220964' = @'
+try {
+    $V220964 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeCreateGlobalPrivilege).Split(",")
+    foreach ($member in $rights) {
+        if ($member -notin @("*S-1-5-32-544", "*S-1-5-19", "*S-1-5-20", "*S-1-5-6")) {
+            $V220964 = $false
+        }
+    }
+} catch {
+    $V220964 = $false
+}
+'@
+    'V-220965' = @'
+try {
+    if ($SecurityPolicy.'Privilege Rights'.SeCreatePermanentPrivilege -eq "") {
+        $V220965 = $true
+    } else {
+        $V220965 = $false
+    }
+} catch {
+    $V220965 = $false
+}
+'@
+    'V-220966' = @'
+try {
+    $V220966 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeCreateSymbolicLinkPrivilege).Split(",")
+    foreach ($member in $rights) {
+        if ($member -notin @("*S-1-5-32-544")) {
+            $V220966 = $false
+        }
+    }
+} catch {
+    $V220966 = $false
+}
+'@
     'V-220967' = @'
 try {
-    if ($SecurityPolicy.'Privilege Rights'.SeDebugPrivilege -eq '*S-1-5-32-544') {
-        $V220967 = $true
-    } else {
-        $V220967 = $false
+    $V220967 = $true
+    $rights = ($SecurityPolicy.'Privilege Rights'.SeDebugPrivilege).Split(",")
+    foreach ($member in $rights) {
+        if ($member -notin @("*S-1-5-32-544")) {
+            $V220967 = $false
+        }
     }
 } catch {
     $V220967 = $false
