@@ -41,6 +41,13 @@ This file is uploaded in the Compliance policy (after uploading your script):
 <img width="325" alt="image" src="https://github.com/nittajef/Intune/assets/77274708/5619850c-ec35-460d-9012-ad8c8cbabb3a">
 <br>
 The JSON is created using only boolean checks for now, for consistency, since each Intune policy setting can only compare one return value per rule. There is a loss in being able to see the raw values returned to Intune this way, and maybe STIG rules will be broken in to multiple sub-settings in the future (V-252903A, V-252903B, etc).
+<br><br>
+Here are some limits I've come across that are of interest and may or may not be documented:
+
+- Script size of 1MB (documented)
+- Rule limit of 100 (undocumented?)
+- Script character limit of 102400 (undocumented?)
+
 
 <h2>Intune Policy</h2>
 Once the two policies files are generated, you can create a new Custom Compliance policy and see results similar to the screenshots below.
