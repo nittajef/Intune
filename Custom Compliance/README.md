@@ -1,14 +1,16 @@
-# Intune Custom Compliance
+# Intune Custom Compliance (WIP)
 
 Custom Compliance PowerShell & JSON files for Windows STIGs are located in the subfolders.
 
-The Tools folder contains PowerShell scripts to help generate Intune compatible files for Custom Compliance via the STIG xccdf filess.
+The Tools folder contains PowerShell scripts to help generate Intune compatible files for Custom Compliance via the STIG xccdf files.
+
+<h4>All generated policy files are a work in progress and are not guaranteed to definitively say that a system is compliant with a particular STIG.</h4> That being said, the checks for CAT I and CAT III are complete. If the discovery checks can be improved please let me know. There's about 10 more CAT II checks to complete.
 
 <h1>Generator files</h1>
 
 <h4>Convert-xccdf.ps1</h4> The main script, which will ingest the STIG file and generate matching PS and JSON files.
 
-<h4>Org-Settings.psd1</h4> Needed to specify some file paths as well as other configuration options such as which CAT severity rules to output, as well as to specify rules that should be skipped or overrriden.
+<h4>Org-Settings.psd1</h4> Needed to specify some file paths as well as other configuration options such as which CAT severity rules to output, as well as to specify rules that should be exempted or overrriden. For instance, you may not actually work with the DOD and not need the DOD Certificate Roots to be installed on your clients. If so, add the rules V-220903-906 to the "exemptions" array (one per line) in the Org-Settings file and they checks will be skipped.
 
 <h4>Checks.psd1</h4> Where all of the custom PowerShell code to do the checks is stored. Most simple registry based checks are generated automatically, but any others need to be completed and stored in the Checks.psd1 file manually.
 
