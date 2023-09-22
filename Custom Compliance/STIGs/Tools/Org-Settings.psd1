@@ -23,13 +23,13 @@
         #          mini - Add STIG rule title and additional metadata
         #          zen - Only include STIG rule title
         PS = "cc_ps.ps1"
-        PSStyle = "verbose"
+        PSStyle = "zen"
     }
 
     accounts = @{
         # List all accounts that should not be evaluated in STIG rule checks (one account per line)
         Administrators = @(
-            "\Administrator"
+            "root"
         )
         BackupOperators = @(
         )
@@ -56,13 +56,14 @@
         "V-220736" # Bluetooth connect alert
         "V-220737"
         "V-220738" # VDI 24 hour sessions
+        "V-220946" # Use multifactor authentication
     )
 
     # Overrides - Settings here will override respective STIG rule values
     #             Rules with overrides will be indicated with trailing -OvR
     overrides = @{
         #'V-220704' = @{
-        #    MinimumPIN = 4
+        #    MinimumBLPIN = 6
         #}
         #'V-220706' = @{
         #    SupportedBuilds = @("19044", "19045")
@@ -96,6 +97,12 @@
         #}
         #'V-220781' = @{
         #    SysEventLogSize = 32768
+        #}
+        #'V-220847' = @{
+        #    MinimumPIN = 6
+        #}InactivityTimeout
+        #'V-220920' = @{
+        #    InactivityTimeout = 900
         #}
     }
 
