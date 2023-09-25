@@ -39,9 +39,9 @@
 
     severity = @{
         # Select which severity rules to generate policy for
-        CAT1 = $false
+        CAT1 = $true
         CAT2 = $false
-        CAT3 = $true
+        CAT3 = $false
     }
 
     # List all rules that are manual/process checks
@@ -67,6 +67,9 @@
         #}
         #'V-220706' = @{
         #    SupportedBuilds = @("19044", "19045")
+        #}
+        #'V-220706' = @{
+        #    AllowAppCapabilitySIDs = $false # S-1-15-3-*
         #}
         #'V-220739' = @{
         #    LockoutDuration = 15
@@ -100,7 +103,11 @@
         #}
         #'V-220847' = @{
         #    MinimumPIN = 6
-        #}InactivityTimeout
+        #}
+        #'V-220903' = @{
+        #    MachineRoots = @(
+        #    )
+        #}
         #'V-220920' = @{
         #    InactivityTimeout = 900
         #}
