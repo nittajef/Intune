@@ -68,3 +68,18 @@ Device policy view:
 Per setting view from the policy configuration:
 
 <img width="489" alt="image" src="https://github.com/nittajef/Intune/assets/77274708/423a7153-5b04-421c-9a1e-f50df7aee02e">
+
+
+<h2>Change Log</h2>
+2023-09-25
+
+- Completed CAT II checks: 
+  - V-220903 - Override added to verify other/non-DOD roots
+  - V-220904
+  - V-220905
+  - V-220906
+  - V-220717 (extra verification welcome)
+  - V-220723 - searches only local drives with drive letters (extra verification welcome)
+  - V-220957
+- Fixed CAT I checks:
+  - V-220958 - check was switched from CAT II check V-220957
