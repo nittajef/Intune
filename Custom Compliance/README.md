@@ -69,6 +69,10 @@ Per setting view from the policy configuration:
 
 
 <h2>Change Log</h2>
+2023-09-26
+
+- Fixed CAT III checks V-220977, V-220973, V-220965, V-220956, and CAT I check V-220958, which were checking for empty set of privilege assignment by empty string "", but needed to check against $null value.
+
 2023-09-25
 
 - Added flag to exclude "Reference" data in output JSON (to reduce file size with current 100KB limit)
