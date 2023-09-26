@@ -73,6 +73,7 @@ Per setting view from the policy configuration:
 <h2>Change Log</h2>
 2023-09-25
 
+- Added flag to exclude "Reference" data in output JSON (to reduce file size with current 100KB limit)
 - Completed CAT II checks: 
   - V-220903 - Override added to verify other/non-DOD roots
   - V-220904
