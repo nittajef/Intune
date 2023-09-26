@@ -3167,7 +3167,7 @@ try {
 # REFERENCE: 
 ##
 try {
-    if ($SecurityPolicy.'Privilege Rights'.SeTrustedCredManAccessPrivilege -eq "") {
+    if ($SecurityPolicy.'Privilege Rights'.SeTrustedCredManAccessPrivilege -eq $null) {
         $V220956 = $true
     } else {
         $V220956 = $false
@@ -3537,7 +3537,7 @@ try {
 # REFERENCE: 
 ##
 try {
-    if ($SecurityPolicy.'Privilege Rights'.SeCreatePermanentPrivilege -eq "") {
+    if ($SecurityPolicy.'Privilege Rights'.SeCreatePermanentPrivilege -eq $null) {
         $V220965 = $true
     } else {
         $V220965 = $false
@@ -4034,7 +4034,7 @@ try {
 # REFERENCE: 
 ##
 try {
-    if ($SecurityPolicy.'Privilege Rights'.SeEnableDelegationPrivilege -eq "") {
+    if ($SecurityPolicy.'Privilege Rights'.SeEnableDelegationPrivilege -eq $null) {
         $V220973 = $true
     } else {
         $V220973 = $false
@@ -4233,7 +4233,7 @@ try {
 # REFERENCE: 
 ##
 try {
-    if ($SecurityPolicy.'Privilege Rights'.SeLockMemoryPrivilege -eq "") {
+    if ($SecurityPolicy.'Privilege Rights'.SeLockMemoryPrivilege -eq $null) {
         $V220977 = $true
     } else {
         $V220977 = $false
