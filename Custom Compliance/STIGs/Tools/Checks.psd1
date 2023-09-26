@@ -82,7 +82,7 @@ Remove-Item -Force $SPFile -Confirm:$false
     'V-220697' = @'
 try {
     if ($ComputerInfo.OsArchitecture -eq "64-bit") {
-        if ($ComputerInfo.WindowsProductName -eq "Windows 10 Enterprise" -or $ComputerInfo.WindowsProductName -eq "Windows 11 Enterprise") {
+        if ($ComputerInfo.WindowsProductName -eq "Windows 10 Enterprise") {
             $V220697 = $true
         }
     }
@@ -97,6 +97,7 @@ try {
         $V220698 = $true
     } else {
         $V220698 = $false
+    }
 } catch {
     $V220698 = $false
 }
@@ -298,6 +299,215 @@ try {
     $V220716 = $false
 }
 '@
+    'V-220717' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name EveryoneIncludesAnonymous -ErrorAction Stop) -eq 0) {
+        $V220717 = $true
+
+        $acl = Get-Acl -Path "C:\"
+        foreach ($entry in $acl.Access) {
+            if ($entry.IdentityReference.Value -in @("NT AUTHORITY\SYSTEM", "BUILTIN\Administrators") -and
+                $entry.IsInherited -eq "False" -and
+                $entry.AccessControlType -eq "Allow" -and
+                $entry.FileSystemRights -eq "FullControl" -and
+                $entry.InheritanceFlags -eq "ContainerInherit, ObjectInherit" -and
+                $entry.PropagationFlags -eq "None") {
+                # Okay as default permissions        
+            } elseif ($entry.IdentityReference.Value -eq "BUILTIN\Users" -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "ReadAndExecute, Synchronize" -and
+                      $entry.InheritanceFlags -eq "ContainerInherit" -and
+                      $entry.PropagationFlags -eq "None") {
+                # Okay as default permissions
+            } elseif ($entry.IdentityReference.Value -eq "NT AUTHORITY\Authenticated Users" -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "-536805376" -and
+                      $entry.InheritanceFlags -eq "ContainerInherit, ObjectInherit" -and
+                      $entry.PropagationFlags -eq "InheritOnly") {
+                # Okay as default permissions
+            } elseif ($entry.IdentityReference.Value -eq "NT AUTHORITY\Authenticated Users" -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "AppendData" -and
+                      $entry.InheritanceFlags -eq "None" -and
+                      $entry.PropagationFlags -eq "None") {
+                # Okay as default permissions
+            } elseif ($AllowAppCapabilitySIDs -eq $true -and
+                      $entry.IdentityReference.Value -like "S-1-15-3-*") {
+                # Allow as an app capability SID
+            } else {
+                $V220717 = $false
+            }
+        }
+
+        $acl = Get-Acl -Path "\Program Files"
+        foreach ($entry in $acl.Access) {
+            if ($entry.IdentityReference.Value -eq "NT SERVICE\TrustedInstaller" -and
+                $entry.IsInherited -eq "False" -and
+                $entry.AccessControlType -eq "Allow" -and
+                $entry.FileSystemRights -eq "FullControl" -and
+                $entry.InheritanceFlags -eq "None" -and
+                $entry.PropagationFlags -eq "None") {
+                # Okay as default permissions        
+            } elseif ($entry.IdentityReference.Value -eq "NT SERVICE\TrustedInstaller" -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "268435456" -and
+                      $entry.InheritanceFlags -eq "ContainerInherit" -and
+                      $entry.PropagationFlags -eq "InheritOnly") {
+                      # Okay as default permissions  
+            } elseif ($entry.IdentityReference.Value -in @("NT AUTHORITY\SYSTEM", "BUILTIN\Administrators") -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "Modify, Synchronize" -and
+                      $entry.InheritanceFlags -eq "None" -and
+                      $entry.PropagationFlags -eq "None") {
+                      # Okay as default permissions        
+            } elseif ($entry.IdentityReference.Value -in @("NT AUTHORITY\SYSTEM", "BUILTIN\Administrators", "CREATOR OWNER") -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "268435456" -and
+                      $entry.InheritanceFlags -eq "ContainerInherit, ObjectInherit" -and
+                      $entry.PropagationFlags -eq "InheritOnly") {
+                      # Okay as default permissions        
+            } elseif ($entry.IdentityReference.Value -eq "BUILTIN\Users" -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "ReadAndExecute, Synchronize" -and
+                      $entry.InheritanceFlags -eq "None" -and
+                      $entry.PropagationFlags -eq "None") {
+                      # Okay as default special permissions
+            } elseif ($entry.IdentityReference.Value -eq "BUILTIN\Users" -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "-1610612736" -and
+                      $entry.InheritanceFlags -eq "ContainerInherit, ObjectInherit" -and
+                      $entry.PropagationFlags -eq "InheritOnly") {
+                      # Okay as default special permissions
+            } elseif ($entry.IdentityReference.Value -eq "APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES" -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "-1610612736" -and
+                      $entry.InheritanceFlags -eq "ContainerInherit, ObjectInherit" -and
+                      $entry.PropagationFlags -eq "InheritOnly") {
+                      # Okay as default special permissions
+            } elseif ($entry.IdentityReference.Value -eq "APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES" -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "ReadAndExecute, Synchronize" -and
+                      $entry.InheritanceFlags -eq "None" -and
+                      $entry.PropagationFlags -eq "None") {
+                      # Okay as default special permissions
+            } elseif ($entry.IdentityReference.Value -eq "APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APPLICATION PACKAGES" -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "-1610612736" -and
+                      $entry.InheritanceFlags -eq "ContainerInherit, ObjectInherit" -and
+                      $entry.PropagationFlags -eq "InheritOnly") {
+                      # Okay as default special permissions
+            } elseif ($entry.IdentityReference.Value -eq "APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APPLICATION PACKAGES" -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "ReadAndExecute, Synchronize" -and
+                      $entry.InheritanceFlags -eq "None" -and
+                      $entry.PropagationFlags -eq "None") {
+                      # Okay as default special permissions
+            } elseif ($AllowAppCapabilitySIDs -eq $true -and
+                      $entry.IdentityReference.Value -like "S-1-15-3-*") {
+                # Allow as an app capability SID
+            } else {
+                $V220717 = $false
+            }
+        }
+    
+        $acl = Get-Acl -Path "\Windows"
+        foreach ($entry in $acl.Access) {
+            if ($entry.IdentityReference.Value -eq "NT SERVICE\TrustedInstaller" -and
+                $entry.IsInherited -eq "False" -and
+                $entry.AccessControlType -eq "Allow" -and
+                $entry.FileSystemRights -eq "FullControl" -and
+                $entry.InheritanceFlags -eq "None" -and
+                $entry.PropagationFlags -eq "None") {
+                # Okay as default permissions        
+            } elseif ($entry.IdentityReference.Value -eq "NT SERVICE\TrustedInstaller" -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "268435456" -and
+                      $entry.InheritanceFlags -eq "ContainerInherit" -and
+                      $entry.PropagationFlags -eq "InheritOnly") {
+                      # Okay as default permissions  
+            } elseif ($entry.IdentityReference.Value -in @("NT AUTHORITY\SYSTEM", "BUILTIN\Administrators") -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "Modify, Synchronize" -and
+                      $entry.InheritanceFlags -eq "None" -and
+                      $entry.PropagationFlags -eq "None") {
+                      # Okay as default permissions        
+            } elseif ($entry.IdentityReference.Value -in @("NT AUTHORITY\SYSTEM", "BUILTIN\Administrators", "CREATOR OWNER") -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "268435456" -and
+                      $entry.InheritanceFlags -eq "ContainerInherit, ObjectInherit" -and
+                      $entry.PropagationFlags -eq "InheritOnly") {
+                      # Okay as default permissions        
+            } elseif ($entry.IdentityReference.Value -eq "BUILTIN\Users" -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "ReadAndExecute, Synchronize" -and
+                      $entry.InheritanceFlags -eq "None" -and
+                      $entry.PropagationFlags -eq "None") {
+                      # Okay as default special permissions
+            } elseif ($entry.IdentityReference.Value -eq "BUILTIN\Users" -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "-1610612736" -and
+                      $entry.InheritanceFlags -eq "ContainerInherit, ObjectInherit" -and
+                      $entry.PropagationFlags -eq "InheritOnly") {
+                      # Okay as default special permissions
+            } elseif ($entry.IdentityReference.Value -eq "APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES" -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "-1610612736" -and
+                      $entry.InheritanceFlags -eq "ContainerInherit, ObjectInherit" -and
+                      $entry.PropagationFlags -eq "InheritOnly") {
+                      # Okay as default special permissions
+            } elseif ($entry.IdentityReference.Value -eq "APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES" -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "ReadAndExecute, Synchronize" -and
+                      $entry.InheritanceFlags -eq "None" -and
+                      $entry.PropagationFlags -eq "None") {
+                      # Okay as default special permissions
+            } elseif ($entry.IdentityReference.Value -eq "APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APPLICATION PACKAGES" -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "-1610612736" -and
+                      $entry.InheritanceFlags -eq "ContainerInherit, ObjectInherit" -and
+                      $entry.PropagationFlags -eq "InheritOnly") {
+                      # Okay as default special permissions
+            } elseif ($entry.IdentityReference.Value -eq "APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APPLICATION PACKAGES" -and
+                      $entry.IsInherited -eq "False" -and
+                      $entry.AccessControlType -eq "Allow" -and
+                      $entry.FileSystemRights -eq "ReadAndExecute, Synchronize" -and
+                      $entry.InheritanceFlags -eq "None" -and
+                      $entry.PropagationFlags -eq "None") {
+                      # Okay as default special permissions
+            } elseif ($AllowAppCapabilitySIDs -eq $true -and
+                      $entry.IdentityReference.Value -like "S-1-15-3-*") {
+                # Allow as an app capability SID
+            } else {
+                $V220717 = $false
+            }
+        }
+    } else {
+        $V220717 = $false
+    }
+} catch {
+    $V220717 = $false
+}
+'@
     'V-220718' = @'
 try {
     if (((Get-WindowsOptionalFeature -Online -FeatureName "IIS-WebServerRole").State) -eq "Disabled") {
@@ -349,6 +559,20 @@ try {
     }
 } catch {
     $V220722 = $false
+}
+'@
+    'V-220723' = @'
+try {
+    $drives = Get-Volume | Where-Object { $_.DriveType -eq 'Fixed' -and $_.DriveLetter } | Select-Object -Expand DriveLetter
+    $V220723 = $true
+    foreach ($drive in $drives) {
+        $drive = $drive + ":\"
+        if (Get-Childitem -Path $drive -File -Recurse -ErrorAction SilentlyContinue | Where-Object { $_.Name -match '.+\.(pfx|p12)$' } | Select-Object -First 1) {
+            $V220723 = $false
+        }
+    }
+} catch {
+    $V220723 = $false
 }
 '@
     'V-220726' = @'
@@ -1461,6 +1685,67 @@ try {
     $V220902 = $false
 }
 '@
+    'V-220903' = @'
+try {
+    if ($MachineRoots) {
+        $installedRoots = $MachineRoots
+    } else {
+        $installedRoots = @(
+            "D73CA91102A2204A36459ED32213B467D7CE97FB" # DoD Root CA 3
+            "B8269F25DBD937ECAFD4C35A9838571723F2D026" # DoD Root CA 4
+            "4ECB5CC3095670454DA1CBD410FC921F46B8564B" # DoD Root CA 5
+        )
+    }
+
+    $LMroots = Get-ChildItem -Path Cert:Localmachine\root | Select-Object -Expand Thumbprint
+
+    $V220903 = $true
+
+    foreach ($root in $installedRoots) {
+        if ($root -notin $LMroots) {
+            $V220903 = $false
+        }
+    }
+} catch {
+    $V220903 = $false
+}
+'@
+    'V-220904' = @'
+try {
+    # ECA Root CA 4
+    if (Get-ChildItem -Path Cert:Localmachine\root | Where-Object Thumbprint -eq "73E8BB08E337D6A5A6AEF90CFFDD97D9176CB582") {
+        $V220904 = $true
+    } else {
+        $V220904 = $false
+    }
+} catch {
+    $V220904 = $false
+}
+'@
+    'V-220905' = @'
+try {
+    # DoD Root CA 3, issued by DoD Interoperability Root CA 2
+    if (Get-ChildItem -Path Cert:Localmachine\disallowed | Where-Object Thumbprint -eq "49CBE933151872E17C8EAE7F0ABA97FB610F6477") {
+        $V220905 = $true
+    } else {
+        $V220905 = $false
+    }
+} catch {
+    $V220905 = $false
+}
+'@
+    'V-220906' = @'
+try {
+    # DoD Root CA 3, issued by US DoD CCEB Interoperability Root CA 2
+    if (Get-ChildItem -Path Cert:Localmachine\disallowed | Where-Object Thumbprint -eq "9B74964506C7ED9138070D08D5F8B969866560C8") {
+        $V220906 = $true
+    } else {
+        $V220906 = $false
+    }
+} catch {
+    $V220906 = $false
+}
+'@
     'V-220907' = @'
 try {
     $V220907 = $true
@@ -1744,14 +2029,25 @@ try {
     $V220956 = $false
 }
 '@
-    'V-220958' = @'
+    'V-220957' = @'
 try {
-    $V220958 = $true
+    $V220957 = $true
     $rights = ($SecurityPolicy.'Privilege Rights'.SeNetworkLogonRight).Split(",")
     foreach ($member in $rights) {
         if ($member -notin @("*S-1-5-32-544", "*S-1-5-32-555")) {
-            $V220958 = $false
+            $V220957 = $false
         }
+    }
+} catch {
+    $V220957 = $false
+}
+'@
+    'V-220958' = @'
+try {
+    if ($SecurityPolicy.'Privilege Rights'.SeTcbPrivilege -eq "") {
+        $V220958 = $true
+    } else {
+        $V220958 = $false
     }
 } catch {
     $V220958 = $false
