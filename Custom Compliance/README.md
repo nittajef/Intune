@@ -21,8 +21,6 @@ Policy files as close to the STIG standard for Windows 10 can be found here: htt
 <br>
 They are generated with the settings set in the Org-Settings-W10.psd1 file in the same directory. Rule sets are separated by CAT severity, and the CAT II severity is broken up further because there is a limit of 100 rules per Custom Compliance Policy. 
 
-> **NOTE**
-> CAT II rules haven't been posted yet until I can work out best way to stay under the current Intune policy size limits. You can still generate the files manually with the scripts.
 
 <h2>Policy file components</h2>
 <h3>PowerShell discovery script</h3>
