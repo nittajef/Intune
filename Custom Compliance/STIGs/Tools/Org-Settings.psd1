@@ -7,16 +7,19 @@
 
     output = @{
         # JSON output to upload in to Intune Custom Compliance policy
-        # Style:   discussion - Put STIG rule "Discussion" section in to Remediation Description
-        #          fix - Put STIG rule "Fix" section in to Remediation Description
-        #          debug - Description shows rule evaluation values in Company Portal, but need to adjust PS check returns to be useful
-        # NoCheck: include - Keep rules with no code checks in compliance policy (auto-pass & append rule name w/NoChk)
-        #          exclude - Remove rules with no technical checks from compliance policy
+        # Style:     discussion - Put STIG rule "Discussion" section in to Remediation Description
+        #            fix - Put STIG rule "Fix" section in to Remediation Description
+        #            debug - Description shows rule evaluation values in Company Portal, but need to adjust PS check returns to be useful
+        # NoCheck:   include - Keep rules with no code checks in compliance policy (auto-pass & append rule name w/NoChk)
+        #            exclude - Remove rules with no technical checks from compliance policy
+        # Reference: include - Include rule references (not needed/used by Intune at the moment)
+        #            exclude - Remove rule references (brings down JSON file size)
         #
         JSON = "cc_json.json"
         JSONStyle = "fix"
         JSONInfoURL = "https://contoso.com"
         JSONNoCheckRules = "include"
+        JSONReference = "exclude"
 
         # PowerShell output to upload as script in Intune Custom Compliance
         # Style:   verbose - Add all of the STIG rule comments (Discussion, Check, Fix)
@@ -40,8 +43,8 @@
     severity = @{
         # Select which severity rules to generate policy for
         CAT1 = $false
-        CAT2 = $false
-        CAT3 = $true
+        CAT2 = $true
+        CAT3 = $false
     }
 
     # List all rules that are manual/process checks
@@ -67,6 +70,9 @@
         #}
         #'V-220706' = @{
         #    SupportedBuilds = @("19044", "19045")
+        #}
+        #'V-220706' = @{
+        #    AllowAppCapabilitySIDs = $false # S-1-15-3-*
         #}
         #'V-220739' = @{
         #    LockoutDuration = 15
@@ -100,7 +106,11 @@
         #}
         #'V-220847' = @{
         #    MinimumPIN = 6
-        #}InactivityTimeout
+        #}
+        #'V-220903' = @{
+        #    MachineRoots = @(
+        #    )
+        #}
         #'V-220920' = @{
         #    InactivityTimeout = 900
         #}
