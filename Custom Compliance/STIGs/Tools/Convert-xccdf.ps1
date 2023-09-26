@@ -78,8 +78,10 @@ function Generate-CCPolicy() {
                             Title = $settingName + " - " + $rule.title
                             Description = $description
                         }))
-                        Reference = $reference
                     }
+        if ($OrgSettings.output.JSONReference -eq "include") {
+            $setting.Add("Reference", $reference)
+        }
         $rules += $setting
     }
 
@@ -297,6 +299,7 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
             "}`r`n`r`n"
         ) -join "`r`n"
         $EmptyRules++
+        $ruleId
     }
 
     # Output full check/logic test text for each rule
