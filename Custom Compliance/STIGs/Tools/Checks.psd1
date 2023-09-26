@@ -2020,7 +2020,7 @@ try {
 '@
     'V-220956' = @'
 try {
-    if ($SecurityPolicy.'Privilege Rights'.SeTrustedCredManAccessPrivilege -eq "") {
+    if ($SecurityPolicy.'Privilege Rights'.SeTrustedCredManAccessPrivilege -eq $null) {
         $V220956 = $true
     } else {
         $V220956 = $false
@@ -2044,7 +2044,7 @@ try {
 '@
     'V-220958' = @'
 try {
-    if ($SecurityPolicy.'Privilege Rights'.SeTcbPrivilege -eq "") {
+    if ($SecurityPolicy.'Privilege Rights'.SeTcbPrivilege -eq $null) {
         $V220958 = $true
     } else {
         $V220958 = $false
@@ -2108,7 +2108,7 @@ try {
 '@
     'V-220963' = @'
 try {
-    if ($SecurityPolicy.'Privilege Rights'.SeCreateTokenPrivilege -eq "") {
+    if ($SecurityPolicy.'Privilege Rights'.SeCreateTokenPrivilege -eq $null) {
         $V220963 = $false
     } else {
         $V220963 = $true
@@ -2132,7 +2132,7 @@ try {
 '@
     'V-220965' = @'
 try {
-    if ($SecurityPolicy.'Privilege Rights'.SeCreatePermanentPrivilege -eq "") {
+    if ($SecurityPolicy.'Privilege Rights'.SeCreatePermanentPrivilege -eq $null) {
         $V220965 = $true
     } else {
         $V220965 = $false
@@ -2246,7 +2246,7 @@ try {
 '@
     'V-220973' = @'
 try {
-    if ($SecurityPolicy.'Privilege Rights'.SeEnableDelegationPrivilege -eq "") {
+    if ($SecurityPolicy.'Privilege Rights'.SeEnableDelegationPrivilege -eq $null) {
         $V220973 = $true
     } else {
         $V220973 = $false
@@ -2296,7 +2296,7 @@ try {
 '@
     'V-220977' = @'
 try {
-    if ($SecurityPolicy.'Privilege Rights'.SeLockMemoryPrivilege -eq "") {
+    if ($SecurityPolicy.'Privilege Rights'.SeLockMemoryPrivilege -eq $null) {
         $V220977 = $true
     } else {
         $V220977 = $false
