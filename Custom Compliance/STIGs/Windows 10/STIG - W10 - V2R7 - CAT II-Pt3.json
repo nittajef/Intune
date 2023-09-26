@@ -1,0 +1,1208 @@
+{
+    "Rules":  [
+                  {
+                      "SettingName":  "V-220851",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220851 - The Remote Desktop Session Host must require secure RPC communications.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Remote Desktop Services \u003e\u003e Remote Desktop Session Host \u003e\u003e Security \"Require secure RPC communication\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220852",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220852 - Remote Desktop Services must be configured with the client connection encryption set to the required level.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Remote Desktop Services \u003e\u003e Remote Desktop Session Host \u003e\u003e Security \u003e\u003e \"Set client connection encryption level\" to \"Enabled\" and \"High Level\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220853",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220853 - Attachments must be prevented from being downloaded from RSS feeds.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e RSS Feeds \u003e\u003e \"Prevent downloading of enclosures\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220854",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220854 - Basic authentication for RSS feeds over HTTP must not be used.",
+                                                     "Description":  "The default behavior is for the Windows RSS platform to not use Basic authentication over HTTP connections.\n\nIf this needs to be corrected, configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e RSS Feeds \u003e\u003e \"Turn on Basic feed authentication over HTTP\" to \"Not Configured\" or \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220855",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220855 - Indexing of encrypted files must be turned off.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Search \u003e\u003e \"Allow indexing of encrypted files\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220856",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220856 - Users must be prevented from changing installation options.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Installer \u003e\u003e \"Allow user control over installs\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220858",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220858 - Users must be notified if a web-based program attempts to install software.",
+                                                     "Description":  "The default behavior is for Internet Explorer to warn users and select whether to allow or refuse installation when a web-based program attempts to install software on the system.\n\nIf this needs to be corrected, configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Installer \u003e\u003e \"Prevent Internet Explorer security prompt for Windows Installer scripts\" to \"Not Configured\" or \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220859",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220859 - Automatically signing in the last interactive user after a system-initiated restart must be disabled.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Logon Options \u003e\u003e \"Sign-in last interactive user automatically after a system-initiated restart\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220860",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220860 - PowerShell script block logging must be enabled on Windows 10.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows PowerShell \u003e\u003e \"Turn on PowerShell Script Block Logging\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220861",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220861 - The Windows Explorer Preview pane must be disabled for Windows 10. ",
+                                                     "Description":  "Ensure the following settings are configured for Windows 10 locally or applied through group policy. \n\nConfigure the policy value for User Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e File Explorer \u003e\u003e Explorer Frame Pane \"Turn off Preview Pane\" to \"Enabled\".\n\nConfigure the policy value for User Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e File Explorer \u003e\u003e Explorer Frame Pane \"Turn on or off details pane\" to \"Enabled\" and \"Configure details pane\" to \"Always hide\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220863",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220863 - The Windows Remote Management (WinRM) client must not allow unencrypted traffic.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Remote Management (WinRM) \u003e\u003e WinRM Client \u003e\u003e \"Allow unencrypted traffic\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220866",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220866 - The Windows Remote Management (WinRM) service must not allow unencrypted traffic.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Remote Management (WinRM) \u003e\u003e WinRM Service \u003e\u003e \"Allow unencrypted traffic\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220867",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220867 - The Windows Remote Management (WinRM) service must not store RunAs credentials.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Remote Management (WinRM) \u003e\u003e WinRM Service \u003e\u003e \"Disallow WinRM from storing RunAs credentials\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220868",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220868 - The Windows Remote Management (WinRM) client must not use Digest authentication.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Remote Management (WinRM) \u003e\u003e WinRM Client \u003e\u003e \"Disallow Digest authentication\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220869",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220869 - Windows 10 must be configured to prevent Windows apps from being activated by voice while the system is locked.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e App Privacy \u003e\u003e \"Let Windows apps activate with voice while the system is locked\" to \"Enabled\" with “Default for all Apps:” set to “Force Deny”. \n\nThe requirement is NA if the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e App Privacy \u003e\u003e \"Let Windows apps activate with voice\" is configured to \"Enabled\" with “Default for all Apps:” set to “Force Deny”."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220870",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220870 - The convenience PIN for Windows 10 must be disabled.  ",
+                                                     "Description":  "Disable the convenience PIN sign-in. \n\nIf this needs to be corrected configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e System \u003e\u003e Logon \u003e\u003e Set \"Turn on convenience PIN sign-in\" to \"Disabled”.\n"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220871",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220871 - Windows Ink Workspace must be configured to disallow access above the lock.  ",
+                                                     "Description":  "Disable the convenience PIN sign-in. \n\nIf this needs to be corrected, configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Ink Workspace \u003e\u003e Set \"Allow Windows Ink Workspace\" to \"Enabled” and set Options \"On, but disallow access above lock\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220902",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220902 - Windows 10 Kernel (Direct Memory Access) DMA Protection must be enabled.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e System \u003e\u003e Kernel DMA Protection \u003e\u003e \"Enumeration policy for external devices incompatible with Kernel DMA Protection\" to \"Enabled\" with \"Enumeration Policy\" set to \"Block All\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220903",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220903 - The DoD Root CA certificates must be installed in the Trusted Root Store.",
+                                                     "Description":  "Install the DoD Root CA certificates:\nDoD Root CA 3\nDoD Root CA 4\nDoD Root CA 5\n\nThe InstallRoot tool is available on Cyber Exchange at https://cyber.mil/pki-pke/tools-configuration-files. Certificate bundles published by the PKI can be found at https://crl.gds.disa.mil/."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220904",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220904 - The External Root CA certificates must be installed in the Trusted Root Store on unclassified systems.",
+                                                     "Description":  "Install the ECA Root CA certificate on unclassified systems.\nECA Root CA 4\n\nThe InstallRoot tool is available on Cyber Exchange at https://cyber.mil/pki-pke/tools-configuration-files. Certificate bundles published by the PKI can be found at https://crl.gds.disa.mil/."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220905",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220905 - The DoD Interoperability Root CA cross-certificates must be installed in the Untrusted Certificates Store on unclassified systems.",
+                                                     "Description":  "Install the DoD Interoperability Root CA cross-certificates on unclassified systems.\n\nIssued To - Issued By - Thumbprint\n\nDoD Root CA 3 - DoD Interoperability Root CA 2 - 49CBE933151872E17C8EAE7F0ABA97FB610F6477 \n                  \nThe certificates can be installed using the InstallRoot tool. The tool and user guide are available on Cyber Exchange at https://cyber.mil/pki-pke/tools-configuration-files. PKI can be found at https://crl.gds.disa.mil/."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220906",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220906 - The US DoD CCEB Interoperability Root CA cross-certificates must be installed in the Untrusted Certificates Store on unclassified systems.",
+                                                     "Description":  "Install the US DoD CCEB Interoperability Root CA cross-certificate on unclassified systems.\n\nIssued To - Issued By - Thumbprint\nDoD Root CA 3 - US DoD CCEB Interoperability Root CA 2  9B74964506C7ED9138070D08D5F8B969866560C8\n\nThe certificates can be installed using the InstallRoot tool. The tool and user guide are available on Cyber Exchange at https://cyber.mil/pki-pke/tools-configuration-files. PKI can be found at https://crl.gds.disa.mil/."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220907",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220907 - Default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained.",
+                                                     "Description":  "Maintain the default permissions for the HKEY_LOCAL_MACHINE registry hive.\n\nThe default permissions of the higher level keys are noted below.\n\nHKEY_LOCAL_MACHINE\\SECURITY\nType - \"Allow\" for all\nInherited from - \"None\" for all\nPrincipal - Access - Applies to\nSYSTEM - Full Control - This key and subkeys\nAdministrators - Special - This key and subkeys\n\nHKEY_LOCAL_MACHINE\\SOFTWARE\nType - \"Allow\" for all\nInherited from - \"None\" for all\nPrincipal - Access - Applies to\nUsers - Read - This key and subkeys\nAdministrators - Full Control - This key and subkeys\nSYSTEM - Full Control - This key and subkeys\nCREATOR OWNER - Full Control - This key and subkeys\nALL APPLICATION PACKAGES - Read - This key and subkeys\n\nHKEY_LOCAL_MACHINE\\SYSTEM\nType - \"Allow\" for all\nInherited from - \"None\" for all\nPrincipal - Access - Applies to\nUsers - Read - This key and subkeys\nAdministrators - Full Control - This key and subkeys\nSYSTEM - Full Control - This key and subkeys\nCREATOR OWNER - Full Control - This key and subkeys\nALL APPLICATION PACKAGES - Read - This key and subkeys\n\nMicrosoft has also given Read permission to the SOFTWARE and SYSTEM registry keys in later versions of Windows 10 to the following SID.\n\nS-1-15-3-1024-1065365936-1281604716-3511738428-1654721687-432734479-3232135806-4053264122-3456934681"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220908",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220908 - The built-in administrator account must be disabled.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Accounts: Administrator account status\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220909",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220909 - The built-in guest account must be disabled.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Accounts: Guest account status\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220910",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220910 - Local accounts with blank passwords must be restricted to prevent access from the network.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Accounts: Limit local account use of blank passwords to console logon only\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220911",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220911 - The built-in administrator account must be renamed.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Accounts: Rename administrator account\" to a name other than \"Administrator\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220912",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220912 - The built-in guest account must be renamed.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Accounts: Rename guest account\" to a name other than \"Guest\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220913",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220913 - Audit policy using subcategories must be enabled.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Audit: Force audit policy subcategory settings (Windows Vista or later) to override audit policy category settings\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220914",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220914 - Outgoing secure channel traffic must be encrypted or signed.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Domain member: Digitally encrypt or sign secure channel data (always)\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220915",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220915 - Outgoing secure channel traffic must be encrypted when possible.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Domain member: Digitally encrypt secure channel data (when possible)\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220916",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220916 - Outgoing secure channel traffic must be signed when possible.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Domain member: Digitally sign secure channel data (when possible)\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220919",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220919 - The system must be configured to require a strong session key.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Domain member: Require strong (Windows 2000 or Later) session key\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220920",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220920 - The machine inactivity limit must be set to 15 minutes, locking the system with the screensaver.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Interactive logon: Machine inactivity limit\" to \"900\" seconds\" or less, excluding \"0\" which is effectively disabled."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220921",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220921 - The required legal notice must be configured to display before console logon.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Interactive logon: Message text for users attempting to log on\" to the following.\n\nYou are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only.\n\nBy using this IS (which includes any device attached to this IS), you consent to the following conditions:\n\n-The USG routinely intercepts and monitors communications on this IS for purposes including, but not limited to, penetration testing, COMSEC monitoring, network operations and defense, personnel misconduct (PM), law enforcement (LE), and counterintelligence (CI) investigations.\n\n-At any time, the USG may inspect and seize data stored on this IS.\n\n-Communications using, or data stored on, this IS are not private, are subject to routine monitoring, interception, and search, and may be disclosed or used for any USG-authorized purpose.\n\n-This IS includes security measures (e.g., authentication and access controls) to protect USG interests--not for your personal benefit or privacy.\n\n-Notwithstanding the above, using this IS does not constitute consent to PM, LE or CI investigative searching or monitoring of the content of privileged communications, or work product, related to personal representation or services by attorneys, psychotherapists, or clergy, and their assistants.  Such communications and work product are private and confidential.  See User Agreement for details."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220924",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220924 - The Smart Card removal option must be configured to Force Logoff or Lock Workstation.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Interactive logon: Smart card removal behavior\" to  \"Lock Workstation\" or \"Force Logoff\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220925",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220925 - The Windows SMB client must be configured to always perform SMB packet signing.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Microsoft network client: Digitally sign communications (always)\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220926",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220926 - Unencrypted passwords must not be sent to third-party SMB Servers.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Microsoft network client: Send unencrypted password to third-party SMB servers\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220927",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220927 - The Windows SMB server must be configured to always perform SMB packet signing.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Microsoft network server: Digitally sign communications (always)\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220931",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220931 - The system must be configured to prevent anonymous users from having the same rights as the Everyone group.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Network access: Let Everyone permissions apply to anonymous users\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220933",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220933 - Remote calls to the Security Account Manager (SAM) must be restricted to Administrators.",
+                                                     "Description":  "Navigate to the policy Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Network access: Restrict clients allowed to make remote calls to SAM\".\n\nSelect \"Edit Security\" to configure the \"Security descriptor:\".\n\nAdd \"Administrators\" in \"Group or user names:\" if it is not already listed (this is the default).\n\nSelect \"Administrators\" in \"Group or user names:\".\n\nSelect \"Allow\" for \"Remote Access\" in \"Permissions for \"Administrators\".\n\nClick \"OK\".\n\nThe \"Security descriptor:\" must be populated with \"O:BAG:BAD:(A;;RC;;;BA) for the policy to be enforced."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220934",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220934 - NTLM must be prevented from falling back to a Null session.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Network security: Allow LocalSystem NULL session fallback\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220935",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220935 - PKU2U authentication using online identities must be prevented.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Network security: Allow PKU2U authentication requests to this computer to use online identities\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220936",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220936 - Kerberos encryption types must be configured to prevent the use of DES and RC4 encryption suites.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Network security: Configure encryption types allowed for Kerberos\" to \"Enabled\" with only the following selected:\n\nAES128_HMAC_SHA1\nAES256_HMAC_SHA1\nFuture encryption types"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220939",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220939 - The system must be configured to the required LDAP client signing level.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Network security: LDAP client signing requirements\" to \"Negotiate signing\" at a minimum."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220940",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220940 - The system must be configured to meet the minimum session security requirement for NTLM SSP based clients.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Network security: Minimum session security for NTLM SSP based (including secure RPC) clients\" to \"Require NTLMv2 session security\" and \"Require 128-bit encryption\" (all options selected)."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220941",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220941 - The system must be configured to meet the minimum session security requirement for NTLM SSP based servers.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"Network security: Minimum session security for NTLM SSP based (including secure RPC) servers\" to \"Require NTLMv2 session security\" and \"Require 128-bit encryption\" (all options selected)."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220942",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220942 - The system must be configured to use FIPS-compliant algorithms for encryption, hashing, and signing.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"System cryptography: Use FIPS compliant algorithms for encryption, hashing, and signing\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220944",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220944 - User Account Control approval mode for the built-in Administrator must be enabled.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"User Account Control: Admin Approval Mode for the Built-in Administrator account\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220945",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220945 - User Account Control must, at minimum, prompt administrators for consent on the secure desktop.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"User Account Control: Behavior of the elevation prompt for administrators in Admin Approval Mode\" to \"Prompt for consent on the secure desktop\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220946-NoChk",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220946-NoChk - Windows 10 must use multifactor authentication for local and network access to privileged and nonprivileged accounts.",
+                                                     "Description":  "For non-domain joined systems, configuring Windows Hello for sign-on options is suggested based on the organization\u0027s needs and capabilities.\n \n"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220947",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220947 - User Account Control must automatically deny elevation requests for standard users.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"User Account Control: Behavior of the elevation prompt for standard users\" to \"Automatically deny elevation requests\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220948",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220948 - User Account Control must be configured to detect application installations and prompt for elevation.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"User Account Control: Detect application installations and prompt for elevation\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220949",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220949 - User Account Control must only elevate UIAccess applications that are installed in secure locations.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"User Account Control: Only elevate UIAccess applications that are installed in secure locations\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220950",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220950 - User Account Control must run all administrators in Admin Approval Mode, enabling UAC.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"User Account Control: Run all administrators in Admin Approval Mode\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220951",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220951 - User Account Control must virtualize file and registry write failures to per-user locations.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e Security Options \u003e\u003e \"User Account Control: Virtualize file and registry write failures to per-user locations\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220952",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220952 - Passwords for enabled local Administrator accounts must be changed at least every 60 days.",
+                                                     "Description":  "Change the enabled local Administrator account password at least every 60 days. Windows LAPS must be used to change the built-in Administrator account password. Domain-joined systems can configure this to occur more frequently. LAPS will change the password every 30 days by default. \nhttps://techcommunity.microsoft.com/t5/windows-it-pro-blog/by-popular-demand-windows-laps-available-now/ba-p/3788747\nhttps://learn.microsoft.com/en-us/windows-server/identity/laps/laps-overview#windows-laps-supported-platforms-and-azure-ad-laps-preview-status"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220955",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220955 - Zone information must be preserved when saving attachments.",
+                                                     "Description":  "The default behavior is for Windows to mark file attachments with their zone information.\n\nIf this needs to be corrected, configure the policy value for User Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Attachment Manager \u003e\u003e \"Do not preserve zone information in file attachments\" to \"Not Configured\" or \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220956",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220956 - The Access Credential Manager as a trusted caller user right must not be assigned to any groups or accounts.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Access Credential Manager as a trusted caller\" to be defined but containing no entries (blank)."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220957",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220957 - The Access this computer from the network user right must only be assigned to the Administrators and Remote Desktop Users groups.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Access this computer from the network\" to only include the following groups or accounts:\n\nAdministrators   \nRemote Desktop Users"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220959",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220959 - The Allow log on locally user right must only be assigned to the Administrators and Users groups.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Allow log on locally\" to only include the following groups or accounts:\n\nAdministrators\nUsers"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220960",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220960 - The Back up files and directories user right must only be assigned to the Administrators group.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Back up files and directories\" to only include the following groups or accounts:\n\nAdministrators"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220961",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220961 - The Change the system time user right must only be assigned to Administrators and Local Service and NT SERVICE\\autotimesvc.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Change the system time\" to only include the following groups or accounts:\n\nAdministrators\nLOCAL SERVICE\nNT SERVICE\\autotimesvc is added in v1909 cumulative update."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220962",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220962 - The Create a pagefile user right must only be assigned to the Administrators group.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Create a pagefile\" to only include the following groups or accounts:\n\nAdministrators"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220964",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220964 - The Create global objects user right must only be assigned to Administrators, Service, Local Service, and Network Service.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Create global objects\" to only include the following groups or accounts:\n\nAdministrators\nLOCAL SERVICE\nNETWORK SERVICE\nSERVICE"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220965",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220965 - The Create permanent shared objects user right must not be assigned to any groups or accounts.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Create permanent shared objects\" to be defined but containing no entries (blank)."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220966",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220966 - The Create symbolic links user right must only be assigned to the Administrators group.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Create symbolic links\" to only include the following groups or accounts:\n\nAdministrators"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220968",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220968 - The Deny access to this computer from the network user right on workstations must be configured to prevent access from highly privileged domain accounts and local accounts on domain systems and unauthenticated access on all systems.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Deny access to this computer from the network\" to include the following.\n\nDomain Systems Only:\nEnterprise Admins group\nDomain Admins group\nLocal account (see Note below)\n\nAll Systems:\nGuests group\n\nPrivileged Access Workstations (PAWs) dedicated to the management of Active Directory are exempt from denying the Enterprise Admins and Domain Admins groups. (See the Windows Privileged Access Workstation STIG for PAW requirements.)\n\nNote: \"Local account\" is a built-in security group used to assign user rights and permissions to all local accounts."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220969",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220969 - The \"Deny log on as a batch job\" user right on domain-joined workstations must be configured to prevent access from highly privileged domain accounts.",
+                                                     "Description":  "This requirement is applicable to domain-joined systems. For standalone or nondomain-joined systems, this is NA.\n\nConfigure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Deny log on as a batch job\" to include the following:\n\nDomain Systems Only:\nEnterprise Admin Group\nDomain Admin Group"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220970",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220970 - The Deny log on as a service user right on Windows 10 domain-joined workstations must be configured to prevent access from highly privileged domain accounts.",
+                                                     "Description":  "This requirement is applicable to domain-joined systems. For standalone or nondomain-joined systems, this is NA.\n\nConfigure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Deny log on as a service\" to include the following:\n\nDomain Systems Only:\nEnterprise Admins Group\nDomain Admins Group"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220971",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220971 - The Deny log on locally user right on workstations must be configured to prevent access from highly privileged domain accounts on domain systems and unauthenticated access on all systems.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Deny log on locally\" to include the following.\n\nDomain Systems Only:\nEnterprise Admins Group\nDomain Admins Group\n\nPrivileged Access Workstations (PAWs) dedicated to the management of Active Directory are exempt from denying the Enterprise Admins and Domain Admins groups. (See the Windows Privileged Access Workstation STIG for PAW requirements.)\n\nAll Systems:\nGuests Group"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220972",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220972 - The Deny log on through Remote Desktop Services user right on Windows 10 workstations must at a minimum be configured to prevent access from highly privileged domain accounts and local accounts on domain systems and unauthenticated access on all systems.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Deny log on through Remote Desktop Services\" to include the following.\n\nIf Remote Desktop Services is not used by the organization, assign the Everyone group this right to prevent all access.\n\nDomain Systems Only:\nEnterprise Admins group\nDomain Admins group\nLocal account (see Note below)\n\nAll Systems:\nGuests group\n\nPrivileged Access Workstations (PAWs) dedicated to the management of Active Directory are exempt from denying the Enterprise Admins and Domain Admins groups. (See the Windows Privileged Access Workstation STIG for PAW requirements.)\n\nNote: \"Local account\" is a built-in security group used to assign user rights and permissions to all local accounts."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220973",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220973 - The Enable computer and user accounts to be trusted for delegation user right must not be assigned to any groups or accounts.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Enable computer and user accounts to be trusted for delegation\" to be defined but containing no entries (blank)."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220974",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220974 - The Force shutdown from a remote system user right must only be assigned to the Administrators group.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Force shutdown from a remote system\" to only include the following groups or accounts:\n\nAdministrators"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220975",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220975 - The Impersonate a client after authentication user right must only be assigned to Administrators, Service, Local Service, and Network Service.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Impersonate a client after authentication\" to only include the following groups or accounts:\n\nAdministrators\nLOCAL SERVICE\nNETWORK SERVICE\nSERVICE"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220976",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220976 - The Load and unload device drivers user right must only be assigned to the Administrators group.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Load and unload device drivers\" to only include the following groups or accounts:\n\nAdministrators"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220977",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220977 - The Lock pages in memory user right must not be assigned to any groups or accounts.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Lock pages in memory\" to be defined but containing no entries (blank)."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220978",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220978 - The Manage auditing and security log user right must only be assigned to the Administrators group.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Manage auditing and security log\" to only include the following groups or accounts:\n\nAdministrators"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220979",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220979 - The Modify firmware environment values user right must only be assigned to the Administrators group.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Modify firmware environment values\" to only include the following groups or accounts:\n\nAdministrators"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220980",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220980 - The Perform volume maintenance tasks user right must only be assigned to the Administrators group.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Perform volume maintenance tasks\" to only include the following groups or accounts:\n\nAdministrators"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220981",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220981 - The Profile single process user right must only be assigned to the Administrators group.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Profile single process\" to only include the following groups or accounts:\n\nAdministrators"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220982",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220982 - The Restore files and directories user right must only be assigned to the Administrators group.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Restore files and directories\" to only include the following groups or accounts:\n\nAdministrators"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220983",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220983 - The Take ownership of files or other objects user right must only be assigned to the Administrators group.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Local Policies \u003e\u003e User Rights Assignment \u003e\u003e \"Take ownership of files or other objects\" to only include the following groups or accounts:\n\nAdministrators"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-250319",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-250319 - Hardened UNC paths must be defined to require mutual authentication and integrity for at least the \\\\*\\SYSVOL and \\\\*\\NETLOGON shares.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Network \u003e\u003e Network Provider \u003e\u003e \"Hardened UNC Paths\" to \"Enabled\" with at least the following configured in \"Hardened UNC Paths:\" (click the \"Show\" button to display).\n\nValue Name: \\\\*\\SYSVOL\nValue: RequireMutualAuthentication=1, RequireIntegrity=1\n\nValue Name: \\\\*\\NETLOGON\nValue: RequireMutualAuthentication=1, RequireIntegrity=1"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-252896",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-252896 - PowerShell Transcription must be enabled on Windows 10.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows PowerShell \u003e\u003e \"Turn on PowerShell Transcription\" to \"Enabled\".\n\nSpecify the Transcript output directory to point to a Central Log Server or another secure location to prevent user access."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-256894",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-256894 - Internet Explorer must be disabled for Windows 10.",
+                                                     "Description":  "For Windows 10 semi-annual channel, remove or disable the IE11 application. \n\nTo disable IE11 as a standalone browser:\n\nSet the policy value for \"Computer Configuration/Administrative Templates/Windows Components/Internet Explorer/Disable Internet Explorer 11 as a standalone browser\" to \"Enabled\" with the option value set to \"Never\"."
+                                                 }
+                                             ]
+                  }
+              ]
+}

@@ -1,0 +1,914 @@
+{
+    "Rules":  [
+                  {
+                      "SettingName":  "V-220697",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220697 - Domain-joined systems must use Windows 10 Enterprise Edition 64-bit version.",
+                                                     "Description":  "Use Windows 10 Enterprise 64-bit version for domain-joined systems."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220698",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220698 - Windows 10 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use.",
+                                                     "Description":  "For standalone or nondomain-joined systems, this is NA.\n\nVirtualization-based security, including Credential Guard, currently cannot be implemented in VDI due to specific supporting requirements including a TPM, UEFI with Secure Boot, and the capability to run the Hyper-V feature within the virtual desktop.\n\nFor VDIs where the virtual desktop instance is deleted or refreshed upon logoff, this is NA.\n\nEnsure domain-joined systems have a Trusted Platform Module (TPM) that is configured for use. (Versions 2.0 or 1.2 support Credential Guard.)\n\nThe TPM must be enabled in the firmware.\n\nRun \"tpm.msc\" for configuration options in Windows."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220699",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220699 - Windows 10 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS.",
+                                                     "Description":  "Configure UEFI firmware to run in UEFI mode, not Legacy BIOS mode."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220701-NoChk",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220701-NoChk - Windows 10 must employ automated mechanisms to determine the state of system components with regard to flaw remediation using the following frequency: continuously, where ESS is used; 30 days, for any additional internal network scans not covered by ESS; and annually, for external scans by Computer Network Defense Service Provider (CNDSP).",
+                                                     "Description":  "Install DoD-approved ESS software and ensure it is operating continuously."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220702",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220702 - Windows 10 information systems must use BitLocker to encrypt all disks to protect the confidentiality and integrity of all information at rest.",
+                                                     "Description":  "Enable full disk encryption on all information systems (including SIPRNet) using BitLocker.\n\nBitLocker, included in Windows, can be enabled in the Control Panel under \"BitLocker Drive Encryption\" as well as other management tools.\n\nNOTE: An alternate encryption application may be used in lieu of BitLocker providing it is configured for full disk encryption and satisfies the pre-boot authentication requirements (WN10-00-000031 and WN10-00-000032)."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220703",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220703 - Windows 10 systems must use a BitLocker PIN for pre-boot authentication.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e BitLocker Drive Encryption \u003e\u003e Operating System Drives \"Require additional authentication at startup\" to \"Enabled\" with \"Configure TPM Startup PIN:\" set to \"Require startup PIN with TPM\" or with \"Configure TPM startup key and PIN:\" set to \"Require startup key and PIN with TPM\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220704",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220704 - Windows 10 systems must use a BitLocker PIN with a minimum length of six digits for pre-boot authentication.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e BitLocker Drive Encryption \u003e\u003e Operating System Drives \"Configure minimum PIN length for startup\" to \"Enabled\" with \"Minimum characters:\" set to \"6\" or greater."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220705-NoChk",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220705-NoChk - The operating system must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs.",
+                                                     "Description":  "Configure an application allowlisting program to employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs.\n\nConfiguration of allowlisting applications will vary by the program. AppLocker is an allowlisting application built into Windows 10 Enterprise.\n\nIf AppLocker is used, it is configured through group policy in Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Application Control Policies \u003e\u003e AppLocker.\n\nImplementation guidance for AppLocker is available at the following link:\n\nhttps://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/applocker-policies-deployment-guide"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220709",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220709 - Alternate operating systems must not be permitted on the same system.",
+                                                     "Description":  "Ensure Windows 10 is the only operating system on a device.  Remove alternate operating systems."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220710-NoChk",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220710-NoChk - Non system-created file shares on a system must limit access to groups that require it.",
+                                                     "Description":  "If a non system-created share is required on a system, configure the share and NTFS permissions to limit access to the specific groups or accounts that require it.\n\nRemove any unnecessary non-system created shares."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220713",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220713 - Only accounts responsible for the backup operations must be members of the Backup Operators group.",
+                                                     "Description":  "Create separate accounts for backup operations for users with this privilege."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220714",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220714 - Only authorized user accounts must be allowed to create or run virtual machines on Windows 10 systems.",
+                                                     "Description":  "For Hyper-V, remove any unauthorized groups or user accounts from the \"Hyper-V Administrators\" group.\n\nFor hosted hypervisors other than Hyper-V, restrict access to create or run virtual machines to authorized user accounts only."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220716",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220716 - Accounts must be configured to require password expiration.",
+                                                     "Description":  "Configure all passwords to expire.\nRun \"Computer Management\".\nNavigate to System Tools \u003e\u003e Local Users and Groups \u003e\u003e Users.\nDouble click each active account.\nEnsure \"Password never expires\" is not checked on all active accounts."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220717",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220717 - Permissions for system files and directories must conform to minimum requirements.",
+                                                     "Description":  "Maintain the default file system permissions and configure the Security Option: \"Network access: Let everyone permissions apply to anonymous users\" to \"Disabled\" (WN10-SO-000160)."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220719",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220719 - Simple Network Management Protocol (SNMP) must not be installed on the system.",
+                                                     "Description":  "Uninstall \"Simple Network Management Protocol (SNMP)\" from the system.\n\nRun \"Programs and Features\".\nSelect \"Turn Windows Features on or off\".\nDe-select \"Simple Network Management Protocol (SNMP)\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220720",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220720 - Simple TCP/IP Services must not be installed on the system.",
+                                                     "Description":  "Uninstall \"Simple TCPIP Services (i.e. echo, daytime etc)\" from the system.\n\nRun \"Programs and Features\".\nSelect \"Turn Windows Features on or off\".\nDe-select \"Simple TCPIP Services (i.e. echo, daytime etc)\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220721",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220721 - The Telnet Client must not be installed on the system.",
+                                                     "Description":  "Uninstall \"Telnet Client\" from the system.\n\nRun \"Programs and Features\".\nSelect \"Turn Windows Features on or off\".\n\nDe-select \"Telnet Client\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220722",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220722 - The TFTP Client must not be installed on the system.",
+                                                     "Description":  "Uninstall \"TFTP Client\" from the system.\n\nRun \"Programs and Features\".\nSelect \"Turn Windows Features on or off\".\n\nDe-select \"TFTP Client\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220723",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220723 - Software certificate installation files must be removed from Windows 10.",
+                                                     "Description":  "Remove any certificate installation files (*.p12 and *.pfx) found on a system.\n\nNote: This does not apply to server-based applications that have a requirement for .p12 certificate files (e.g., Oracle Wallet Manager) or Adobe PreFlight certificate files."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220724",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220724 - A host-based firewall must be installed and enabled on the system.",
+                                                     "Description":  "Install and enable a host-based firewall on the system."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220725-NoChk",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220725-NoChk - Inbound exceptions to the firewall on Windows 10 domain workstations must only allow authorized remote management hosts.",
+                                                     "Description":  "Configure firewall exceptions to inbound connections on domain workstations to include only authorized remote management hosts.\n\nConfigure only inbound connection exceptions for authorized remote management hosts.\nComputer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Windows Defender Firewall with Advanced Security \u003e\u003e Windows Defender Firewall with Advanced Security \u003e\u003e Inbound Rules (this link will be in the right pane)\n\nFor any inbound rules that allow connections, configure the Scope for Remote IP address to those of authorized remote management hosts. This may be defined as an IP address, subnet or range. Apply the rule to all firewall profiles.\n\nIf a third-party firewall is used, configure inbound exceptions to only include authorized remote management hosts."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220728",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220728 - The Windows PowerShell 2.0 feature must be disabled on the system.",
+                                                     "Description":  "Disable \"Windows PowerShell 2.0\" on the system.\n\nRun \"Windows PowerShell\" with elevated privileges (run as administrator).\nEnter the following:\nDisable-WindowsOptionalFeature -Online -FeatureName MicrosoftWindowsPowerShellV2Root\n\nThis command should disable both \"MicrosoftWindowsPowerShellV2Root\" and \"MicrosoftWindowsPowerShellV2\" which correspond to \"Windows PowerShell 2.0\" and \"Windows PowerShell 2.0 Engine\" respectively in \"Turn Windows features on or off\".\n\nAlternately:\nSearch for \"Features\".\nSelect \"Turn Windows features on or off\".\nDe-select \"Windows PowerShell 2.0\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220729",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220729 - The Server Message Block (SMB) v1 protocol must be disabled on the system.",
+                                                     "Description":  "Disable the SMBv1 protocol.\n\nRun \"Windows PowerShell\" with elevated privileges (run as administrator).\n\nEnter the following:\nDisable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol\n\nAlternately:\nSearch for \"Features\".\n\nSelect \"Turn Windows features on or off\".\n\nDe-select \"SMB 1.0/CIFS File Sharing Support\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220730",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220730 - The Server Message Block (SMB) v1 protocol must be disabled on the SMB server.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e MS Security Guide \u003e\u003e \"Configure SMBv1 Server\" to \"Disabled\".\n\nThis policy setting requires the installation of the SecGuide custom templates included with the STIG package. \"SecGuide.admx\" and \"SecGuide.adml\" must be copied to the \\Windows\\PolicyDefinitions and \\Windows\\PolicyDefinitions\\en-US directories respectively.   \n\nThe system must be restarted for the change to take effect."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220731",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220731 - The Server Message Block (SMB) v1 protocol must be disabled on the SMB client.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e MS Security Guide \u003e\u003e \"Configure SMBv1 client driver\" to \"Enabled\" with \"Disable driver (recommended)\" selected for \"Configure MrxSmb10 driver\".\n\nThis policy setting requires the installation of the SecGuide custom templates included with the STIG package. \"SecGuide.admx\" and \"SecGuide.adml\" must be copied to the \\Windows\\PolicyDefinitions and \\Windows\\PolicyDefinitions\\en-US directories respectively.   \n\nThe system must be restarted for the changes to take effect. "
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220732",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220732 - The Secondary Logon service must be disabled on Windows 10.",
+                                                     "Description":  "Configure the \"Secondary Logon\" service \"Startup Type\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220733-NoChk",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220733-NoChk - Orphaned security identifiers (SIDs) must be removed from user rights on Windows 10.",
+                                                     "Description":  "Remove any unresolved SIDs found in User Rights assignments and determined to not be for currently valid accounts or groups by removing the accounts or groups from the appropriate group policy."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220734-NoChk",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220734-NoChk - Bluetooth must be turned off unless approved by the organization.",
+                                                     "Description":  "Turn off Bluetooth radios not organizationally approved. Establish an organizational policy for the use of Bluetooth."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220735-NoChk",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220735-NoChk - Bluetooth must be turned off when not in use.",
+                                                     "Description":  "Turn off Bluetooth radios when not in use. Establish an organizational policy for the use of Bluetooth to include training of personnel."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220736-NoChk",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220736-NoChk - The system must notify the user when a Bluetooth device attempts to connect.",
+                                                     "Description":  "Configure Bluetooth to notify users if devices attempt to connect.\nView Bluetooth Settings.\nEnsure \"Alert me when a new Bluetooth device wants to connect\" is checked."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220738-NoChk",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220738-NoChk - Windows 10 nonpersistent VM sessions must not exceed 24 hours. ",
+                                                     "Description":  "Set nonpersistent VM sessions to not exceed 24 hours."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220739",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220739 - Windows 10 account lockout duration must be configured to 15 minutes or greater.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Account Policies \u003e\u003e Account Lockout Policy \u003e\u003e \"Account lockout duration\" to \"15\" minutes or greater.\n\nA value of \"0\" is also acceptable, requiring an administrator to unlock the account."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220740",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220740 - The number of allowed bad logon attempts must be configured to 3 or less.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Account Policies \u003e\u003e Account Lockout Policy \u003e\u003e \"Account lockout threshold\" to \"3\" or less invalid logon attempts (excluding \"0\" which is unacceptable)."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220741",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220741 - The period of time before the bad logon counter is reset must be configured to 15 minutes.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Account Policies \u003e\u003e Account Lockout Policy \u003e\u003e \"Reset account lockout counter after\" to \"15\" minutes."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220742",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220742 - The password history must be configured to 24 passwords remembered.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Account Policies \u003e\u003e Password Policy \u003e\u003e \"Enforce password history\" to \"24\" passwords remembered."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220743",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220743 - The maximum password age must be configured to 60 days or less.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Account Policies \u003e\u003e Password Policy \u003e\u003e \"Maximum Password Age\" to \"60\" days or less (excluding \"0\" which is unacceptable)."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220744",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220744 - The minimum password age must be configured to at least 1 day.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Account Policies \u003e\u003e Password Policy \u003e\u003e \"Minimum Password Age\" to at least \"1\" day."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220745",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220745 - Passwords must, at a minimum, be 14 characters.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Account Policies \u003e\u003e Password Policy \u003e\u003e \"Minimum password length\" to \"14\" characters."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220746",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220746 - The built-in Microsoft password complexity filter must be enabled.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Account Policies \u003e\u003e Password Policy \u003e\u003e \"Password must meet complexity requirements\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220748",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220748 - The system must be configured to audit Account Logon - Credential Validation failures.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Account Logon \u003e\u003e \"Audit Credential Validation\" with \"Failure\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220749",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220749 - The system must be configured to audit Account Logon - Credential Validation successes.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Account Logon \u003e\u003e \"Audit Credential Validation\" with \"Success\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220750",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220750 - The system must be configured to audit Account Management - Security Group Management successes.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Account Management \u003e\u003e \"Audit Security Group Management\" with \"Success\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220751",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220751 - The system must be configured to audit Account Management - User Account Management failures.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Account Management \u003e\u003e \"Audit User Account Management\" with \"Failure\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220752",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220752 - The system must be configured to audit Account Management - User Account Management successes.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Account Management \u003e\u003e \"Audit User Account Management\" with \"Success\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220753",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220753 - The system must be configured to audit Detailed Tracking - PNP Activity successes.",
+                                                     "Description":  "Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Detailed Tracking \u003e\u003e \"Audit PNP Activity\" with \"Success\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220754",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220754 - The system must be configured to audit Detailed Tracking - Process Creation successes.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Detailed Tracking \u003e\u003e \"Audit Process Creation\" with \"Success\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220755",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220755 - The system must be configured to audit Logon/Logoff - Account Lockout failures.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Logon/Logoff \u003e\u003e \"Audit Account Lockout\" with \"Failure\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220756",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220756 - The system must be configured to audit Logon/Logoff - Group Membership successes.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Logon/Logoff \u003e\u003e \"Audit Group Membership\" with \"Success\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220757",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220757 - The system must be configured to audit Logon/Logoff - Logoff successes.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Logon/Logoff \u003e\u003e \"Audit Logoff\" with \"Success\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220758",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220758 - The system must be configured to audit Logon/Logoff - Logon failures.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Logon/Logoff \u003e\u003e \"Audit Logon\" with \"Failure\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220759",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220759 - The system must be configured to audit Logon/Logoff - Logon successes.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Logon/Logoff \u003e\u003e \"Audit Logon\" with \"Success\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220760",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220760 - The system must be configured to audit Logon/Logoff - Special Logon successes.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Logon/Logoff \u003e\u003e \"Audit Special Logon\" with \"Success\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220761",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220761 - Windows 10 must be configured to audit Object Access - File Share failures.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Object Access \u003e\u003e \"Audit File Share\" with \"Failure\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220762",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220762 - Windows 10 must be configured to audit Object Access - File Share successes.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Object Access \u003e\u003e \"Audit File Share\" with \"Success\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220763",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220763 - Windows 10 must be configured to audit Object Access - Other Object Access Events successes.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Object Access \u003e\u003e \"Audit Other Object Access Events\" with \"Success\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220764",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220764 - Windows 10 must be configured to audit Object Access - Other Object Access Events failures.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Object Access \u003e\u003e \"Audit Other Object Access Events\" with \"Failure\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220765",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220765 - The system must be configured to audit Object Access - Removable Storage failures.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Object Access \u003e\u003e \"Audit Removable Storage\" with \"Failure\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220766",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220766 - The system must be configured to audit Object Access - Removable Storage successes.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Object Access \u003e\u003e \"Audit Removable Storage\" with \"Success\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220767",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220767 - The system must be configured to audit Policy Change - Audit Policy Change successes.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Policy Change \u003e\u003e \"Audit Audit Policy Change\" with \"Success\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220768",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220768 - The system must be configured to audit Policy Change - Authentication Policy Change successes.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Policy Change \u003e\u003e \"Audit Authentication Policy Change\" with \"Success\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220769",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220769 - The system must be configured to audit Policy Change - Authorization Policy Change successes.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Policy Change \u003e\u003e \"Audit Authorization Policy Change\" with \"Success\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220770",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220770 - The system must be configured to audit Privilege Use - Sensitive Privilege Use failures.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Privilege Use \u003e\u003e \"Audit Sensitive Privilege Use\" with \"Failure\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220771",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220771 - The system must be configured to audit Privilege Use - Sensitive Privilege Use successes.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e Privilege Use \u003e\u003e \"Audit Sensitive Privilege Use\" with \"Success\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220772",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220772 - The system must be configured to audit System - IPSec Driver failures.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e System \u003e\u003e \"Audit IPSec Driver\" with \"Failure\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220773",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://contoso.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220773 - The system must be configured to audit System - Other System Events successes.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Windows Settings \u003e\u003e Security Settings \u003e\u003e Advanced Audit Policy Configuration \u003e\u003e System Audit Policies \u003e\u003e System \u003e\u003e \"Audit Other System Events\" with \"Success\" selected."
+                                                 }
+                                             ]
+                  }
+              ]
+}
