@@ -1,4 +1,4 @@
-$OrgSettings = Import-PowerShellDataFile "Org-Settings-W10.psd1"
+﻿$OrgSettings = Import-PowerShellDataFile "Org-Settings-W10.psd1"
 $RuleChecks = Import-PowerShellDataFile $OrgSettings.input.Checks
 [xml]$stig = Get-Content -Path $OrgSettings.input.STIG -Encoding UTF8
 
@@ -12,6 +12,7 @@ $header = @(
     "#"
     "# PowerShell script and accompanying JSON file for Intune Custom Compliance"
     "# were generated with: https://github.com/nittajef/Intune/"
+    "# Files created: " + (Get-Date).ToString()
     "##`r`n`r`n"
 )
 
@@ -144,7 +145,7 @@ if ($OrgSettings.severity.CAT3) {
     $SharedInfo += $RuleChecks.CAT3
 }
 if ($SharedInfo) {
-    $checks += "#`r`n# Gather data used across multiple rule checks`r`n#`r`n"
+    $checks += "#`r`n# Gather/set data used across multiple rule checks`r`n#`r`n"
     foreach ($data in $SharedInfo) {
         $checks += $RuleChecks.$data + "`r`n"
     }
@@ -293,7 +294,7 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
         $check_template = @(
             "try {"
             "    "
-            "    #$" + $ruleVarName + ' = $true'
+            "    $" + $ruleVarName + ' = $true'
             "} catch {"
             "    $" + $ruleVarName + ' = $false'
             "}`r`n`r`n"
