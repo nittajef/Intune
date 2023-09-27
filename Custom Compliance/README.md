@@ -72,6 +72,8 @@ Per setting view from the policy configuration:
 2023-09-26
 
 - Fixed CAT III checks V-220977, V-220973, V-220965, V-220956, and CAT I check V-220958, which were checking for empty set of privilege assignment by empty string "", but needed to check against $null value.
+- Fixed CAT II check V-220749, wrong value was being set when registry key didn't exist
+- Modified unfinished CAT II checks V-220709 and V-220724 to return $true for now so they don't return $null and error out the PS script in Intune
 
 2023-09-25
 
