@@ -1,10 +1,12 @@
 # Intune Custom Compliance (WIP)
 
-Custom Compliance PowerShell & JSON files for Windows STIGs are located in the STIGs subfolders.
+Custom Compliance PowerShell & JSON files for Windows STIGs are located in the [STIGs subfolders](https://github.com/nittajef/Intune/tree/main/Custom%20Compliance/STIGs).
 
-The Tools folder contains PowerShell scripts to help generate Intune compatible files for Custom Compliance via the STIG xccdf files.
+*All generated policy files are a work in progress and are not guaranteed to definitively confirm that a system is compliant with a particular STIG.*
 
-<h4>All generated policy files are a work in progress and are not guaranteed to definitively confirm that a system is compliant with a particular STIG.</h4> That being said, the checks for CAT I and CAT III are complete. Improvements/bug reports for any of the checks are welcome. There are 2 uncompleted CAT II checks, V-220709, and V-220724.
+The [Tools](https://github.com/nittajef/Intune/tree/main/Custom%20Compliance/STIGs/Tools) folder contains PowerShell scripts to help generate Intune compatible files for Custom Compliance via the STIG xccdf files.
+
+Checks for CAT I and CAT III are complete. There are 2 CAT II checks, V-220709, and V-220724 left to complete, or switch to a non-checked rule.
 
 <h1>Generator files</h1>
 
@@ -14,15 +16,18 @@ The Tools folder contains PowerShell scripts to help generate Intune compatible 
 
 <h4>Checks.psd1</h4> Where all of the custom PowerShell code to do the checks is stored. Most simple registry based checks are generated automatically, but any others need to be completed and stored in the Checks.psd1 file manually.
 
+<h4>W10-W11-rule-map.csv</h4> Needed to generate Custom Compliance files for Windows 11, re-using the check logic from the Windows 10 rules. Comparing the two latest STIG releases for W10 and W11, W11 has 2 new rules (1 addtional audit rule, and an w32tm rule), and has dropped 6 rules (Edge and Explorer preview pane rules) from the W10 set.
+
 <h1>Output files</h1>
 
-<h2>Pre-generated policy files</h2>
-Policy files as close to the STIG standard for Windows 10 can be found here: https://github.com/nittajef/Intune/tree/main/Custom%20Compliance/STIGs/Windows%2010
+<h2>Ready to use policy files</h2>
+Policy files as close to the STIG standard for Windows 10 can be found here: [Windows 10](https://github.com/nittajef/Intune/tree/main/Custom%20Compliance/STIGs/Windows%2010)
+[Windows 11](https://github.com/nittajef/Intune/tree/main/Custom%20Compliance/STIGs/Windows%2011)
 <br>
-They are generated with the settings set in the Org-Settings-W10.psd1 file in the same directory. Rule sets are separated by CAT severity, and the CAT II severity is broken up further because there is a limit of 100 rules per Custom Compliance Policy. 
+They are generated with the settings set in the Org-Settings-W10.psd1 file in the same directory. Rule sets are separated by CAT severity, and the CAT II severity is broken up further because there is a current limit of 100 rules per Custom Compliance Policy. 
 
 
-<h2>Policy file components</h2>
+<h2>How to create your Custom Compliance Policy / Policy file components</h2>
 <h3>PowerShell discovery script</h3>
 https://learn.microsoft.com/en-us/mem/intune/protect/compliance-custom-script
 <br><br>
@@ -42,13 +47,13 @@ This file is uploaded in the Compliance policy (after uploading your script):
 <br>
 <img width="320" alt="image" src="https://github.com/nittajef/Intune/assets/77274708/cb3ef613-42b5-4ba4-bc03-b2392afa0d5d">
 <br>
-The JSON is created using only boolean checks for now, for consistency, since each Intune policy setting can only compare one return value per rule. There is a loss in being able to see the raw values returned to Intune this way, and maybe STIG rules will be broken in to multiple sub-settings in the future (V-252903A, V-252903B, etc).
+The JSON is created using only boolean checks for now, for consistency, since each Intune policy setting can only compare the return value to one "correct" value. There is a loss in being able to see the raw values returned to Intune because of this, and maybe STIG rules will be broken in to multiple sub-settings in the future (V-252903A, V-252903B, etc).
 <br><br>
-Here are some limits I've come across that are of interest and may or may not be documented:
+As of 2023-09-29 I believe these are the actual limits for Custom Compliance JSON, which don't match what MS docs say:
 
 - Script size of 1MB (documented, doesn't seem to be true)
-- Rule limit of 100 (undocumented?)
-- Script character limit of 102400 (undocumented?)
+- Rule limit of 100 
+- Script character limit of 102400/size limit of 100KB
 
 
 <h2>Intune Policy</h2>
