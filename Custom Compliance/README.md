@@ -75,6 +75,10 @@ Per setting view from the policy configuration:
 
 <h2>Change Log</h2>
 
+2023-09-29
+
+- Fixed CAT I rule V-220963, which had $true/$false values switched
+
 2023-09-28
 
 - Added rule mapping for Windows 10 to Windows 11 ID names
