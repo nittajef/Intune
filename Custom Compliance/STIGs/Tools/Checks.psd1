@@ -2110,9 +2110,9 @@ try {
     'V-220963' = @'
 try {
     if ($SecurityPolicy.'Privilege Rights'.SeCreateTokenPrivilege -eq $null) {
-        $V220963 = $false
-    } else {
         $V220963 = $true
+    } else {
+        $V220963 = $false
     }
 } catch {
     $V220963 = $false
