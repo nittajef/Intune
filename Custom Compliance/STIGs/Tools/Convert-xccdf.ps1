@@ -1,9 +1,11 @@
-﻿$OrgSettings = Import-PowerShellDataFile "Org-Settings-W10.psd1"
+$OrgSettings = Import-PowerShellDataFile "Org-Settings.psd1"
 $RuleChecks = Import-PowerShellDataFile $OrgSettings.input.Checks
 [xml]$stig = Get-Content -Path $OrgSettings.input.STIG -Encoding UTF8
+$map = Import-Csv W10-W11-rule-map.csv
 
 $checks = @()
 $results = [ordered]@{}
+$W10,$W11 = $false
 
 $header = @(
     "##"
@@ -18,6 +20,16 @@ $header = @(
 
 $checks += $header
 
+# Look at xccdf filename to determine target Windows version (10/11)
+switch -regex ($OrgSettings.input.STIG) {
+    ".+Windows_10.+" {
+        $W10 = $true
+    }
+    ".+Windows_11.+" {
+        $W11 = $true
+    }
+}
+
 function Generate-CCPolicy() {
     $rules = @()
 
@@ -31,16 +43,21 @@ function Generate-CCPolicy() {
         }
 
         $settingName = $rule.id.Substring(1,8)
+        if ($W11) {
+            $mapSettingName = $map.GetEnumerator() | Where-Object { $_.'W11-V1-R4' -eq $settingName } | Select-Object -ExpandProperty 'W10-V2-R7'
+        } else {
+            $mapSettingName = ""
+        }
 
-        if ($OrgSettings.nocode -contains $settingName) {
+        if ($OrgSettings.nocode -contains $settingName -or $OrgSettings.nocode -contains $mapSettingName) {
             if ($OrgSettings.output.JSONNoCheckRules -eq "exclude") {
                 continue
             } else {
                 $settingName = $settingName + "-NoChk"
             }
-        } elseif ($OrgSettings.exemptions -contains $settingName) {
+        } elseif ($OrgSettings.exemptions -contains $settingName -or $OrgSettings.exemptions -contains $mapSettingName) {
             $settingName = $settingName + "-EXM"
-        } elseif ($OrgSettings.overrides.ContainsKey($settingName)) {
+        } elseif ($OrgSettings.overrides.ContainsKey($settingName) -or $OrgSettings.overrides.ContainsKey($mapSettingName)) {
             $settingName = $settingName + "-OvR"
         }
 
@@ -136,7 +153,7 @@ if ($OrgSettings.severity.CAT2) {
 }
 if ($OrgSettings.severity.CAT3) {
     if (!$AccountInfo) {
-            foreach ($list in $OrgSettings.accounts.Keys) {
+        foreach ($list in $OrgSettings.accounts.Keys) {
             if ($OrgSettings.accounts[$list].Length -gt 0) {
                 $AccountInfo += "$" + $list + " = @(`"" + ($OrgSettings.accounts[$list] -join '", "') + "`")`r`n"
             }
@@ -173,8 +190,11 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
 
     $ruleId = $rule.id.Substring(1,8)
     $ruleVarName = $ruleId -replace "-"
+    if ($W11) {
+        $mapRuleId = $map.GetEnumerator() | Where-Object { $_.'W11-V1-R4' -eq $ruleId } | Select-Object -ExpandProperty 'W10-V2-R7'
+    }
 
-    if ($OrgSettings.nocode -contains $ruleId) {
+    if ($OrgSettings.nocode -contains $ruleId -or $OrgSettings.nocode -contains $mapRuleId) {
         if ($OrgSettings.output.JSONNoCheckRules -eq "exclude") {
             continue
         }
@@ -238,18 +258,22 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
     # 5. Rule has generated registry checks
     # 6. Empty rule template created
     #
-    if ($OrgSettings.exemptions -contains $ruleId) {
+    if ($OrgSettings.exemptions -contains $ruleId -or $OrgSettings.exemptions -contains $mapRuleId) {
         $ruleId = $ruleId + "-EXM"
         $check_template = @(
             "$" + $ruleVarName + ' = $true'
         ) -join "`r`n"
-    } elseif ($OrgSettings.nocode -contains $ruleId) {
+    } elseif ($OrgSettings.nocode -contains $ruleId -or $OrgSettings.nocode -contains $mapRuleId) {
         $ruleId = $ruleId + "-NoChk"
         $check_template = @(
             "$" + $ruleVarName + ' = $true'
         ) -join "`r`n"
-    } elseif ($OrgSettings.overrides.ContainsKey($ruleId)) {
-        $override = $OrgSettings.overrides.$ruleId
+    } elseif ($OrgSettings.overrides.ContainsKey($ruleId) -or $OrgSettings.overrides.ContainsKey($mapRuleId)) {
+        if ($mapRuleId) {
+            $override = $OrgSettings.overrides.$mapRuleId
+        } else {
+            $override = $OrgSettings.overrides.$ruleId
+        }
         foreach ($setting in $override.Keys) {
             if ($override.$setting -is [array]) {
                 $value = "@("
@@ -267,8 +291,12 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
         }
         $check_template += $RuleChecks.$ruleId
         $ruleId = $ruleId + "-OvR"
-    } elseif ($RuleChecks.$ruleId) {
-        $check_template = $RuleChecks.$ruleId
+    } elseif ($RuleChecks.$ruleId -or $RuleChecks.$mapRuleId) {
+        if ($mapRuleId -and $mapRuleId -ne "-") {
+            $check_template = $RuleChecks.$mapRuleId -replace $mapRuleId.Substring(2,6), $ruleId.Substring(2,6)
+        } else {
+            $check_template = $RuleChecks.$ruleId
+        }
     } elseif ($registryChecks) {
         # Template for the PowerShell registry check for the rule
         $psRegChecks = "    if ("
