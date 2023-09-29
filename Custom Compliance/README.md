@@ -73,7 +73,7 @@ Per setting view from the policy configuration:
 2023-09-28
 
 - Added rule mapping for Windows 10 to Windows 11 ID names
-- First pass at generating rules for Windows 11, CAT I and CAT III are posted
+- First pass at generating rules for [Windows 11](https://github.com/nittajef/Intune/tree/main/Custom%20Compliance/STIGs/Windows%2011), CAT I and CAT III are posted
 
 2023-09-26
 
