@@ -51,6 +51,7 @@ $v1809 = "17763"
 $v21H2 = "19044"
 $LTSB = @($v1507, $v1607, $v1809, $v21H2)
 '@
+
     'SecurityPolicy' = @'
 # Create hash of local security policies (exported in .ini format)
 # Ref: Ingest .ini file: https://devblogs.microsoft.com/scripting/use-powershell-to-work-with-any-ini-file/
@@ -2393,6 +2394,29 @@ try {
     }
 } catch {
     $V252903 = $false
+}
+'@
+    'V-253296' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\Currentcontrolset\Services\W32time\Parameters" -Name Type -ErrorAction Stop) -eq "NT5DS") {
+        $V253296 = $true
+    } else {
+        $V253296 = $false
+    }
+} catch {
+    $V253296 = $false
+}
+'@
+    'V-253343' = @'
+try {
+    if ((Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" -Name SCENoApplyLegacyAuditPolicy -ErrorAction Stop) -eq 1 -and
+        $AuditPolicy.'Other Policy Change Events' -match "Success") {
+        $V253343 = $true
+    } else {
+        $V253343 = $false
+    }
+} catch {
+    $V253343 = $false
 }
 '@
     'V-256894' = @'
