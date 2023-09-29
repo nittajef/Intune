@@ -4,9 +4,9 @@ Custom Compliance PowerShell & JSON files for Windows STIGs are located in the [
 
 *All generated policy files are a work in progress and are not guaranteed to definitively confirm that a system is compliant with a particular STIG. There are addtional checks that need to be manually verified (denoted in the Custom Compliance policy with "-NoChk" appended to the rule name).*
 
-The [Tools](https://github.com/nittajef/Intune/tree/main/Custom%20Compliance/STIGs/Tools) folder contains PowerShell scripts to help generate Intune compatible files for Custom Compliance via the STIG xccdf files.
-
 Checks for CAT I and CAT III are complete. There are 2 CAT II checks, V-220709, and V-220724 left to complete, or switch to a non-checked rule.
+
+The [Tools](https://github.com/nittajef/Intune/tree/main/Custom%20Compliance/STIGs/Tools) folder contains PowerShell scripts to help generate Intune compatible files for Custom Compliance via the STIG xccdf files.
 
 <h1>Generator files</h1>
 
