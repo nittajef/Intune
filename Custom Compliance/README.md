@@ -69,6 +69,11 @@ Per setting view from the policy configuration:
 
 
 <h2>Change Log</h2>
+2023-09-28
+
+- Added rule mapping for Windows 10 to Windows 11 ID names
+- First pass at generating rules for Windows 11, CAT I and CAT III are posted
+
 2023-09-26
 
 - Fixed CAT III checks V-220977, V-220973, V-220965, V-220956, and CAT I check V-220958, which were checking for empty set of privilege assignment by empty string "", but needed to check against $null value.
