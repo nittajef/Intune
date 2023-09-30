@@ -135,35 +135,28 @@ function Format-Text ($input_txt) {
 # Add any shared info needed by multiple rule checks
 $SharedInfo = @()
 $AccountInfo = @()
-if ($OrgSettings.severity.CAT1) {
-    foreach ($list in $OrgSettings.accounts.Keys) {
-        if ($OrgSettings.accounts[$list].Length -gt 0) {
-            $AccountInfo += "$" + $list + " = @(`"" + ($OrgSettings.accounts[$list] -join '", "') + "`")`r`n"
-        }
+
+foreach ($list in $OrgSettings.accounts.Keys) {
+    if ($OrgSettings.accounts[$list].Length -gt 0) {
+        $AccountInfo += "$" + $list + " = @(`"" + ($OrgSettings.accounts[$list] -join '", "') + "`")`r`n"
     }
+}
+
+if ($OrgSettings.severity.CAT1) {
     $SharedInfo += $RuleChecks.CAT1
 }
 if ($OrgSettings.severity.CAT2) {
-    foreach ($list in $OrgSettings.accounts.Keys) {
-        if ($OrgSettings.accounts[$list].Length -gt 0) {
-            $AccountInfo += "$" + $list + " = @(`"" + ($OrgSettings.accounts[$list] -join '", "') + "`")`r`n"
-        }
-    }
     $SharedInfo += $RuleChecks.CAT2
 }
 if ($OrgSettings.severity.CAT3) {
-    if (!$AccountInfo) {
-        foreach ($list in $OrgSettings.accounts.Keys) {
-            if ($OrgSettings.accounts[$list].Length -gt 0) {
-                $AccountInfo += "$" + $list + " = @(`"" + ($OrgSettings.accounts[$list] -join '", "') + "`")`r`n"
-            }
-        }
-    }
     $SharedInfo += $RuleChecks.CAT3
 }
 if ($SharedInfo) {
     $checks += "#`r`n# Gather/set data used across multiple rule checks`r`n#`r`n"
     foreach ($data in $SharedInfo) {
+        if ($W11 -and $data -eq "LTSB") {
+            continue
+        }
         $checks += $RuleChecks.$data + "`r`n"
     }
     $checks += "`r`n"
@@ -190,6 +183,7 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
 
     $ruleId = $rule.id.Substring(1,8)
     $ruleVarName = $ruleId -replace "-"
+    $mapRuleId = ""
     if ($W11) {
         $mapRuleId = $map.GetEnumerator() | Where-Object { $_.'W11-V1-R4' -eq $ruleId } | Select-Object -ExpandProperty 'W10-V2-R7'
     }
