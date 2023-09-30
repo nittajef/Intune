@@ -42,6 +42,12 @@ function Generate-CCPolicy() {
             continue
         }
 
+        if ($OrgSettings.output.JSONShortName) {
+            if ($W11) {
+            } else {
+                $settingName = $rule.id.Substring(1,8) + " - " + $map.GetEnumerator() | Where-Object { $_.'W10-V2-R7' -eq $settingName } | Select-Object -ExpandProperty 'short_name'
+            }
+        }
         $settingName = $rule.id.Substring(1,8)
         if ($W11) {
             $mapSettingName = $map.GetEnumerator() | Where-Object { $_.'W11-V1-R4' -eq $settingName } | Select-Object -ExpandProperty 'W10-V2-R7'
