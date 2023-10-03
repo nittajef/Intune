@@ -1,4 +1,4 @@
-$OrgSettings = Import-PowerShellDataFile "Org-Settings.psd1"
+﻿$OrgSettings = Import-PowerShellDataFile "Org-Settings-W10.psd1"
 $RuleChecks = Import-PowerShellDataFile $OrgSettings.input.Checks
 [xml]$stig = Get-Content -Path $OrgSettings.input.STIG -Encoding UTF8
 $map = Import-Csv W10-W11-rule-map.csv
@@ -42,28 +42,31 @@ function Generate-CCPolicy() {
             continue
         }
 
+        $ruleName = $rule.id.Substring(1,8)
+
         if ($OrgSettings.output.JSONShortName) {
             if ($W11) {
             } else {
-                $settingName = $rule.id.Substring(1,8) + " - " + $map.GetEnumerator() | Where-Object { $_.'W10-V2-R7' -eq $settingName } | Select-Object -ExpandProperty 'short_name'
+                $short_name = $map.GetEnumerator() | Where-Object { $_.'W10-V2-R7' -eq $ruleName } | Select-Object -ExpandProperty 'short_name'
+                $settingName = $ruleName + " - " + $short_name
             }
         }
-        $settingName = $rule.id.Substring(1,8)
+        #$settingName = $rule.id.Substring(1,8)
         if ($W11) {
-            $mapSettingName = $map.GetEnumerator() | Where-Object { $_.'W11-V1-R4' -eq $settingName } | Select-Object -ExpandProperty 'W10-V2-R7'
+            $mapSettingName = $map.GetEnumerator() | Where-Object { $_.'W11-V1-R4' -eq $ruleName } | Select-Object -ExpandProperty 'W10-V2-R7'
         } else {
             $mapSettingName = ""
         }
 
-        if ($OrgSettings.nocode -contains $settingName -or $OrgSettings.nocode -contains $mapSettingName) {
+        if ($OrgSettings.nocode -contains $ruleName -or $OrgSettings.nocode -contains $mapSettingName) {
             if ($OrgSettings.output.JSONNoCheckRules -eq "exclude") {
                 continue
             } else {
                 $settingName = $settingName + "-NoChk"
             }
-        } elseif ($OrgSettings.exemptions -contains $settingName -or $OrgSettings.exemptions -contains $mapSettingName) {
+        } elseif ($OrgSettings.exemptions -contains $ruleName -or $OrgSettings.exemptions -contains $mapSettingName) {
             $settingName = $settingName + "-EXM"
-        } elseif ($OrgSettings.overrides.ContainsKey($settingName) -or $OrgSettings.overrides.ContainsKey($mapSettingName)) {
+        } elseif ($OrgSettings.overrides.ContainsKey($ruleName) -or $OrgSettings.overrides.ContainsKey($mapSettingName)) {
             $settingName = $settingName + "-OvR"
         }
 
@@ -99,7 +102,7 @@ function Generate-CCPolicy() {
                         MoreInfoUrl = $OrgSettings.output.JSONInfoURL
                         RemediationStrings = @(([ordered]@{
                             Language = "en_US"
-                            Title = $settingName + " - " + $rule.title
+                            Title = $ruleName + " - " + $rule.title
                             Description = $description
                         }))
                     }
@@ -367,7 +370,17 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
 # Create the return hash of check values
 $ret_hash = '$hash = [ordered]@{' + "`r`n"
 foreach ($key in $results.Keys) {
-    $ret_hash += "    '" + $key + "' = " + $($results[$key]) + "`r`n"
+    if ($OrgSettings.output.JSONShortName) {
+        if ($W11) {
+            
+            } else {
+                $short_name = $map.GetEnumerator() | Where-Object { $_.'W10-V2-R7' -eq $key } | Select-Object -ExpandProperty 'short_name'
+                $ret_hash += "    '" + $key + " - " + $short_name + "' = " + $($results[$key]) + "`r`n"
+            }
+    } else {
+        $ret_hash += "    '" + $key + "' = " + $($results[$key]) + "`r`n"
+    }
+    
 }
 $ret_hash += "}`r`n`r`n"
 $ret_hash += 'return $hash | ConvertTo-Json -Compress'
