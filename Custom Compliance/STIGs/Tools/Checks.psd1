@@ -236,9 +236,12 @@ try {
     foreach ($member in $members) {
         if ($member.Name -match "\Domain Admins") {
             $V220712 = $false
-        }
-        if ($member.Name -notin $Administrators) {
+            break
+        } elseif ($member.Name -notin $Administrators) {
             $V220712 = $false
+            break
+        } elseif ($member.SID -like "*-500") {
+            # Default administrator account is okay
         }
     }
 } catch {
