@@ -20,6 +20,7 @@
         JSONInfoURL = "https://contoso.com"
         JSONNoCheckRules = "include"
         JSONReference = "exclude"
+        JSONShortName = $true
 
         # PowerShell output to upload as script in Intune Custom Compliance
         # Style:   verbose - Add all of the STIG rule comments (Discussion, Check, Fix)
