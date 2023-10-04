@@ -1,10 +1,9 @@
-﻿$OrgSettings = Import-PowerShellDataFile "Org-Settings-W10.psd1"
+$OrgSettings = Import-PowerShellDataFile "Org-Settings-W10.psd1"
 $RuleChecks = Import-PowerShellDataFile $OrgSettings.input.Checks
 [xml]$stig = Get-Content -Path $OrgSettings.input.STIG -Encoding UTF8
 $map = Import-Csv W10-W11-rule-map.csv
 
 $checks = @()
-$results = [ordered]@{}
 $W10,$W11 = $false
 
 $header = @(
@@ -43,14 +42,8 @@ function Generate-CCPolicy() {
         }
 
         $ruleName = $rule.id.Substring(1,8)
+        $settingName = $ruleName
 
-        if ($OrgSettings.output.JSONShortName) {
-            if ($W11) {
-            } else {
-                $short_name = $map.GetEnumerator() | Where-Object { $_.'W10-V2-R7' -eq $ruleName } | Select-Object -ExpandProperty 'short_name'
-                $settingName = $ruleName + " - " + $short_name
-            }
-        }
         #$settingName = $rule.id.Substring(1,8)
         if ($W11) {
             $mapSettingName = $map.GetEnumerator() | Where-Object { $_.'W11-V1-R4' -eq $ruleName } | Select-Object -ExpandProperty 'W10-V2-R7'
@@ -68,6 +61,14 @@ function Generate-CCPolicy() {
             $settingName = $settingName + "-EXM"
         } elseif ($OrgSettings.overrides.ContainsKey($ruleName) -or $OrgSettings.overrides.ContainsKey($mapSettingName)) {
             $settingName = $settingName + "-OvR"
+        }
+
+        if ($OrgSettings.output.JSONShortName) {
+            if ($W11) {
+            } else {
+                $short_name = $map.GetEnumerator() | Where-Object { $_.'W10-V2-R7' -eq $ruleName } | Select-Object -ExpandProperty 'short_name'
+                $settingName = $settingName + " - " + $short_name
+            }
         }
 
         # Fill out reference section of entry, which is not used by Intune CC
@@ -178,6 +179,9 @@ if ($AccountInfo) {
 
 $EmptyRules = 0
 
+# Create the return hash of check values
+$ret_hash = '$hash = [ordered]@{' + "`r`n"
+
 # Iterate through all rules in the STIG document
 foreach ($rule in $stig.Benchmark.Group.Rule) {
     #
@@ -191,6 +195,7 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
     }
 
     $ruleId = $rule.id.Substring(1,8)
+    $ruleIdSuffix = ""
     $ruleVarName = $ruleId -replace "-"
     $mapRuleId = ""
     if ($W11) {
@@ -262,12 +267,12 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
     # 6. Empty rule template created
     #
     if ($OrgSettings.exemptions -contains $ruleId -or $OrgSettings.exemptions -contains $mapRuleId) {
-        $ruleId = $ruleId + "-EXM"
+        $ruleIdSuffix = "-EXM"
         $check_template = @(
             "$" + $ruleVarName + ' = $true'
         ) -join "`r`n"
     } elseif ($OrgSettings.nocode -contains $ruleId -or $OrgSettings.nocode -contains $mapRuleId) {
-        $ruleId = $ruleId + "-NoChk"
+        $ruleIdSuffix = "-NoChk"
         $check_template = @(
             "$" + $ruleVarName + ' = $true'
         ) -join "`r`n"
@@ -293,7 +298,7 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
             $check_template += "`$${setting} = $value`r`n"
         }
         $check_template += $RuleChecks.$ruleId
-        $ruleId = $ruleId + "-OvR"
+        $ruleIdSuffix = "-OvR"
     } elseif ($RuleChecks.$ruleId -or $RuleChecks.$mapRuleId) {
         if ($mapRuleId -and $mapRuleId -ne "-") {
             $check_template = $RuleChecks.$mapRuleId -replace $mapRuleId.Substring(2,6), $ruleId.Substring(2,6)
@@ -364,24 +369,19 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
     $check += $check_template + "`r`n"
 
     $checks += $check
-    $results.Add($ruleId, "$" + $ruleVarName)
-}
 
-# Create the return hash of check values
-$ret_hash = '$hash = [ordered]@{' + "`r`n"
-foreach ($key in $results.Keys) {
     if ($OrgSettings.output.JSONShortName) {
         if ($W11) {
             
-            } else {
-                $short_name = $map.GetEnumerator() | Where-Object { $_.'W10-V2-R7' -eq $key } | Select-Object -ExpandProperty 'short_name'
-                $ret_hash += "    '" + $key + " - " + $short_name + "' = " + $($results[$key]) + "`r`n"
-            }
+        } else { 
+            $short_name = $map.GetEnumerator() | Where-Object { $_.'W10-V2-R7' -eq $ruleId } | Select-Object -ExpandProperty 'short_name'
+            $ret_hash += "    '" + $ruleId + $ruleIdSuffix + " - " + $short_name + "' = $" + $ruleVarName + "`r`n"
+        }
     } else {
-        $ret_hash += "    '" + $key + "' = " + $($results[$key]) + "`r`n"
+        $ret_hash += "    '" + $ruleId + $ruleIdSuffix + "' = $" + $ruleVarName + "`r`n"
     }
-    
 }
+
 $ret_hash += "}`r`n`r`n"
 $ret_hash += 'return $hash | ConvertTo-Json -Compress'
 $checks += $ret_hash  
