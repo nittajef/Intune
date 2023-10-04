@@ -37,11 +37,11 @@ V-220731,V-253288,Disable SMBv1 Client
 V-220732,V-253289,Disable Secondary Logon
 V-220733,V-253290,Remove Orphaned SIDs
 V-220734,V-253291,Bluetooth Turned Off Unless Approved
-V-220735,V-253292,Bluetooth Turned Off When Not In Use
+V-220735,V-253292,Bluetooth Turned Off When Not in Use
 V-220736,V-253293,Bluetooth Notify When Device Attempts Connect
 V-220737,V-253294,Limit Administrative Account Internet Access
 V-220738,V-253295,Nonpersistent VM Session Limit
-V-220739,V-253297,COnfigure Account Lockout Duration
+V-220739,V-253297,Configure Account Lockout Duration
 V-220740,V-253298,Configure Failed Logon Attempts
 V-220741,V-253299,Configure Bad Logon Counter Reset
 V-220742,V-253300,Configure Password History
@@ -50,181 +50,181 @@ V-220744,V-253302,Configure Min Password Age
 V-220745,V-253303,Configure Min Password Length
 V-220746,V-253304,Configure Password Complexity
 V-220747,V-253305,Disable Reversible PW Encryption
-V-220748,V-253306,Audit_Credential_Validation_failure
-V-220749,V-253307,Audit_Credential_Validation_success
-V-220750,V-253308,Audit_Sec_Group_Mgmt_success
-V-220751,V-253309,Audit_User_Acct_Mgmt_failure
-V-220752,V-253310,Audit_User_Acct_Mgmt_success
-V-220753,V-253311,Audit_PnP_success
-V-220754,V-253312,Audit_Process_Creation_success
-V-220755,V-253313,Audit_Acct_Lockout_failure
-V-220756,V-253314,Audit_Group_Member_success
-V-220757,V-253315,Audit_Logoff_success
-V-220758,V-253316,Audit_Logon_failure
-V-220759,V-253317,Audit_Logon_success
-V-220760,V-253318,Audit_Special_Logon_success
-V-220761,V-253319,Audit_File_Share_failure
-V-220762,V-253320,Audit_File_Share_success
-V-220763,V-253321,Audit_Other_Obj_Access_success
-V-220764,V-253322,Audit_Other_Obj_Access_failure
-V-220765,V-253323,Audit_Removable_Storage_failure
-V-220766,V-253324,Audit_Removable_Storage_success
-V-220767,V-253325,Audit_Audit_Pol_Change_success
-V-220768,V-253326,Audit_Auth_Pol_Change_success
-V-220769,V-253327,Audit_Author_Pol_Change_success
-V-220770,V-253328,Audit_Sens_Priv_Use_failure
-V-220771,V-253329,Audit_Sens_Priv_Use_success
-V-220772,V-253330,Audit_IPSec_Driver_failure
-V-220773,V-253331,Audit_Other_Sys_Events_success
-V-220774,V-253332,Audit_Other_Sys_Events_failure
-V-220775,V-253333,Audit_Sec_State_Change_success
-V-220776,V-253334,Audit_Sec_Sys_Ext_success
-V-220777,V-253335,Audit_Sys_Integrity_failure
-V-220778,V-253336,Audit_Sys_Integrity_success
-V-220779,V-253337,App_Event_Log_Size
-V-220780,V-253338,Sec_Event_Log_Size
-V-220781,V-253339,Sys_Event_Log_Size
-V-220782,V-253340,App_Event_Log_ACL
-V-220783,V-253341,Sec_Event_Log_ACL
-V-220784,V-253342,Sys_Event_Log_ACL
-V-220786,V-253344,Audit_Other_Pol_Change_failure
-V-220787,V-253345,Audit_Other_Logon_off_success
-V-220788,V-253346,Audit_Other_Logon_off_failure
-V-220789,V-253347,Audit_Detailed_File_Share_failure
-V-220790,V-253348,Audit_MPSSVC_success
-V-220791,V-253349,Audit_MPSSVC_failure
-V-220792,V-253350,No_Lockscreen_Camera
-V-220793,V-253351,Cover-Disable_Camera
-V-220794,V-253352,No_Lockscreen_Slideshow
-V-220795,V-253353,IPv6_routing
-V-220796,V-253354,Prevent_IP_source_routing
-V-220797,V-253355,Prevent_ICMP_Redirect
-V-220798,V-253356,Ignore_NetBIOS_Release
-V-220799,V-253357,Local_Token_Filter
-V-220800,V-253358,No_WDigest_Auth
-V-220801,V-253359,Remove_Run-as
-V-220802,V-253360,No_Insecure_SMB
-V-220803,V-253361,No_Internet_Sharing
-V-220805,V-253363,Prioritize_ECC_Curves
-V-220806,V-253364,Limit_simul_connections
-V-220807,V-253365,Block_non_Domain_Net
-V-220808,V-253366,No_Wifi_Sense
-V-220809,V-253367,CMD_Process_Creation
-V-220810,V-253368,Allow_Protected_Creds
-V-220811,V-253369,Enable_VBS
-V-220812,V-253370,Enable_Cred_Guard
-V-220813,V-253372,Prevent_Boot_Drivers
-V-220814,V-253373,Reprocess_GPO
-V-220815,V-253374,NoWeb_PnP_DL
-V-220816,V-253375,No_Web_Services
-V-220817,V-253376,Disable_HTTP_Printing
-V-220818,V-253377,Attempt_Cert_Auth
-V-220819,V-253378,No_NetUI_Logonscreen
-V-220820,V-253379,No_User_Enumeration
-V-220821,V-253380,PW_Prompt_Sleep_battery
-V-220822,V-253381,PW_Prompt_Sleep_AC
-V-220823,V-253382,No_Solicited_Remote_Assist
-V-220824,V-253383,Restrict_RPC
-V-220825,V-253384,MSA_Optional
-V-220826,V-253385,No_App_Compat_Inventory
-V-220827,V-253386,No_Autoplay_non-Vol
-V-220828,V-253387,Prevent_Autorun
-V-220829,V-253388,No_Autoplay_drives
-V-220830,V-253389,Enhanced_Facial_Anti-spoofing
-V-220831,V-253390,No_MS_Consumer_Exp
-V-220832,V-253391,No_Admin_Enumeration
-V-220833,V-253392,Limit_Diag_Data
-V-220834,V-253393,No_Full_Telemetry
-V-220835,V-253394,Restrict_WU
-V-220836,V-253395,Enable_Explorer_SmartScreen
-V-220837,V-253396,Enable_Explorer_DEP
-V-220838,V-253397,No_Heap_Termination
-V-220839,V-253398,Explorer_Protected_Mode
-V-220840,-,No_Ignore_SmartScreen_sites
-V-220841,-,No_Ignore_SmartScreen_files
-V-220842,-,No_Cert_Error_Overrides
-V-220843,-,No_Edge_PW_Manager
-V-220844,-,Enable_Edge_SmartScreen
-V-220845,V-253399,No_GameDVR
-V-220846,V-253400,Hello_TPM
-V-220847,V-253401,Min_PIN_Length
-V-220848,V-253402,No_RDClient_PW_Save
-V-220849,V-253403,No_Local_Drives_RDSH
-V-220850,V-253404,RDS_Always_Prompt_PW
-V-220851,V-253405,RDSH_Secure_RPC
-V-220852,V-253406,RDS_Require_Enc
-V-220853,V-253407,No_RSS_Attachments
-V-220854,V-253408,No_Basic_Auth_HTTP_RSS
-V-220855,V-253409,No_Index_Enc_Files
-V-220856,V-253410,No_Install_Options
-V-220857,V-253411,No_Always_Install_Elevated
-V-220858,V-253412,No_SafeForScripting
-V-220859,V-253413,No_Restart_SignOn
-V-220860,V-253414,PS_Block_Logging
-V-220861,-,No_Exp_Preview
-V-220862,V-253416,No_Basic_Auth_WinRM_client
-V-220863,V-253417,No_Unenc_WinRM_client
-V-220865,V-253418,No_Basic_Auth_WinRM_server
-V-220866,V-253419,No_Unenc_WinRM_server
-V-220867,V-253420,No_WinRM_RunAs
-V-220868,V-253421,No_WinRM_Digest
-V-220869,V-253422,No_Voice_Lockscreen
-V-220870,V-253423,No_Convenience_PIN
-V-220871,V-253424,No_Ink_Lock
-V-220872,V-253425,No_3rd_Party_SW_Suggest
-V-220902,V-253426,DMA_Protection
-V-220903,V-253427,DoD_Root_CA
-V-220904,V-253428,ECA_Root_CA
-V-220905,V-253429,DoD_Interop_Root_CA
-V-220906,V-253430,DoD_CCEB_Interop_Root_CA
-V-220907,V-253431,Registry_Permissions
-V-220908,V-253432,Disable_Local_Admin
-V-220909,V-253433,Disable_Local_Guest
-V-220910,V-253434,Limit_Blank_PW
-V-220911,V-253435,Rename_Local_Admin
-V-220912,V-253436,Rename_Local_Guest
-V-220913,V-253437,Audit_Subcategories
-V-220914,V-253438,Require_Sign_Seal
-V-220915,V-253439,Seal_Secure_Channel
-V-220916,V-253440,Sign_Secure_Channel
-V-220917,V-253441,No_Comp_PW_Reset
-V-220918,V-253442,Comp_PW_Max_Age
-V-220919,V-253443,Req_Strong_Key
-V-220920,V-253444,Screen_Lock
-V-220921,V-253445,Logon_Banner
-V-220922,V-253446,Login_Banner_Caption
-V-220923,V-253447,Limit_Cached_Logons
-V-220924,V-253448,SC_Remove_Lock
-V-220925,V-253449,SMB_Sign_client
-V-220926,V-253450,No_Unenc_PW_3rd_Party_SMB
-V-220927,V-253451,SMB_Sign_server
-V-220928,V-253452,No_Anon_SID
-V-220929,V-253453,No_Anon_SAM_Enum
-V-220930,V-253454,No_Anon_Share_Enum
-V-220931,V-253455,No_Anon_Everyone
-V-220932,V-253456,No_Anon_Named_Pipes
-V-220933,V-253457,Restrict_Remote_SAM
-V-220934,V-253458,No_NTLM_Null_Fallback
-V-220935,V-253459,No_PKU2U_OnlineID
-V-220936,V-253460,No_Kerb_DES-RC4
-V-220937,V-253461,No_LM_Hash
-V-220938,V-253462,LM_Compat_Lvl
-V-220939,V-253463,LDAP_Sign_client
-V-220940,V-253464,NTLM_SSP_clients
-V-220941,V-253465,NTLM_SSP_servers
-V-220942,V-253466,Enable_FIPS
-V-220943,V-253467,Increase_Default_DACL
-V-220944,V-253468,Enable_UAC_Admin
-V-220945,V-253469,UAC_Prompt
-V-220946,V-253470,Require_MFA
-V-220947,V-253471,UAC_Deny_Std_User
-V-220948,V-253472,UAC_Install_Detect
-V-220949,V-253473,UAC_Secure_Locations
-V-220950,V-253474,Enable_UAC
-V-220951,V-253475,UAC_Virtualization
-V-220952,V-253476,Local_Admin_Max_PW_Age
-V-220954,V-253477,No_Lockscreen_Toast
-V-220955,V-253478,Save_Zone_Info
+V-220748,V-253306,Audit Account Logon - Credential Validation - Failure
+V-220749,V-253307,Audit Account Logon - Credential Validation - Success
+V-220750,V-253308,Audit Account Management - Security Group Management - Success
+V-220751,V-253309,Audit Account Management - User Account Management - Failure
+V-220752,V-253310,Audit Account Management - User Account Management - Success
+V-220753,V-253311,Audit Detailed Tracking - PnP Activity - Success
+V-220754,V-253312,Audit Detailed Tracking - Process Creation - Success
+V-220755,V-253313,Audit Logon/Logoff - Account Lockout - Failure
+V-220756,V-253314,Audit Logon/Logoff - Group Membership - Success
+V-220757,V-253315,Audit Logon/Logoff - Logoff - Success
+V-220758,V-253316,Audit Logon/Logoff - Logon - Failure
+V-220759,V-253317,Audit Logon/Logoff - Logon - Success
+V-220760,V-253318,Audit Logon/Logoff - Special Logon - Success
+V-220761,V-253319,Audit Object Access - File Share - Failure
+V-220762,V-253320,Audit Object Access - File Share - Success
+V-220763,V-253321,Audit Object Access - Other Object Access Events - Success
+V-220764,V-253322,Audit Object Access - Other Object Access Events - Failure
+V-220765,V-253323,Audit Object Access - Removable Storage - Failure
+V-220766,V-253324,Audit Object Access - Removable Storage - Success
+V-220767,V-253325,Audit Policy Change - Audit Policy Change - Success
+V-220768,V-253326,Audit Policy Change - Authentication Policy Change - Success
+V-220769,V-253327,Audit Policy Change - Authorization Policy Change - Success
+V-220770,V-253328,Audit Privilege Use - Sensitive Privilege Use - Failure
+V-220771,V-253329,Audit Privilege Use - Sensitive Privilege Use - Success
+V-220772,V-253330,Audit System - IPSec Driver - Failure
+V-220773,V-253331,Audit System - Other System Events - Success
+V-220774,V-253332,Audit System - Other System Events - Failure
+V-220775,V-253333,Audit System - Security State Change - Success
+V-220776,V-253334,Audit System - Security System Extension - Success
+V-220777,V-253335,Audit System - System Integrity - Failure
+V-220778,V-253336,Audit System - System Integrity - Success
+V-220779,V-253337,Configure Application Event Log Size
+V-220780,V-253338,Configure Security Event Log Size
+V-220781,V-253339,Configure System Event Log Size
+V-220782,V-253340,Configure Application Event Log ACL
+V-220783,V-253341,Configure Security Event Log ACL
+V-220784,V-253342,Configure System Event Log ACL
+V-220786,V-253344,Audit Other Policy Change Events - Failure
+V-220787,V-253345,Audit Other Logon/Logoff - Success
+V-220788,V-253346,Audit Other Logon/Logoff - Failure
+V-220789,V-253347,Audit Detailed File Share - Failure
+V-220790,V-253348,Audit MPSSVC Rule-Level Policy Change - Success
+V-220791,V-253349,Audit MPSSVC Rule-Level Policy Change - Failure
+V-220792,V-253350,Disable Camera Access From Lockscreen
+V-220793,V-253351,Disable or Cover Camera When Not In Use
+V-220794,V-253352,Disable Lockscreen Slideshow
+V-220795,V-253353,Configure IPv6 Routing
+V-220796,V-253354,Configure Prevent IP Source Routing
+V-220797,V-253355,Prevent ICMP Redirect
+V-220798,V-253356,Ignore NetBIOS Name Release Request
+V-220799,V-253357,Configure Local Account Token Filter
+V-220800,V-253358,Disable WDigest Authentication
+V-220801,V-253359,Remove Run as Different User from Context Menu
+V-220802,V-253360,Disable Insecure Logons to SMB Server
+V-220803,V-253361,Disable Internet Connection Sharing
+V-220805,V-253363,Configure Prioritize ECC Curves
+V-220806,V-253364,Limit Simultaneous Connections to Internet and Domain Network
+V-220807,V-253365,Block non-Domain Networks when Connected to Domain Network
+V-220808,V-253366,Disable Wi-fi Sense
+V-220809,V-253367,Configure Include Command Line Data in Process Creation Events
+V-220810,V-253368,Configure Allow Protected Creds
+V-220811,V-253369,Enable Virtualization Based Security
+V-220812,V-253370,Enable Credential Guard
+V-220813,V-253372,Prevent Boot Drivers
+V-220814,V-253373,Configure Reprocess GPO
+V-220815,V-253374,Disable HTTP Print Driver Download
+V-220816,V-253375,Disable Download Web Publishing
+V-220817,V-253376,Disable HTTP Printing
+V-220818,V-253377,Configure Device Attempt Certificate Authentication
+V-220819,V-253378,Disable Network Selection on Logon Screen
+V-220820,V-253379,Disable Local User Enumeration
+V-220821,V-253380,Configure Password Prompt on Resume from Sleep - On Battery
+V-220822,V-253381,Configure Password Prompt on Resume from Sleep - Plugged In
+V-220823,V-253382,Disable Solicited Remote Assistance
+V-220824,V-253383,Disable Unauthenticated RPC Clients from Connecting
+V-220825,V-253384,Configure MSA Optional for Modern Apps
+V-220826,V-253385,Disable Application Compatibility Program Inventory
+V-220827,V-253386,Disable Autoplay for non-Volume Devices
+V-220828,V-253387,Disable Autorun
+V-220829,V-253388,Disable Autoplay for All Drives
+V-220830,V-253389,Enable Enhanced Facial Anti-spoofing
+V-220831,V-253390,Disable Microsoft Consumer Experiences
+V-220832,V-253391,Disable Administrator Account Enumeration
+V-220833,V-253392,Configure Limit Diagnostic Data Collection
+V-220834,V-253393,No Full Windows Telemetry
+V-220835,V-253394,Disable Windows Update from Internet PCs
+V-220836,V-253395,Enable Windows Defender SmartScreen for Explorer
+V-220837,V-253396,Enable Explorer DEP
+V-220838,V-253397,Disable Turning Off Explorer Heap Termination on Corruption
+V-220839,V-253398,Configure File Explorer Run in Protected Mode
+V-220840,-,Disable Ability to Ignore SmartScreen Warning for Websites
+V-220841,-,Disable Ability to Ignore SmartScreen Warning for Files
+V-220842,-,Configure No Certificate Error Overrides in Edge
+V-220843,-,Disable Edge Password Manager
+V-220844,-,Enable SmartScreen for Edge
+V-220845,V-253399,Disable GameDVR
+V-220846,V-253400,Enable TPM for WHfB
+V-220847,V-253401,Configure Windows Min PIN Length
+V-220848,V-253402,Disable Password Saving in RD Client
+V-220849,V-253403,Disable Sharing Local Drives with RDSH
+V-220850,V-253404,Configure RDS to Always Prompt for Client Password
+V-220851,V-253405,Configure RDSH Must Require Secure RPC
+V-220852,V-253406,Configure RDS Client Connection Encryption
+V-220853,V-253407,Disable Downloading Attachments from RSS
+V-220854,V-253408,Disable Basic Authentication for RSS
+V-220855,V-253409,Disable Indexing of Encrypted Files
+V-220856,V-253410,Prevent User from Changing Installation Options
+V-220857,V-253411,Disable Windows Installer Always Install Elevated
+V-220858,V-253412,Configure User Notification if Web-based Program Attempts Installation
+V-220859,V-253413,Disable Automatic Sign-on After Restart
+V-220860,V-253414,Enable PowerShell Script Block Logging
+V-220861,-,Disable Windows Explorer Preview Pane
+V-220862,V-253416,Disable Basic Authentication for WinRM Client
+V-220863,V-253417,Disable Unencrypted Traffic for WinRM Client
+V-220865,V-253418,Disable Basic Authentication for WinRM Server
+V-220866,V-253419,Disable Unencrypted Traffic for WinRM Server
+V-220867,V-253420,Disable Storage of RunAs Credentials in WinRM
+V-220868,V-253421,Disable use of Digest Authentication for WinRM Client
+V-220869,V-253422,Disable App Activation by Voice while System is Locked
+V-220870,V-253423,Disable Convenience PIN
+V-220871,V-253424,Disable Windows Ink Workspace above the Lock
+V-220872,V-253425,Disable Windows Spotlight Suggestions
+V-220902,V-253426,Enable Kernel DMA Protection
+V-220903,V-253427,Installed DoD Root CA Certificates in Trusted Root Store
+V-220904,V-253428,Installed ECA Root CA Certificates in Trusted Root Store
+V-220905,V-253429,Installed DoD Interopability Root CA Cross-certificates in Unstrusted Certificates Store
+V-220906,V-253430,Installed DoD CCEB Interoperability Root CA Cross-certificates in Untrusted Certificates Store
+V-220907,V-253431,Configure Default Permissions of HKLM Registry Hive
+V-220908,V-253432,Disable Built-in Administrator Account
+V-220909,V-253433,Disable Built-in Guest Account
+V-220910,V-253434,Configure Restrict Local Account with Blank Password Network Access
+V-220911,V-253435,Rename Built-in Administrator Account
+V-220912,V-253436,Rename Built-in Guest Account
+V-220913,V-253437,Enable Audit Policy using Subcategories
+V-220914,V-253438,Require Outgoing Secure Channel Traffic be Encrypted or Signed
+V-220915,V-253439,Configure Encrypt Outgoing Secure Channel Traffic
+V-220916,V-253440,Configure Sign Outgoing Secure Channel Traffic
+V-220917,V-253441,Configure Computer Account Password Must Not be Prevented From Reset
+V-220918,V-253442,Configure Max Machine Account Password Age
+V-220919,V-253443,Configure Requre Strong Session Key
+V-220920,V-253444,Configure Inactivity Screen Lock
+V-220921,V-253445,Configure Legal Notice/Banner
+V-220922,V-253446,Configure Legal Notice Dialog Box Title
+V-220923,V-253447,Configure Cached Credentials Limit
+V-220924,V-253448,Configure Smart Card Removal to Logoff or Lock
+V-220925,V-253449,Configure SMB Client to Always Perform Packet Signing
+V-220926,V-253450,Disable Sending of Unencrypted Passwords to 3rd Party SMB Servers
+V-220927,V-253451,Configure SMB Server to Always Perform Packet Signing
+V-220928,V-253452,Disable Anonymous SID/Name Translation
+V-220929,V-253453,Disable Anonymous Enumeration of SAM Accounts
+V-220930,V-253454,Restrict Anonymous Enumeration of Shares
+V-220931,V-253455,Disable Anonymous Users from Inclusion in Everyone Group
+V-220932,V-253456,Restrict Anonymous Access to Named Pipes and Shares
+V-220933,V-253457,Restrict Calls to Security Account Manage to Administrators
+V-220934,V-253458,Disable NTLM Fallback to Null Session
+V-220935,V-253459,Disable PKU2U Authentication Using Online Identities
+V-220936,V-253460,Disable Use of DES and RC4 Encryption Suites in Kerberos Encryption Types
+V-220937,V-253461,Disable Storage of LM Hash Passwords
+V-220938,V-253462,Configure LM Authentication to NTLMv2 and Refust LM and NTLM
+V-220939,V-253463,Configure Required LDAP Signing Level
+V-220940,V-253464,Configure Session Security for NTLM SSP Clients
+V-220941,V-253465,Configure Session Security for NTLM SSP Servers
+V-220942,V-253466,Configure Usage of FIPS-compliant Algorithms
+V-220943,V-253467,Configure Increased Permissions of Global System Objects
+V-220944,V-253468,Enable UAC for Built-in Administrator
+V-220945,V-253469,Enable UAC Prompt on Secure Desktop
+V-220946,V-253470,Require MFA for All Accounts
+V-220947,V-253471,Configure UAC to Automatically Deny Elevation Requests from Standard Users
+V-220948,V-253472,Configure UAC to Detect and Prompt for Application Installations
+V-220949,V-253473,Configure UAC  to only Elevate UIAccess Applications Installed to Secure Locations
+V-220950,V-253474,Enable UAC
+V-220951,V-253475,Configure UAC to Virtualize File and Registry to per-User Locations
+V-220952,V-253476,Configure Local Administrator Accounts Max Password Age
+V-220954,V-253477,Disable Toast Notifications on Lock Screen
+V-220955,V-253478,Configure Preservation of Zone Info when Saving Attachments
 V-220956,V-253479,Restrict_Cred_Man
 V-220957,V-253480,Restrict_Access_from_Net
 V-220958,V-253481,Restrict_Act_OS
