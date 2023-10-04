@@ -19,37 +19,37 @@ V-220713,V-253270,Limit Backup Operators Members
 V-220714,V-253271,Limit Hyper-V Administrators Members
 V-220715,V-253272,No Local User Accounts
 V-220716,V-253273,Require Password Expiration
-V-220717,V-253274,FS_permissions
-V-220718,V-253275,No_IIS
-V-220719,V-253276,No_SNMP
-V-220720,V-253277,No_simple_tcp-ip
-V-220721,V-253278,No_telnet
-V-220722,V-253279,No_TFTP
-V-220723,V-253280,No_cert_files
-V-220724,V-253281,Firewall
-V-220725,V-253282,FW_exceptions
-V-220726,V-253283,DEP_OptOut
-V-220727,V-253284,SEHOP
-V-220728,V-253285,No_PoSh2
-V-220729,V-253286,No_SMBv1_proto
-V-220730,V-253287,No_SMBv1_server
-V-220731,V-253288,No_SMBv1_client
-V-220732,V-253289,No_Secondary_Logon
-V-220733,V-253290,No_orphan_SIDs
-V-220734,V-253291,Bluetooth_disabled
-V-220735,V-253292,Bluetooth_off_in_use
-V-220736,V-253293,Bluetooth_notify
-V-220737,V-253294,Limit_admin_app_use
-V-220738,V-253295,VM_session_limit
-V-220739,V-253297,Lockout_duration
-V-220740,V-253298,Failed_logon_attempts
-V-220741,V-253299,Bad_logon_counter_reset
-V-220742,V-253300,Password_history
-V-220743,V-253301,Password_age
-V-220744,V-253302,Password_min_age
-V-220745,V-253303,Password_length
-V-220746,V-253304,Password_complexity
-V-220747,V-253305,No_reversible_pw_encryption
+V-220717,V-253274,System Directories Permissions
+V-220718,V-253275,No IIS Installed
+V-220719,V-253276,No SNMP Installed
+V-220720,V-253277,No Simple Tcp/Ip Installed
+V-220721,V-253278,No Telnet Installed
+V-220722,V-253279,No TFTP Installed
+V-220723,V-253280,No Cert Installation Files
+V-220724,V-253281,Use Firewall
+V-220725,V-253282,Firewall Inbound Exceptions
+V-220726,V-253283,Configure DEP OptOut
+V-220727,V-253284,Enable SEHOP
+V-220728,V-253285,Disable PowerShell V2.0
+V-220729,V-253286,Disable SMBv1 Protocol
+V-220730,V-253287,Disable SMBv1 Server
+V-220731,V-253288,Disable SMBv1 Client
+V-220732,V-253289,Disable Secondary Logon
+V-220733,V-253290,Remove Orphaned SIDs
+V-220734,V-253291,Bluetooth Turned Off Unless Approved
+V-220735,V-253292,Bluetooth Turned Off When Not In Use
+V-220736,V-253293,Bluetooth Notify When Device Attempts Connect
+V-220737,V-253294,Limit Administrative Account Internet Access
+V-220738,V-253295,Nonpersistent VM Session Limit
+V-220739,V-253297,COnfigure Account Lockout Duration
+V-220740,V-253298,Configure Failed Logon Attempts
+V-220741,V-253299,Configure Bad Logon Counter Reset
+V-220742,V-253300,Configure Password History
+V-220743,V-253301,Configure Max Password Age
+V-220744,V-253302,Configure Min Password Age
+V-220745,V-253303,Configure Min Password Length
+V-220746,V-253304,Configure Password Complexity
+V-220747,V-253305,Disable Reversible PW Encryption
 V-220748,V-253306,Audit_Credential_Validation_failure
 V-220749,V-253307,Audit_Credential_Validation_success
 V-220750,V-253308,Audit_Sec_Group_Mgmt_success
