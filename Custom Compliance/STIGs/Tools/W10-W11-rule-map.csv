@@ -1,24 +1,24 @@
 W10-V2-R7,W11-V1-R4,short_name
-V-220697,V-253254,Require_Win_Ent-x64
-V-220698,V-253255,TPM_enabled_ready
-V-220699,V-253256,Use_UEFI
-V-220700,V-253257,Secure_Boot
-V-220701,V-253258,Flaw_scan_ESS
-V-220702,V-253259,Bitlocker
-V-220703,V-253260,Bitlocker_PIN
-V-220704,V-253261,Bitlocker_PIN_length
-V-220705,V-253262,App_allowlist
-V-220706,V-253263,OS_servicing_Lvl
-V-220707,V-253264,Antivirus
-V-220708,V-253265,NTFS_volumes
-V-220709,V-253266,Alternate_OS
-V-220710,V-253267,Limit_share_access
-V-220711,V-253268,Disable_unused_accounts
-V-220712,V-253269,Limit_admin_rights
-V-220713,V-253270,Limit_backup_operators
-V-220714,V-253271,Limit_hyper-v
-V-220715,V-253272,No_local_accounts
-V-220716,V-253273,Password_expiration
+V-220697,V-253254,Require Windows Enterprise x64
+V-220698,V-253255,TPM Enabled & Ready
+V-220699,V-253256,Use UEFI
+V-220700,V-253257,Use Secure Boot
+V-220701,V-253258,Flaw Remediation
+V-220702,V-253259,Use Bitlocker
+V-220703,V-253260,Use Bitlocker Startup PIN
+V-220704,V-253261,Minimum Bitlocker PIN length
+V-220705,V-253262,Application Allowlist
+V-220706,V-253263,OS Supported Servicing Level
+V-220707,V-253264,Use Anti-virus
+V-220708,V-253265,Local Volumes formatted NTFS
+V-220709,V-253266,No Alternate OS
+V-220710,V-253267,Limit Non-system Share Access
+V-220711,V-253268,Disable Inactive Accounts
+V-220712,V-253269,Limit Administrator Rights
+V-220713,V-253270,Limit Backup Operators Members
+V-220714,V-253271,Limit Hyper-V Administrators Members
+V-220715,V-253272,No Local User Accounts
+V-220716,V-253273,Require Password Expiration
 V-220717,V-253274,FS_permissions
 V-220718,V-253275,No_IIS
 V-220719,V-253276,No_SNMP
