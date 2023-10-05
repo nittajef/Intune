@@ -225,37 +225,37 @@ V-220951,V-253475,Configure UAC to Virtualize File and Registry to per-User Loca
 V-220952,V-253476,Configure Local Administrator Accounts Max Password Age
 V-220954,V-253477,Disable Toast Notifications on Lock Screen
 V-220955,V-253478,Configure Preservation of Zone Info when Saving Attachments
-V-220956,V-253479,Restrict_Cred_Man
-V-220957,V-253480,Restrict_Access_from_Net
-V-220958,V-253481,Restrict_Act_OS
-V-220959,V-253482,Restrict_Logon_Local
-V-220960,V-253483,Restrict_Backup
-V-220961,V-253484,Restrict_Change_Time
-V-220962,V-253485,Restrict_Create_Pagefile
-V-220963,V-253486,Restrict_Create_Token_Obj
-V-220964,V-253487,Restrict_Create_Global_Obj
-V-220965,V-253488,Restrict_Create_Perm_Shared_Obj
-V-220966,V-253489,Restrict_Create_Sym_Links
-V-220967,V-253490,Restrict_Debug_Programs
-V-220968,V-253491,Restrict_Deny_Access_from_Net
-V-220969,V-253492,Restrict_Deny_Logon_Batch_Job
-V-220970,V-253493,Restrict_Deny_Logon_Service
-V-220971,V-253494,Restrict_Deny_Logon_Local
-V-220972,V-253495,Restrict_Deny_Logon_RDP
-V-220973,V-253496,Restrict_Trusted_Delegation
-V-220974,V-253497,Restrict_Remote_Force_Shutdown
-V-220975,V-253498,Restrict_Impersonation
-V-220976,V-253499,Restrict_Load_Drivers
-V-220977,V-253500,Restrict_Lock_Pages_Mem
-V-220978,V-253501,Restrict_Manage_Audit_Logs
-V-220979,V-253502,Restrict_Modify_Firmware_ENV
-V-220980,V-253503,Restrict_Volume_Maint
-V-220981,V-253504,Restrict_Profile_Single_Proc
-V-220982,V-253505,Restrict_Restore_File
-V-220983,V-253506,Restrict_Take_Ownership
-V-250319,V-253362,Harden_UNC_Paths
-V-252896,V-253415,PS_Transcription
-V-252903,V-253371,VBS_Code_Integrity
-V-256894,V-256893,Disable_IE
--,V-253343,Audit_Other_Pol_Change_success
--,V-253296,Time_Service
+V-220956,V-253479,Restrict Right - Access Credential Manager
+V-220957,V-253480,Restrict Right - Access this Computer from Network
+V-220958,V-253481,Restrict Right - Act as Part of the OS
+V-220959,V-253482,Restrict Right - Allow Log on Locally
+V-220960,V-253483,Restrict Right - Backup Files and Directories
+V-220961,V-253484,Restrict Right - Change System Time
+V-220962,V-253485,Restrict Right - Create a Pagefile
+V-220963,V-253486,Restrict Right - Create a Token Object
+V-220964,V-253487,Restrict Right - Create Global Ojects
+V-220965,V-253488,Restrict Right - Create Permanent Shared Objects
+V-220966,V-253489,Restrict Right - Create Symbolic Links
+V-220967,V-253490,Restrict Right - Debug Programs
+V-220968,V-253491,Restrict Right - Deny Access to Computer from Network
+V-220969,V-253492,Restrict Right - Deny Log on as a Batch Job
+V-220970,V-253493,Restrict Right - Deny Log on as a Service
+V-220971,V-253494,Restrict Right - Deny Log on Locally
+V-220972,V-253495,Restrict Right - Deny Log on through Remote Desktop Services
+V-220973,V-253496,Restrict Right - Enable Computer and User Accounts to be Trusted for Delegation
+V-220974,V-253497,Restrict Right - Force Shutdown from a Remote System
+V-220975,V-253498,Restrict Right - Impersonate a Client after Authentication
+V-220976,V-253499,Restrict Right - Load and Unload Device Drivers
+V-220977,V-253500,Restrict Right - Lock Pages in Memory
+V-220978,V-253501,Restrict Right - Manage Auditing and Security Log
+V-220979,V-253502,Restrict Right - Modify Firmware Environment Values
+V-220980,V-253503,Restrict Right - Perform Volume Maintenance Tasks
+V-220981,V-253504,Restrict Right - Profile Single Process
+V-220982,V-253505,Restrict Right - Restore Files and Directories
+V-220983,V-253506,Restrict Right - Take Ownership of Files or Other Objects
+V-250319,V-253362,Harden SYSVOL and NETLOGON UNC Paths
+V-252896,V-253415,Enable PowerShell Transcription
+V-252903,V-253371,Enable Virtualization-based Protection of Code Integrity
+V-256894,V-256893,Disable Internet Explorer
+-,V-253343,Audit Other Policy Change Events - Success
+-,V-253296,Time Service Must Sync with Appropriate DoD Time Source
