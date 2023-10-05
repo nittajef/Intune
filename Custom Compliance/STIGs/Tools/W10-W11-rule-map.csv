@@ -30,7 +30,7 @@ V-220724,V-253281,Use Firewall
 V-220725,V-253282,Firewall Inbound Exceptions
 V-220726,V-253283,Configure DEP OptOut
 V-220727,V-253284,Enable SEHOP
-V-220728,V-253285,Disable PowerShell V2.0
+V-220728,V-253285,Disable PowerShell V2
 V-220729,V-253286,Disable SMBv1 Protocol
 V-220730,V-253287,Disable SMBv1 Server
 V-220731,V-253288,Disable SMBv1 Client
