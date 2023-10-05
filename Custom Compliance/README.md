@@ -75,6 +75,10 @@ Per setting view from the policy configuration:
 
 <h2>Change Log</h2>
 
+2023-10-05
+
+- Uploaded generated default policy files with rule/setting names instead of just the STIG ID as name
+
 2023-09-29
 
 - Fixed CAT I rule V-220963, which had $true/$false values switched
