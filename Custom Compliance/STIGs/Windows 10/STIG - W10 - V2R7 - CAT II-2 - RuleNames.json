@@ -1,0 +1,872 @@
+{
+    "Rules":  [
+                  {
+                      "SettingName":  "V-220792 - Disable Camera Access From Lockscreen",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220792 - Camera access from the lock screen must be disabled.",
+                                                     "Description":  "If the device does not have a camera, this is NA.\n\nConfigure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Control Panel \u003e\u003e Personalization \u003e\u003e \"Prevent enabling lock screen camera\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220793 - Disable or Cover Camera When Not In Use",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220793 - Windows 10 must cover or disable the built-in or attached camera when not in use.",
+                                                     "Description":  "If the camera is not disconnected or covered, the following registry entry is required:\n \nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistryPath\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\webcam\n\nValue Name: Value\nValue Data: Deny"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220794 - Disable Lockscreen Slideshow",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220794 - The display of slide shows on the lock screen must be disabled.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Control Panel \u003e\u003e Personalization \u003e\u003e \"Prevent enabling lock screen slide show\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220795 - Configure IPv6 Routing",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220795 - IPv6 source routing must be configured to highest protection.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e MSS (Legacy) \u003e\u003e \"MSS: (DisableIPSourceRouting IPv6) IP source routing protection level (protects against packet spoofing)\" to \"Highest protection, source routing is completely disabled\".\n\nThis policy setting requires the installation of the MSS-Legacy custom templates included with the STIG package.  \"MSS-Legacy.admx\" and \" MSS-Legacy.adml\" must be copied to the \\Windows\\PolicyDefinitions and \\Windows\\PolicyDefinitions\\en-US directories respectively."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220796 - Configure Prevent IP Source Routing",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220796 - The system must be configured to prevent IP source routing.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e MSS (Legacy) \u003e\u003e \"MSS: (DisableIPSourceRouting) IP source routing protection level (protects against packet spoofing)\" to \"Highest protection, source routing is completely disabled\".\n\nThis policy setting requires the installation of the MSS-Legacy custom templates included with the STIG package.  \"MSS-Legacy.admx\" and \" MSS-Legacy.adml\" must be copied to the \\Windows\\PolicyDefinitions and \\Windows\\PolicyDefinitions\\en-US directories respectively."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220799 - Configure Local Account Token Filter",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220799 - Local administrator accounts must have their privileged token filtered to prevent elevated privileges from being used over the network on domain systems.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e MS Security Guide \u003e\u003e \"Apply UAC restrictions to local accounts on network logons\" to \"Enabled\".\n\nThis policy setting requires the installation of the SecGuide custom templates included with the STIG package.  \"SecGuide.admx\" and \"SecGuide.adml\" must be copied to the \\Windows\\PolicyDefinitions and \\Windows\\PolicyDefinitions\\en-US directories respectively."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220800 - Disable WDigest Authentication",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220800 - WDigest Authentication must be disabled.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e MS Security Guide \u003e\u003e \"WDigest Authentication (disabling may require KB2871997)\" to \"Disabled\".\n\nThe patch referenced in the policy title is not required for Windows 10.\n\nThis policy setting requires the installation of the SecGuide custom templates included with the STIG package.  \"SecGuide.admx\" and \"SecGuide.adml\" must be copied to the \\Windows\\PolicyDefinitions and \\Windows\\PolicyDefinitions\\en-US directories respectively."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220801 - Remove Run as Different User from Context Menu",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220801 - Run as different user must be removed from context menus.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e MS Security Guide \u003e\u003e \"Remove \"Run as Different User\" from context menus\" to \"Enabled\".\n\nThis policy setting requires the installation of the SecGuide custom templates included with the STIG package.  \"SecGuide.admx\" and \"SecGuide.adml\" must be copied to the \\Windows\\PolicyDefinitions and \\Windows\\PolicyDefinitions\\en-US directories respectively."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220802 - Disable Insecure Logons to SMB Server",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220802 - Insecure logons to an SMB server must be disabled.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Network \u003e\u003e Lanman Workstation \u003e\u003e \"Enable insecure guest logons\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220803 - Disable Internet Connection Sharing",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220803 - Internet connection sharing must be disabled.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Network \u003e\u003e Network Connections \u003e\u003e \"Prohibit use of Internet Connection Sharing on your DNS domain network\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220805 - Configure Prioritize ECC Curves",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220805 - Windows 10 must be configured to prioritize ECC Curves with longer key lengths first.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Network \u003e\u003e SSL Configuration Settings \u003e\u003e \"ECC Curve Order\" to \"Enabled\" with \"ECC Curve Order:\" including the following in the order listed:\n\nNistP384\nNistP256"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220806 - Limit Simultaneous Connections to Internet and Domain Network",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220806 - Simultaneous connections to the internet or a Windows domain must be limited.",
+                                                     "Description":  "The default behavior for \"Minimize the number of simultaneous connections to the Internet or a Windows Domain\" is \"Enabled\".\n\nIf this must be corrected, configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Network \u003e\u003e Windows Connection Manager \u003e\u003e \"Minimize the number of simultaneous connections to the Internet or a Windows Domain\" to \"Enabled\". \n\nUnder \"Options\", set \"Minimize Policy Options\" to \"3 = Prevent Wi-Fi When on Ethernet\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220807 - Block non-Domain Networks when Connected to Domain Network",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220807 - Connections to non-domain networks when connected to a domain authenticated network must be blocked.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Network \u003e\u003e Windows Connection Manager \u003e\u003e \"Prohibit connection to non-domain networks when connected to domain authenticated network\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220808 - Disable Wi-fi Sense",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220808 - Wi-Fi Sense must be disabled.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Network \u003e\u003e WLAN Service \u003e\u003e WLAN Settings\u003e\u003e \"Allow Windows to automatically connect to suggested open hotspots, to networks shared by contacts, and to hotspots offering paid services\" to \"Disabled\".   \n\nv1507 LTSB does not include this group policy setting.  It may be configured through other means such as using group policy from a later version of Windows 10 or a registry update."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220809 - Configure Include Command Line Data in Process Creation Events",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220809 - Command line data must be included in process creation events.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e System \u003e\u003e Audit Process Creation \u003e\u003e \"Include command line in process creation events\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220810 - Configure Allow Protected Creds",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220810 - Windows 10 must be configured to enable Remote host allows delegation of non-exportable credentials.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e System \u003e\u003e Credentials Delegation \u003e\u003e \"Remote host allows delegation of non-exportable credentials\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220813 - Prevent Boot Drivers",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220813 - Early Launch Antimalware, Boot-Start Driver Initialization Policy must prevent boot drivers.",
+                                                     "Description":  "Ensure that Early Launch Antimalware - Boot-Start Driver Initialization policy is set to enforce \"Good, unknown and bad but critical\" (preventing \"bad\").\n\nIf this needs to be corrected configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e System \u003e\u003e Early Launch Antimalware \u003e\u003e \"Boot-Start Driver Initialization Policy\" to \"Enabled” with \"Good, unknown and bad but critical\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220814 - Configure Reprocess GPO",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220814 - Group Policy objects must be reprocessed even if they have not changed.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e System \u003e\u003e Group Policy \u003e\u003e \"Configure registry policy processing\" to \"Enabled\" and select the option \"Process even if the Group Policy objects have not changed\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220815 - Disable HTTP Print Driver Download",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220815 - Downloading print driver packages over HTTP must be prevented.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e System \u003e\u003e Internet Communication Management \u003e\u003e Internet Communication settings \u003e\u003e \"Turn off downloading of print drivers over HTTP\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220816 - Disable Download Web Publishing",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220816 - Web publishing and online ordering wizards must be prevented from downloading a list of providers.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e System \u003e\u003e Internet Communication Management \u003e\u003e Internet Communication settings \u003e\u003e \"Turn off Internet download for Web publishing and online ordering wizards\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220817 - Disable HTTP Printing",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220817 - Printing over HTTP must be prevented.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e System \u003e\u003e Internet Communication Management \u003e\u003e Internet Communication settings \u003e\u003e \"Turn off printing over HTTP\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220818 - Configure Device Attempt Certificate Authentication",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220818 - Systems must at least attempt device authentication using certificates.",
+                                                     "Description":  "This requirement is applicable to domain-joined systems. For standalone or nondomain-joined systems, this is NA.\n\nThe default behavior for \"Support device authentication using certificate\" is \"Automatic\".\n\nIf this needs to be corrected, configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e System \u003e\u003e Kerberos \u003e\u003e \"Support device authentication using certificate\" to \"Not Configured or \"Enabled\" with either option selected in \"Device authentication behavior using certificate:\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220819 - Disable Network Selection on Logon Screen",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220819 - The network selection user interface (UI) must not be displayed on the logon screen.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e System \u003e\u003e Logon \u003e\u003e \"Do not display network selection UI\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220820 - Disable Local User Enumeration",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220820 - Local users on domain-joined computers must not be enumerated.",
+                                                     "Description":  "This requirement is applicable to domain-joined systems. For standalone or nondomain-joined systems, this is NA.\n\nConfigure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e System \u003e\u003e Logon \u003e\u003e \"Enumerate local users on domain-joined computers\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220821 - Configure Password Prompt on Resume from Sleep - On Battery",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220821 - Users must be prompted for a password on resume from sleep (on battery).",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e System \u003e\u003e Power Management \u003e\u003e Sleep Settings \u003e\u003e \"Require a password when a computer wakes (on battery)\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220822 - Configure Password Prompt on Resume from Sleep - Plugged In",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220822 - The user must be prompted for a password on resume from sleep (plugged in).",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e System \u003e\u003e Power Management \u003e\u003e Sleep Settings \u003e\u003e \"Require a password when a computer wakes (plugged in)\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220824 - Disable Unauthenticated RPC Clients from Connecting",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220824 - Unauthenticated RPC clients must be restricted from connecting to the RPC server.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e System \u003e\u003e Remote Procedure Call \u003e\u003e \"Restrict Unauthenticated RPC clients\" to \"Enabled\" and \"Authenticated\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220830 - Enable Enhanced Facial Anti-spoofing",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220830 - Enhanced anti-spoofing for facial recognition must be enabled on Window 10.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Biometrics \u003e\u003e Facial Features \u003e\u003e \"Configure enhanced anti-spoofing\" to \"Enabled\". \n\nv1607:\nThe policy name is \"Use enhanced anti-spoofing when available\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220832 - Disable Administrator Account Enumeration",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220832 - Administrator accounts must not be enumerated during elevation.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Credential User Interface \u003e\u003e \"Enumerate administrator accounts on elevation\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220833 - Configure Limit Diagnostic Data Collection",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220833 - If Enhanced diagnostic data is enabled it must be limited to the minimum required to support Windows Analytics.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Data Collection and Preview Builds \u003e\u003e \"Limit Enhanced diagnostic data to the minimum required by Windows Analytics\" to \"Enabled\" with \"Enable Windows Analytics collection\" selected in \"Options:\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220834 - No Full Windows Telemetry",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220834 - Windows Telemetry must not be configured to Full.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Data Collection and Preview Builds \u003e\u003e \"Allow Telemetry\" to \"Enabled\" with \"0 - Security [Enterprise Only]\" or \"1 - Basic\" selected in \"Options:\".   \n\nIf an organization is using v1709 or later of Windows 10 this may be configured to \"2 - Enhanced\" to support Windows Analytics. V-82145 must also be configured to limit the Enhanced diagnostic data to the minimum required by Windows Analytics."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220836 - Enable Windows Defender SmartScreen for Explorer",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220836 - The Windows Defender SmartScreen for Explorer must be enabled.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e File Explorer \u003e\u003e \"Configure Windows Defender SmartScreen\" to \"Enabled\" with \"Warn and prevent bypass\" selected. \n\nWindows 10 includes duplicate policies for this setting. It can also be configured under Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Defender SmartScreen \u003e\u003e Explorer.\n\nv1607 LTSB:\nConfigure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e File Explorer \u003e\u003e \"Configure Windows SmartScreen\" to \"Enabled\". (Selection options are not available.)\n\nv1507 LTSB:\nConfigure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e File Explorer \u003e\u003e \"Configure Windows SmartScreen\" to \"Enabled\" with \"Require approval from an administrator before running downloaded unknown software\" selected."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220837 - Enable Explorer DEP",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220837 - Explorer Data Execution Prevention must be enabled.",
+                                                     "Description":  "The default behavior is for data execution prevention to be turned on for file explorer.\n\nIf this needs to be corrected, configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e File Explorer \u003e\u003e \"Turn off Data Execution Prevention for Explorer\" to \"Not Configured\" or \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220839 - Configure File Explorer Run in Protected Mode",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220839 - File Explorer shell protocol must run in protected mode.",
+                                                     "Description":  "The default behavior is for shell protected mode to be turned on for file explorer.\n\nIf this needs to be corrected, configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e File Explorer \u003e\u003e \"Turn off shell protocol protected mode\" to \"Not Configured\" or \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220840 - Disable Ability to Ignore SmartScreen Warning for Websites",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220840 - Users must not be allowed to ignore Windows Defender SmartScreen filter warnings for malicious websites in Microsoft Edge.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Microsoft Edge \u003e\u003e \"Prevent bypassing Windows Defender SmartScreen prompts for sites\" to \"Enabled\". \n\nWindows 10 includes duplicate policies for this setting. It can also be configured under Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Defender SmartScreen \u003e\u003e Microsoft Edge."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220841 - Disable Ability to Ignore SmartScreen Warning for Files",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220841 - Users must not be allowed to ignore Windows Defender SmartScreen filter warnings for unverified files in Microsoft Edge.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Microsoft Edge \u003e\u003e \"Prevent bypassing Windows Defender SmartScreen prompts for files\" to \"Enabled\". \n\nWindows 10 includes duplicate policies for this setting. It can also be configured under Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Defender SmartScreen \u003e\u003e Microsoft Edge."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220842 - Configure No Certificate Error Overrides in Edge",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220842 - Windows 10 must be configured to prevent certificate error overrides in Microsoft Edge.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Microsoft Edge \u003e\u003e \"Prevent certificate error overrides\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220843 - Disable Edge Password Manager",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220843 - The password manager function in the Edge browser must be disabled.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Microsoft Edge \u003e\u003e \"Configure Password Manager\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220844 - Enable SmartScreen for Edge",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220844 - The Windows Defender SmartScreen filter for Microsoft Edge must be enabled.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Microsoft Edge \u003e\u003e \"Configure Windows Defender SmartScreen\" to \"Enabled\". \n\nWindows 10 includes duplicate policies for this setting. It can also be configured under Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Defender SmartScreen \u003e\u003e Microsoft Edge."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220845 - Disable GameDVR",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220845 - Windows 10 must be configured to disable Windows Game Recording and Broadcasting.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Game Recording and Broadcasting \u003e\u003e \"Enables or disables Windows Game Recording and Broadcasting\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220846 - Enable TPM for WHfB",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220846 - The use of a hardware security device with Windows Hello for Business must be enabled.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Hello for Business \u003e\u003e \"Use a hardware security device\" to \"Enabled\". \n\nv1507 LTSB:\nThe policy path is Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Microsoft Passport for Work."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220847 - Configure Windows Min PIN Length",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220847 - Windows 10 must be configured to require a minimum pin length of six characters or greater.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e System \u003e\u003e PIN Complexity \u003e\u003e \"Minimum PIN length\" to \"6\" or greater. \n\nv1607 LTSB:\nThe policy path is Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Hello for Business \u003e\u003e Pin Complexity.\n\nv1507 LTSB:\nThe policy path is Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Microsoft Passport for Work \u003e\u003e Pin Complexity."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220848 - Disable Password Saving in RD Client",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220848 - Passwords must not be saved in the Remote Desktop Client.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Remote Desktop Services \u003e\u003e Remote Desktop Connection Client \u003e\u003e \"Do not allow passwords to be saved\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220849 - Disable Sharing Local Drives with RDSH",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220849 - Local drives must be prevented from sharing with Remote Desktop Session Hosts.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Remote Desktop Services \u003e\u003e Remote Desktop Session Host \u003e\u003e Device and Resource Redirection \u003e\u003e \"Do not allow drive redirection\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220850 - Configure RDS to Always Prompt for Client Password",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220850 - Remote Desktop Services must always prompt a client for passwords upon connection.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Remote Desktop Services \u003e\u003e Remote Desktop Session Host \u003e\u003e Security \u003e\u003e \"Always prompt for password upon connection\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+				                    {
+                      "SettingName":  "V-220851 - Configure RDSH Must Require Secure RPC",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220851 - The Remote Desktop Session Host must require secure RPC communications.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Remote Desktop Services \u003e\u003e Remote Desktop Session Host \u003e\u003e Security \"Require secure RPC communication\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220852 - Configure RDS Client Connection Encryption",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220852 - Remote Desktop Services must be configured with the client connection encryption set to the required level.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Remote Desktop Services \u003e\u003e Remote Desktop Session Host \u003e\u003e Security \u003e\u003e \"Set client connection encryption level\" to \"Enabled\" and \"High Level\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220853 - Disable Downloading Attachments from RSS",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220853 - Attachments must be prevented from being downloaded from RSS feeds.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e RSS Feeds \u003e\u003e \"Prevent downloading of enclosures\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220854 - Disable Basic Authentication for RSS",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220854 - Basic authentication for RSS feeds over HTTP must not be used.",
+                                                     "Description":  "The default behavior is for the Windows RSS platform to not use Basic authentication over HTTP connections.\n\nIf this needs to be corrected, configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e RSS Feeds \u003e\u003e \"Turn on Basic feed authentication over HTTP\" to \"Not Configured\" or \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220855 - Disable Indexing of Encrypted Files",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220855 - Indexing of encrypted files must be turned off.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Search \u003e\u003e \"Allow indexing of encrypted files\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220856 - Prevent User from Changing Installation Options",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220856 - Users must be prevented from changing installation options.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Installer \u003e\u003e \"Allow user control over installs\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220858 - Configure User Notification if Web-based Program Attempts Installation",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220858 - Users must be notified if a web-based program attempts to install software.",
+                                                     "Description":  "The default behavior is for Internet Explorer to warn users and select whether to allow or refuse installation when a web-based program attempts to install software on the system.\n\nIf this needs to be corrected, configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Installer \u003e\u003e \"Prevent Internet Explorer security prompt for Windows Installer scripts\" to \"Not Configured\" or \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220859 - Disable Automatic Sign-on After Restart",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220859 - Automatically signing in the last interactive user after a system-initiated restart must be disabled.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Logon Options \u003e\u003e \"Sign-in last interactive user automatically after a system-initiated restart\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220860 - Enable PowerShell Script Block Logging",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220860 - PowerShell script block logging must be enabled on Windows 10.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows PowerShell \u003e\u003e \"Turn on PowerShell Script Block Logging\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220861 - Disable Windows Explorer Preview Pane",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220861 - The Windows Explorer Preview pane must be disabled for Windows 10. ",
+                                                     "Description":  "Ensure the following settings are configured for Windows 10 locally or applied through group policy. \n\nConfigure the policy value for User Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e File Explorer \u003e\u003e Explorer Frame Pane \"Turn off Preview Pane\" to \"Enabled\".\n\nConfigure the policy value for User Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e File Explorer \u003e\u003e Explorer Frame Pane \"Turn on or off details pane\" to \"Enabled\" and \"Configure details pane\" to \"Always hide\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220863 - Disable Unencrypted Traffic for WinRM Client",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220863 - The Windows Remote Management (WinRM) client must not allow unencrypted traffic.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Remote Management (WinRM) \u003e\u003e WinRM Client \u003e\u003e \"Allow unencrypted traffic\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220866 - Disable Unencrypted Traffic for WinRM Server",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220866 - The Windows Remote Management (WinRM) service must not allow unencrypted traffic.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Remote Management (WinRM) \u003e\u003e WinRM Service \u003e\u003e \"Allow unencrypted traffic\" to \"Disabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220867 - Disable Storage of RunAs Credentials in WinRM",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220867 - The Windows Remote Management (WinRM) service must not store RunAs credentials.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Remote Management (WinRM) \u003e\u003e WinRM Service \u003e\u003e \"Disallow WinRM from storing RunAs credentials\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220868 - Disable use of Digest Authentication for WinRM Client",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220868 - The Windows Remote Management (WinRM) client must not use Digest authentication.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Remote Management (WinRM) \u003e\u003e WinRM Client \u003e\u003e \"Disallow Digest authentication\" to \"Enabled\"."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220869 - Disable App Activation by Voice while System is Locked",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220869 - Windows 10 must be configured to prevent Windows apps from being activated by voice while the system is locked.",
+                                                     "Description":  "Configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e App Privacy \u003e\u003e \"Let Windows apps activate with voice while the system is locked\" to \"Enabled\" with “Default for all Apps:” set to “Force Deny”. \n\nThe requirement is NA if the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e App Privacy \u003e\u003e \"Let Windows apps activate with voice\" is configured to \"Enabled\" with “Default for all Apps:” set to “Force Deny”."
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220870 - Disable Convenience PIN",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220870 - The convenience PIN for Windows 10 must be disabled.  ",
+                                                     "Description":  "Disable the convenience PIN sign-in. \n\nIf this needs to be corrected configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e System \u003e\u003e Logon \u003e\u003e Set \"Turn on convenience PIN sign-in\" to \"Disabled”.\n"
+                                                 }
+                                             ]
+                  },
+                  {
+                      "SettingName":  "V-220871 - Disable Windows Ink Workspace above the Lock",
+                      "Operator":  "IsEquals",
+                      "DataType":  "Boolean",
+                      "Operand":  true,
+                      "MoreInfoUrl":  "https://microsoft.com",
+                      "RemediationStrings":  [
+                                                 {
+                                                     "Language":  "en_US",
+                                                     "Title":  "V-220871 - Windows Ink Workspace must be configured to disallow access above the lock.  ",
+                                                     "Description":  "Disable the convenience PIN sign-in. \n\nIf this needs to be corrected, configure the policy value for Computer Configuration \u003e\u003e Administrative Templates \u003e\u003e Windows Components \u003e\u003e Windows Ink Workspace \u003e\u003e Set \"Allow Windows Ink Workspace\" to \"Enabled” and set Options \"On, but disallow access above lock\"."
+                                                 }
+                                             ]
+                  }
+			  ]
+}
