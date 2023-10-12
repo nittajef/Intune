@@ -44,13 +44,14 @@ switch -regex ($stig.Benchmark.title) {
 ## Main rules loop, step through each rule in the STIG and generate the PS and JSON content for the two output files
 
 ### Variable within the loop
-$ruleId = ""         # shared
-$ruleVarName = ""    # ps only
-$settingName = ""    # shared
-$mapSettingName = "" # shared
+$ruleId = ""         # shared  - The STIG rule ID
+$ruleVarName = ""    # ps only - STIG rule ID without the dash, since PS doesn't like dashes in variable names
+$settingName = ""    # shared  - CC JSON setting name (output hash from the PS discovery script must have matching entries)
+$mapSettingName = "" # shared  - The W10 equivalent STIG rule ID to a W11 rule ID, only set if processing W11 STIG
 
 
 foreach ($rule in $stig.Benchmark.Group.Rule) {
+
     # Only process rule if it's included in OrgSettings file
     if (($OrgSettings.severity.CAT1 -and $rule.severity -eq "high") -or
         ($OrgSettings.severity.CAT2 -and $rule.severity -eq "medium") -or
@@ -59,7 +60,81 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
         continue
     }
 
+    $ruleId = $rule.id.Substring(1,8)  # Pull out Rule ID like "V-220706"
+    $settingName = $ruleName           # Start value of CC JSON setting name to Rule ID
 
+    # If processing a W11 STIG, look at W10-W11 rule map and find matching W10 rule, if it exists
+    if ($W11) {
+        $mapSettingName = $map.GetEnumerator() | Where-Object { $_.'W11-V1-R4' -eq $ruleName } | Select-Object -ExpandProperty 'W10-V2-R7'
+    } else {
+        $mapSettingName = ""
+    }
+
+    # Check if the rule has a special status, and append appropriate suffix
+    if ($OrgSettings.nocode -contains $ruleId -or $OrgSettings.nocode -contains $mapSettingName) {
+        if ($OrgSettings.output.JSONNoCheckRules -eq "exclude") {
+            continue
+        } else {
+            $settingName = $settingName + "-NoChk"
+        }
+    } elseif ($OrgSettings.exemptions -contains $ruleId -or $OrgSettings.exemptions -contains $mapSettingName) {
+        $settingName = $settingName + "-EXM"
+    } elseif ($OrgSettings.overrides.ContainsKey($ruleId) -or $OrgSettings.overrides.ContainsKey($mapSettingName)) {
+        $settingName = $settingName + "-OvR"
+    }
+
+    # If short names options is enabled, lookup rule short name from map file and append to JSON setting name/matching PS hash key
+    if ($OrgSettings.output.JSONShortName) {
+        if ($W11) {
+            # fill this out
+        } else {
+            $short_name = $map.GetEnumerator() | Where-Object { $_.'W10-V2-R7' -eq $ruleName } | Select-Object -ExpandProperty 'short_name'
+            $settingName = $settingName + " - " + $short_name
+        }
+    }
+
+    # Fill out reference section of entry, which is not used by Intune CC
+    $cciId = @()
+    $legacyId = @() 
+    $reference = [ordered]@{}
+    $reference.Add('Severity', $rule.severity)
+    $reference.Add('Rule_ID', $rule.id)
+    $reference.Add('STIG_ID', $rule.version)
+
+    foreach ($ident in $rule.ident) {
+        if ($ident.system -eq 'http://cyber.mil/cci') {
+            $cciId += $ident.'#text'
+        } elseif ($ident.system -eq 'http://cyber.mil/legacy') {
+            $legacyId += $ident.'#text'
+        }
+    }
+    if ($cciId.Count -gt 0) { $reference.Add('CCI', $cciId -join ',') }
+    if ($legacyId.Count -gt 0) { $reference.Add('Legacy_IDs', $legacyId -join ',') }
+
+    # Fill out "Description" field of CC JSON "RemediationStrings", this info shows up on the client system
+    $description = switch ($OrgSettings.output.JSONStyle) {
+                       "description" { [regex]::Matches($rule.description,'<VulnDiscussion>([\s\S]*)</VulnDiscussion>').Groups[1].Value }
+                       "fix"    { $rule.fixtext.'#text' }
+                       "debug"   { "Rule check return value: {ActualValue}" } # Need to adjust PS check returns to make this useful
+                   }
+
+    # Create JSON text for current rule
+    $setting = [ordered]@{
+                    SettingName = $settingName
+                    Operator = "IsEquals"
+                    DataType = "Boolean"
+                    Operand = $true
+                    MoreInfoUrl = $OrgSettings.output.JSONInfoURL
+                    RemediationStrings = @(([ordered]@{
+                        Language = "en_US"
+                        Title = $ruleId + " - " + $rule.title
+                        Description = $description
+                    }))
+               }
+    # Only include the (non-functional) reference text if wanted
+    if ($OrgSettings.output.JSONReference -eq "include") {
+        $setting.Add("Reference", $reference)
+    }
 }
 
 ## Output PS and JSON files
@@ -70,68 +145,7 @@ function Generate-CCPolicy() {
     $rules = @()
 
     foreach ($rule in $stig.Benchmark.Group.Rule) {
-        # Continue if rule is in a CAT category specified above
-        if (($OrgSettings.severity.CAT1 -and $rule.severity -eq "high") -or
-            ($OrgSettings.severity.CAT2 -and $rule.severity -eq "medium") -or
-            ($OrgSettings.severity.CAT3 -and $rule.severity -eq "low")) {
-        } else {
-            continue
-        }
 
-        $ruleName = $rule.id.Substring(1,8)
-        $settingName = $ruleName
-
-        #$settingName = $rule.id.Substring(1,8)
-        if ($W11) {
-            $mapSettingName = $map.GetEnumerator() | Where-Object { $_.'W11-V1-R4' -eq $ruleName } | Select-Object -ExpandProperty 'W10-V2-R7'
-        } else {
-            $mapSettingName = ""
-        }
-
-        if ($OrgSettings.nocode -contains $ruleName -or $OrgSettings.nocode -contains $mapSettingName) {
-            if ($OrgSettings.output.JSONNoCheckRules -eq "exclude") {
-                continue
-            } else {
-                $settingName = $settingName + "-NoChk"
-            }
-        } elseif ($OrgSettings.exemptions -contains $ruleName -or $OrgSettings.exemptions -contains $mapSettingName) {
-            $settingName = $settingName + "-EXM"
-        } elseif ($OrgSettings.overrides.ContainsKey($ruleName) -or $OrgSettings.overrides.ContainsKey($mapSettingName)) {
-            $settingName = $settingName + "-OvR"
-        }
-
-        if ($OrgSettings.output.JSONShortName) {
-            if ($W11) {
-            } else {
-                $short_name = $map.GetEnumerator() | Where-Object { $_.'W10-V2-R7' -eq $ruleName } | Select-Object -ExpandProperty 'short_name'
-                $settingName = $settingName + " - " + $short_name
-            }
-        }
-
-        # Fill out reference section of entry, which is not used by Intune CC
-        $reference = [ordered]@{}
-        $reference.Add('Severity', $rule.severity)
-        $reference.Add('Rule_ID', $rule.id)
-        $reference.Add('STIG_ID', $rule.version)
-
-        $cciId = @()
-        $legacyId = @() 
-
-        foreach ($ident in $rule.ident) {
-            if ($ident.system -eq 'http://cyber.mil/cci') {
-                $cciId += $ident.'#text'
-            } elseif ($ident.system -eq 'http://cyber.mil/legacy') {
-                $legacyId += $ident.'#text'
-            }
-        }
-        if ($cciId.Count -gt 0) {$reference.Add('CCI', $cciId -join ',')}
-        if ($legacyId.Count -gt 0) {$reference.Add('Legacy_IDs', $legacyId -join ',')}
-
-        $description = switch ($OrgSettings.output.JSONStyle) {
-                           "description" { [regex]::Matches($rule.description,'<VulnDiscussion>([\s\S]*)</VulnDiscussion>').Groups[1].Value }
-                           "fix"    { $rule.fixtext.'#text' }
-                           "debug"   { "Rule check return value: {ActualValue}" } # Need to adjust PS check returns to make this useful
-                       }
         $setting = [ordered]@{
                         SettingName = $settingName
                         Operator = "IsEquals"
