@@ -75,6 +75,10 @@ Per setting view from the policy configuration:
 
 <h2>Change Log</h2>
 
+2023-10-13
+
+- Updated rule V-220920/V-253444 to check both the Intune Policy reg key in addition to the GP registry key
+
 2023-10-05
 
 - Uploaded generated default policy files with rule/setting names instead of just the STIG ID as name
