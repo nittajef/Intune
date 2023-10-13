@@ -113,7 +113,7 @@
         #    )
         #}
         #'V-220920' = @{
-        #    InactivityTimeout = 900
+        #    InactivityTimeout = 15  # Value in minutes
         #}
     }
 
