@@ -6,7 +6,7 @@
 ##
 # Import script generation settings, additional rule data, and rule check content.
 ##
-$OrgSettings = Import-PowerShellDataFile "Org-Settings.psd1"
+$OrgSettings = Import-PowerShellDataFile "Org-Settings-W10.psd1"
 $RuleChecks = Import-PowerShellDataFile $OrgSettings.input.Checks
 [xml]$stig = Get-Content -Path $OrgSettings.input.STIG -Encoding UTF8
 $map = Import-Csv W10-W11-rule-map.csv
@@ -14,7 +14,10 @@ $map = Import-Csv W10-W11-rule-map.csv
 $PsOutput = @()        # Output string for the full PowerShell discovery script.
 $JsonOutput = @()      # Output string for 
 $W10,$W11 = $false     # Flags to tell script if it's a W10 or W11 STIG. W11 STIG needs to use rule map.
-
+$SharedInfo = @()      # List of info needed for each severity (computer info, security policy, audit policy, etc)
+$AccountInfo = @()     # List(s) of accounts that are allowed/exempted from rules
+$EmptyRules = 0        # Count of rules that don't have definitions or aren't auto generated
+$ReturnHash = '$hash = [ordered]@{' + "`r`n"  # Create the return hash of check values
 
 ## General setup, declare variables, etc
 
@@ -41,9 +44,68 @@ switch -regex ($stig.Benchmark.title) {
     }
 }
 
+function Format-Text ($input_txt) {
+    # Replace non-Latin characters that Intune doesn't like
+    $input_txt = $input_txt -replace ('“|”', '"')
+    $input_txt = $input_txt -replace ('…', '...')
+    $input_txt = $input_txt -replace ('™', '')
+    $input_txt = $input_txt -replace ('–', '-')
+
+    foreach ($sub_txt in $input_txt) {
+        if ($sub_txt -eq "`n") {
+            # Add the blank lines back in for spacing
+            $formatted_text += "#`r`n"
+        } else {
+            $sub_txt = [regex]::Matches($sub_txt,'(?<=\s|^)(.{1,110})(?=\s|$)')
+            foreach ($snip in $sub_txt) {
+                $formatted_text += "# " + $snip.Groups[1].Value + "`r`n"
+            }
+        }
+        $formatted_text += "#`r`n"
+    }
+
+    # Remove last extra blank line
+    $formatted_text = $formatted_text.TrimEnd("`r`n")
+
+    $formatted_text
+}
+
+
+# Add any shared info needed by multiple rules
+foreach ($list in $OrgSettings.accounts.Keys) {
+    if ($OrgSettings.accounts[$list].Length -gt 0) {
+        $AccountInfo += "$" + $list + " = @(`"" + ($OrgSettings.accounts[$list] -join '", "') + "`")`r`n"
+    }
+}
+
+if ($OrgSettings.severity.CAT1) {
+    $SharedInfo += $RuleChecks.CAT1
+}
+if ($OrgSettings.severity.CAT2) {
+    $SharedInfo += $RuleChecks.CAT2
+}
+if ($OrgSettings.severity.CAT3) {
+    $SharedInfo += $RuleChecks.CAT3
+}
+if ($SharedInfo) {
+    $PsOutput += "#`r`n# Gather/set data used across multiple rule checks`r`n#`r`n"
+    foreach ($data in $SharedInfo) {
+        if ($W11 -and $data -eq "LTSB") {
+            continue  # Don't load LTSB info since W11 doesn't have LTSB/LTSC versions, yet
+        }
+        $PsOutput += $RuleChecks.$data + "`r`n"
+    }
+    $PsOutput += "`r`n"
+}
+if ($AccountInfo) {
+    $PsOutput += "#`r`n# List of accounts used across multiple rule checks`r`n#"
+    $PsOutput += $AccountInfo
+    $PsOutput += "`r`n"
+}
+
 ## Main rules loop, step through each rule in the STIG and generate the PS and JSON content for the two output files
 
-### Variable within the loop
+### Variables used only within the loop
 $ruleId = ""         # shared  - The STIG rule ID
 $ruleVarName = ""    # ps only - STIG rule ID without the dash, since PS doesn't like dashes in variable names
 $settingName = ""    # shared  - CC JSON setting name (output hash from the PS discovery script must have matching entries)
@@ -60,8 +122,9 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
         continue
     }
 
-    $ruleId = $rule.id.Substring(1,8)  # Pull out Rule ID like "V-220706"
-    $settingName = $ruleName           # Start value of CC JSON setting name to Rule ID
+    $ruleId = $rule.id.Substring(1,8)    # Pull out Rule ID like "V-220706"
+    $ruleVarName = $ruleId -replace "-"  # Remove the dash
+    $settingName = $ruleId               # Start value of CC JSON setting name to Rule ID
 
     # If processing a W11 STIG, look at W10-W11 rule map and find matching W10 rule, if it exists
     if ($W11) {
@@ -70,7 +133,7 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
         $mapSettingName = ""
     }
 
-    # Check if the rule has a special status, and append appropriate suffix
+    # Check if the rule has a special status, and append suffix, or skip if appropriate
     if ($OrgSettings.nocode -contains $ruleId -or $OrgSettings.nocode -contains $mapSettingName) {
         if ($OrgSettings.output.JSONNoCheckRules -eq "exclude") {
             continue
@@ -88,10 +151,14 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
         if ($W11) {
             # fill this out
         } else {
-            $short_name = $map.GetEnumerator() | Where-Object { $_.'W10-V2-R7' -eq $ruleName } | Select-Object -ExpandProperty 'short_name'
+            $short_name = $map.GetEnumerator() | Where-Object { $_.'W10-V2-R7' -eq $ruleId } | Select-Object -ExpandProperty 'short_name'
             $settingName = $settingName + " - " + $short_name
         }
     }
+
+    ##
+    # JSON generation
+    ##
 
     # Fill out reference section of entry, which is not used by Intune CC
     $cciId = @()
@@ -131,138 +198,51 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
                         Description = $description
                     }))
                }
+
     # Only include the (non-functional) reference text if wanted
     if ($OrgSettings.output.JSONReference -eq "include") {
         $setting.Add("Reference", $reference)
     }
+
+    # Add rule/setting to JSON output
+    $JsonOutput += $setting
+
+
+    ##
+    # PowerShell discovery generation
+    ##
+
+
 }
+
+$ReturnHash += "}`r`n`r`n"
+$ReturnHash += 'return $hash | ConvertTo-Json -Compress'
+$PsOutput += $ReturnHash
 
 ## Output PS and JSON files
+@{"Rules" = $JsonOutput} | ConvertTo-Json -Depth 4 | Out-File $OrgSettings.output.JSON
+$PsOutput | Out-File -FilePath $OrgSettings.output.PS
+Write-Host("There are $EmptyRules unfinished rule checks")
 
 
 
-function Generate-CCPolicy() {
-    $rules = @()
 
-    foreach ($rule in $stig.Benchmark.Group.Rule) {
 
-        $setting = [ordered]@{
-                        SettingName = $settingName
-                        Operator = "IsEquals"
-                        DataType = "Boolean"
-                        Operand = $true
-                        MoreInfoUrl = $OrgSettings.output.JSONInfoURL
-                        RemediationStrings = @(([ordered]@{
-                            Language = "en_US"
-                            Title = $ruleName + " - " + $rule.title
-                            Description = $description
-                        }))
-                    }
-        if ($OrgSettings.output.JSONReference -eq "include") {
-            $setting.Add("Reference", $reference)
-        }
-        $rules += $setting
-    }
 
-    @{"Rules" = $rules}
-}
-
-function Format-Text ($input_txt) {
-    # Replace non-Latin characters that Intune doesn't like
-    $input_txt = $input_txt -replace ('“|”', '"')
-    $input_txt = $input_txt -replace ('…', '...')
-    $input_txt = $input_txt -replace ('™', '')
-    $input_txt = $input_txt -replace ('–', '-')
-
-    foreach ($sub_txt in $input_txt) {
-        if ($sub_txt -eq "`n") {
-            # Add the blank lines back in for spacing
-            $formatted_text += "#`r`n"
-        } else {
-            $sub_txt = [regex]::Matches($sub_txt,'(?<=\s|^)(.{1,110})(?=\s|$)')
-            foreach ($snip in $sub_txt) {
-                $formatted_text += "# " + $snip.Groups[1].Value + "`r`n"
-            }
-        }
-        $formatted_text += "#`r`n"
-    }
-
-    # Remove last extra blank line
-    $formatted_text = $formatted_text.TrimEnd("`r`n")
-
-    $formatted_text
-}
-
-# Add any shared info needed by multiple rule checks
-$SharedInfo = @()
-$AccountInfo = @()
-
-foreach ($list in $OrgSettings.accounts.Keys) {
-    if ($OrgSettings.accounts[$list].Length -gt 0) {
-        $AccountInfo += "$" + $list + " = @(`"" + ($OrgSettings.accounts[$list] -join '", "') + "`")`r`n"
-    }
-}
-
-if ($OrgSettings.severity.CAT1) {
-    $SharedInfo += $RuleChecks.CAT1
-}
-if ($OrgSettings.severity.CAT2) {
-    $SharedInfo += $RuleChecks.CAT2
-}
-if ($OrgSettings.severity.CAT3) {
-    $SharedInfo += $RuleChecks.CAT3
-}
-if ($SharedInfo) {
-    $PsOutput += "#`r`n# Gather/set data used across multiple rule checks`r`n#`r`n"
-    foreach ($data in $SharedInfo) {
-        if ($W11 -and $data -eq "LTSB") {
-            continue
-        }
-        $PsOutput += $RuleChecks.$data + "`r`n"
-    }
-    $PsOutput += "`r`n"
-}
-if ($AccountInfo) {
-    $PsOutput += "#`r`n# List of accounts used across multiple rule checks`r`n#"
-    $PsOutput += $AccountInfo
-    $PsOutput += "`r`n"
-}
-
-$EmptyRules = 0
-
-# Create the return hash of check values
-$ret_hash = '$hash = [ordered]@{' + "`r`n"
 
 # Iterate through all rules in the STIG document
 foreach ($rule in $stig.Benchmark.Group.Rule) {
-    #
-    # Skip rule if it's not in a selected severity level or in "nocheck" or "exemptions" list
-    #
-    if (($OrgSettings.severity.CAT1 -and $rule.severity -eq "high") -or
-        ($OrgSettings.severity.CAT2 -and $rule.severity -eq "medium") -or
-        ($OrgSettings.severity.CAT3 -and $rule.severity -eq "low")) {
-    } else {
-        continue
-    }
 
     $ruleId = $rule.id.Substring(1,8)
     $ruleIdSuffix = ""
     $ruleVarName = $ruleId -replace "-"
     $mapRuleId = ""
-    if ($W11) {
-        $mapRuleId = $map.GetEnumerator() | Where-Object { $_.'W11-V1-R4' -eq $ruleId } | Select-Object -ExpandProperty 'W10-V2-R7'
-    }
 
-    if ($OrgSettings.nocode -contains $ruleId -or $OrgSettings.nocode -contains $mapRuleId) {
-        if ($OrgSettings.output.JSONNoCheckRules -eq "exclude") {
-            continue
-        }
-    }
 
     #
     # Create rule comments (title, description, check, fix, ids)
     #
-    # Split description/check/fix fields by blank lines to preserver spacing
+    # Split description/check/fix fields by blank lines to preserve spacing
     $formatted_title = Format-Text($rule.title)
     # Match text in VulnDiscussion section, but remove the VulnDiscussion tags
     $desc_txt = [regex]::Matches($rule.description,'<VulnDiscussion>([\s\S]*)</VulnDiscussion>').Groups[1].Value
@@ -433,10 +413,3 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
     }
 }
 
-$ret_hash += "}`r`n`r`n"
-$ret_hash += 'return $hash | ConvertTo-Json -Compress'
-$PsOutput += $ret_hash  
-
-Generate-CCPolicy | ConvertTo-Json -Depth 4 | Out-File $OrgSettings.output.JSON
-$PsOutput | Out-File -FilePath $OrgSettings.output.PS
-Write-Host("There are $EmptyRules unfinished rule checks")
