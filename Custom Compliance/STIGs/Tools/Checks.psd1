@@ -1890,11 +1890,13 @@ try {
     'V-220920' = @'
 try {
     if ($InactivityTimeout) {
-        $sec = $InactivityTimeout
+        $sec = $InactivityTimeout * 60
     } else {
+        $InactivityTimeout = 15
         $sec = 900
     }
-    if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name InactivityTimeoutSecs -ErrorAction Stop) -ne 1..$sec) {
+    if (((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name InactivityTimeoutSecs -ErrorAction Stop) -ne 1..$sec) -or
+         (Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\current\device\DeviceLock\" -Name MaxInactivityTimeDeviceLock -ErrorAction Stop) -ne 1..$InactivityTimeout) {
         $V220920 = $true
     } else {
         $V220920 = $false
