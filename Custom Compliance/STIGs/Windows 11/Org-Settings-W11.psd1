@@ -14,12 +14,15 @@
         #            exclude - Remove rules with no technical checks from compliance policy
         # Reference: include - Include rule references (not needed/used by Intune at the moment)
         #            exclude - Remove rule references (brings down JSON file size)
+        # ShortName: $true   - Include rule brief name in Custom Compliance setting name (ex: V-220697 - Require Windows Enterprise x64)
+        #            $false  - Only include the STIG rule ID for Custom Compliance setting name (ex: V-220697)
         #
         JSON = "cc_json.json"
         JSONStyle = "fix"
-        JSONInfoURL = "https://contoso.com"
+        JSONInfoURL = "https://microsoft.com"  # As of 2023105 - Can't be blank or Intune will not accept the JSON file
         JSONNoCheckRules = "include"
         JSONReference = "exclude"
+        JSONShortName = $true
 
         # PowerShell output to upload as script in Intune Custom Compliance
         # Style:   verbose - Add all of the STIG rule comments (Discussion, Check, Fix)
@@ -42,9 +45,9 @@
 
     severity = @{
         # Select which severity rules to generate policy for
-        CAT1 = $false
+        CAT1 = $true
         CAT2 = $false
-        CAT3 = $true
+        CAT3 = $false
     }
 
     # List all rules that are manual/process checks
@@ -112,7 +115,7 @@
         #    )
         #}
         #'V-220920' = @{
-        #    InactivityTimeout = 900
+        #    InactivityTimeout = 15  # Value in minutes
         #}
     }
 
@@ -121,4 +124,3 @@
     exemptions = @(
     )
 }
-
