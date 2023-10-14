@@ -77,6 +77,8 @@ Per setting view from the policy configuration:
 
 2023-10-13
 
+- Refactored generator script
+- Uploaded Windows 11 CAT I and CAT III Custom Compliance files, with rule/setting names
 - Updated rule V-220920/V-253444 to check both the Intune Policy reg key in addition to the GP registry key
 
 2023-10-05
