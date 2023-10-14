@@ -55,7 +55,8 @@ function Format-Text ($input_txt) {
         if ($sub_txt -eq "`n") {
             # Add the blank lines back in for spacing
             $formatted_text += "#`r`n"
-        } else {
+        }
+        else {
             $sub_txt = [regex]::Matches($sub_txt,'(?<=\s|^)(.{1,110})(?=\s|$)')
             foreach ($snip in $sub_txt) {
                 $formatted_text += "# " + $snip.Groups[1].Value + "`r`n"
@@ -105,20 +106,25 @@ if ($AccountInfo) {
 
 ## Main rules loop, step through each rule in the STIG and generate the PS and JSON content for the two output files
 
-### Variables used only within the loop
-$ruleId = ""         # shared  - The STIG rule ID
-$ruleVarName = ""    # ps only - STIG rule ID without the dash, since PS doesn't like dashes in variable names
-$settingName = ""    # shared  - CC JSON setting name (output hash from the PS discovery script must have matching entries)
-$mapSettingName = "" # shared  - The W10 equivalent STIG rule ID to a W11 rule ID, only set if processing W11 STIG
-
-
 foreach ($rule in $stig.Benchmark.Group.Rule) {
+
+    ### Variables used only within the loop
+    $ruleId = ""          # shared  - The STIG rule ID
+    $ruleVarName = ""     # ps only - STIG rule ID without the dash, since PS doesn't like dashes in variable names
+    $settingName = ""     # shared  - CC JSON setting name (output hash from the PS discovery script must have matching entries)
+    $mapRuleId = ""       # shared  - The W10 equivalent STIG rule ID to a W11 rule ID, only set if processing W11 STIG
+    $override = @{}       # ps only - Holder of any override values for the rules
+    $check = ""           # ps only - String that holds PS code to output in discovery script
+    $registryCheck = @()  # ps only - Values needed to construct a PS registry eval/check
+    $registryChecks = [System.Collections.ArrayList]@()  # Collection of individual registry checks, some rules have multiple
+
 
     # Only process rule if it's included in OrgSettings file
     if (($OrgSettings.severity.CAT1 -and $rule.severity -eq "high") -or
         ($OrgSettings.severity.CAT2 -and $rule.severity -eq "medium") -or
         ($OrgSettings.severity.CAT3 -and $rule.severity -eq "low")) {
-    } else {
+    }
+    else {
         continue
     }
 
@@ -128,32 +134,37 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
 
     # If processing a W11 STIG, look at W10-W11 rule map and find matching W10 rule, if it exists
     if ($W11) {
-        $mapSettingName = $map.GetEnumerator() | Where-Object { $_.'W11-V1-R4' -eq $ruleName } | Select-Object -ExpandProperty 'W10-V2-R7'
-    } else {
-        $mapSettingName = ""
+        $mapRuleId = $map.GetEnumerator() | Where-Object { $_.'W11-V1-R4' -eq $ruleId } | Select-Object -ExpandProperty 'W10-V2-R7'
+    }
+    else {
+        $mapRuleId = ""
     }
 
     # Check if the rule has a special status, and append suffix, or skip if appropriate
-    if ($OrgSettings.nocode -contains $ruleId -or $OrgSettings.nocode -contains $mapSettingName) {
+    if ($OrgSettings.nocode -contains $ruleId -or $OrgSettings.nocode -contains $mapRuleId) {
         if ($OrgSettings.output.JSONNoCheckRules -eq "exclude") {
             continue
-        } else {
+        }
+        else {
             $settingName = $settingName + "-NoChk"
         }
-    } elseif ($OrgSettings.exemptions -contains $ruleId -or $OrgSettings.exemptions -contains $mapSettingName) {
+    }
+    elseif ($OrgSettings.exemptions -contains $ruleId -or $OrgSettings.exemptions -contains $mapRuleId) {
         $settingName = $settingName + "-EXM"
-    } elseif ($OrgSettings.overrides.ContainsKey($ruleId) -or $OrgSettings.overrides.ContainsKey($mapSettingName)) {
+    }
+    elseif ($OrgSettings.overrides.ContainsKey($ruleId) -or $OrgSettings.overrides.ContainsKey($mapRuleId)) {
         $settingName = $settingName + "-OvR"
     }
 
     # If short names options is enabled, lookup rule short name from map file and append to JSON setting name/matching PS hash key
     if ($OrgSettings.output.JSONShortName) {
         if ($W11) {
-            # fill this out
-        } else {
-            $short_name = $map.GetEnumerator() | Where-Object { $_.'W10-V2-R7' -eq $ruleId } | Select-Object -ExpandProperty 'short_name'
-            $settingName = $settingName + " - " + $short_name
+            $short_name = $map.GetEnumerator() | Where-Object { $_.'W10-V2-R7' -eq $mapRuleId } | Select-Object -ExpandProperty 'short_name'
         }
+        else {
+            $short_name = $map.GetEnumerator() | Where-Object { $_.'W10-V2-R7' -eq $ruleId } | Select-Object -ExpandProperty 'short_name'
+        }
+        $settingName = $settingName + " - " + $short_name
     }
 
     ##
@@ -171,7 +182,8 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
     foreach ($ident in $rule.ident) {
         if ($ident.system -eq 'http://cyber.mil/cci') {
             $cciId += $ident.'#text'
-        } elseif ($ident.system -eq 'http://cyber.mil/legacy') {
+        }
+        elseif ($ident.system -eq 'http://cyber.mil/legacy') {
             $legacyId += $ident.'#text'
         }
     }
@@ -213,35 +225,7 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
     ##
 
 
-}
-
-$ReturnHash += "}`r`n`r`n"
-$ReturnHash += 'return $hash | ConvertTo-Json -Compress'
-$PsOutput += $ReturnHash
-
-## Output PS and JSON files
-@{"Rules" = $JsonOutput} | ConvertTo-Json -Depth 4 | Out-File $OrgSettings.output.JSON
-$PsOutput | Out-File -FilePath $OrgSettings.output.PS
-Write-Host("There are $EmptyRules unfinished rule checks")
-
-
-
-
-
-
-
-# Iterate through all rules in the STIG document
-foreach ($rule in $stig.Benchmark.Group.Rule) {
-
-    $ruleId = $rule.id.Substring(1,8)
-    $ruleIdSuffix = ""
-    $ruleVarName = $ruleId -replace "-"
-    $mapRuleId = ""
-
-
-    #
-    # Create rule comments (title, description, check, fix, ids)
-    #
+    ## Extract rule comments (title, description, check, fix, ids)
     # Split description/check/fix fields by blank lines to preserve spacing
     $formatted_title = Format-Text($rule.title)
     # Match text in VulnDiscussion section, but remove the VulnDiscussion tags
@@ -256,121 +240,7 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
                     "high" {"CAT I"}
                 }
 
-    # If there are registry tests in rule, generate checks
-    # $registryChecks holds a collection of individual registry checks, some rules have multiple
-    $registryChecks = [System.Collections.ArrayList]@()
-    $registryCheck = @()
-    foreach ($line in $rule.check.'check-content'.Split("`n")) {
-        if ($line.Contains("Registry Hive")) {
-            $hive = switch -regex ($line) {
-                'Registry Hive:\s+HKEY_LOCAL_MACHINE' { "HKLM:" }
-                'Registry Hive:\s+HKEY_CURRENT_USER' { "HKCU:" }
-                default { $null }
-            }
-        } elseif ($line.Contains("Registry Path:")) {
-            $regPath = $line -replace 'Registry Path:\s+', "".Trim()
-        } elseif ($line.Contains("Value Name:")) {
-            $regName = $line -replace 'Value Name:\s+', "".Trim()
-        } elseif ($line.Contains("Value:")) {
-            # Match these: Value: 0x00000001 (1) (Enabled with UEFI lock)
-            #              Value: 1
-            if ($line.TrimEnd() -match '0x.{8}\s+\((\d+)\)') {
-                $regValue = $Matches[1]
-            } elseif ($line.TrimEnd() -match "(?m)Value:\s+(\d+)$") {
-                $regValue = $Matches[1]
-            }
-            $registryCheck = $hive, $regPath, $regName, $regValue
-            $registryChecks.Add($registryCheck) | Out-Null
-        }
-    }
-
-    # Create check rule logic template
-    $override = @{}
-    $check_template = ""
-    
-    #
-    # Create PowerShell logic check for the rule, looking in this order
-    # 1. Rule in "exemptions" list
-    # 2. Rule in "nocheck" list
-    # 3. Rule in "overrides" list
-    # 4. Rule in "checks" PSDataFile
-    # 5. Rule has generated registry checks
-    # 6. Empty rule template created
-    #
-    if ($OrgSettings.exemptions -contains $ruleId -or $OrgSettings.exemptions -contains $mapRuleId) {
-        $ruleIdSuffix = "-EXM"
-        $check_template = @(
-            "$" + $ruleVarName + ' = $true'
-        ) -join "`r`n"
-    } elseif ($OrgSettings.nocode -contains $ruleId -or $OrgSettings.nocode -contains $mapRuleId) {
-        $ruleIdSuffix = "-NoChk"
-        $check_template = @(
-            "$" + $ruleVarName + ' = $true'
-        ) -join "`r`n"
-    } elseif ($OrgSettings.overrides.ContainsKey($ruleId) -or $OrgSettings.overrides.ContainsKey($mapRuleId)) {
-        if ($mapRuleId) {
-            $override = $OrgSettings.overrides.$mapRuleId
-        } else {
-            $override = $OrgSettings.overrides.$ruleId
-        }
-        foreach ($setting in $override.Keys) {
-            if ($override.$setting -is [array]) {
-                $value = "@("
-                foreach ($val in $override.$setting) {
-                    $value += "`"$val`","
-                }
-                $value = $value.TrimEnd(",")
-                $value += ")"
-            } elseif ($override.$setting -is [int]) {
-                $value = $override.$setting
-            } else {
-                $value = '"' + $override.$setting + '"'
-            }
-            $check_template += "`$${setting} = $value`r`n"
-        }
-        $check_template += $RuleChecks.$ruleId
-        $ruleIdSuffix = "-OvR"
-    } elseif ($RuleChecks.$ruleId -or $RuleChecks.$mapRuleId) {
-        if ($mapRuleId -and $mapRuleId -ne "-") {
-            $check_template = $RuleChecks.$mapRuleId -replace $mapRuleId.Substring(2,6), $ruleId.Substring(2,6)
-        } else {
-            $check_template = $RuleChecks.$ruleId
-        }
-    } elseif ($registryChecks) {
-        # Template for the PowerShell registry check for the rule
-        $psRegChecks = "    if ("
-        foreach ($check in $registryChecks) {
-            $psRegChecks += "(Get-ItemPropertyValue -Path `""+ $check[0] + $check[1] + "`" -Name " + $check[2] + " -ErrorAction Stop) -eq " + $check[3] + " -and`r`n        "
-        }
-        # Replace last entries "-and" and close the "if" conditional
-        $psRegChecks = $psRegChecks.TrimEnd(" -and`r`n")
-        $psRegChecks += ") {"
-
-        $check_template = @(
-            "try {"
-                $psRegChecks
-            "        $" + $ruleVarName + ' = $true'
-            "    } else {"
-            "        $" + $ruleVarName + ' = $false'
-            "    }"
-            "} catch {"
-            "    $" + $ruleVarName + ' = $false'
-            "}`r`n"
-        ) -join "`r`n"
-    } else {
-        $check_template = @(
-            "try {"
-            "    "
-            "    $" + $ruleVarName + ' = $true'
-            "} catch {"
-            "    $" + $ruleVarName + ' = $false'
-            "}`r`n`r`n"
-        ) -join "`r`n"
-        $EmptyRules++
-        $ruleId
-    }
-
-    # Output full check/logic test text for each rule
+    # Output comment text for each rule
     $check = "##`r`n"
     $check += "# " + $ruleId + "`r`n"
     $check += $formatted_title + "`r`n"
@@ -394,22 +264,147 @@ foreach ($rule in $stig.Benchmark.Group.Rule) {
         $check += "# SEVERITY: " + $severity + "`r`n"
         $check += "# RULE ID: " + $rule.id + "`r`n"
         $check += "# STIG ID: " + $rule.version + "`r`n"
+        if ($mapRuleId) { $check += "# W10 ID: "+ $mapRuleId + "`r`n" }
         $check += "# REFERENCE: `r`n"
     }
     $check += "##`r`n"
-    $check += $check_template + "`r`n"
-
-    $PsOutput += $check
-
-    if ($OrgSettings.output.JSONShortName) {
-        if ($W11) {
-            
-        } else { 
-            $short_name = $map.GetEnumerator() | Where-Object { $_.'W10-V2-R7' -eq $ruleId } | Select-Object -ExpandProperty 'short_name'
-            $ret_hash += "    '" + $ruleId + $ruleIdSuffix + " - " + $short_name + "' = $" + $ruleVarName + "`r`n"
+    
+    # If there are registry tests given to us in rule, pull out keys and values
+    #  Does NOT currently check if the values should be equal/less/greater
+    foreach ($line in $rule.check.'check-content'.Split("`n")) {
+        if ($line.Contains("Registry Hive")) {
+            $hive = switch -regex ($line) {
+                'Registry Hive:\s+HKEY_LOCAL_MACHINE' { "HKLM:" }
+                'Registry Hive:\s+HKEY_CURRENT_USER' { "HKCU:" }
+                default { $null }
+            }
         }
-    } else {
-        $ret_hash += "    '" + $ruleId + $ruleIdSuffix + "' = $" + $ruleVarName + "`r`n"
+        elseif ($line.Contains("Registry Path:")) {
+            $regPath = $line -replace 'Registry Path:\s+', "".Trim()
+        }
+        elseif ($line.Contains("Value Name:")) {
+            $regName = $line -replace 'Value Name:\s+', "".Trim()
+        }
+        elseif ($line.Contains("Value:")) {
+            # Match these: Value: 0x00000001 (1) (Enabled with UEFI lock)
+            #              Value: 1
+            if ($line.TrimEnd() -match '0x.{8}\s+\((\d+)\)') {
+                $regValue = $Matches[1]
+            }
+            elseif ($line.TrimEnd() -match "(?m)Value:\s+(\d+)$") {
+                $regValue = $Matches[1]
+            }
+            $registryCheck = $hive, $regPath, $regName, $regValue
+            $registryChecks.Add($registryCheck) | Out-Null
+        }
     }
+
+    ##
+    # Create PowerShell logic check for the rule, looking in this order
+    # 1. Rule in "exemptions" list
+    # 2. Rule in "nocheck" list
+    # 3. Rule in "overrides" list
+    # 4. Rule in "checks" PSDataFile
+    # 5. Rule has generated registry checks
+    # 6. Empty rule template created
+    ##
+    # CONSIDER: Combining checks 1-3 in to above code for EXM/NoChk/OvR
+    if ($OrgSettings.exemptions -contains $ruleId -or $OrgSettings.exemptions -contains $mapRuleId) {
+        $check += "$" + $ruleVarName + ' = $true' + "`r`n"
+    }
+    elseif ($OrgSettings.nocode -contains $ruleId -or $OrgSettings.nocode -contains $mapRuleId) {
+        $check += "$" + $ruleVarName + ' = $true' + "`r`n"
+    }
+    elseif ($OrgSettings.overrides.ContainsKey($ruleId) -or $OrgSettings.overrides.ContainsKey($mapRuleId)) {
+        if ($mapRuleId) {
+            $override = $OrgSettings.overrides.$mapRuleId
+        }
+        else {
+            $override = $OrgSettings.overrides.$ruleId
+        }
+
+        foreach ($setting in $override.Keys) {
+            if ($override.$setting -is [array]) {
+                $value = "@("
+                foreach ($val in $override.$setting) {
+                    $value += "`"$val`","
+                }
+                $value = $value.TrimEnd(",")
+                $value += ")"
+            }
+            elseif ($override.$setting -is [int]) {
+                $value = $override.$setting
+            }
+            else {
+                $value = '"' + $override.$setting + '"'
+            }
+            $check += "`$${setting} = $value`r`n"
+        }
+        if ($mapRuleId) {
+            $check += $RuleChecks.$mapRuleId
+        }
+        else {
+            $check += $RuleChecks.$ruleId
+        }
+    }
+    elseif ($RuleChecks.$ruleId -or $RuleChecks.$mapRuleId) {
+        # Check if a W11 rule has a matching W10 rule, use that check logic if yes
+        if ($mapRuleId -and $mapRuleId -ne "-") {
+            $check += $RuleChecks.$mapRuleId -replace $mapRuleId.Substring(2,6), $ruleId.Substring(2,6)
+        }
+        else {
+            $check += $RuleChecks.$ruleId
+        }
+    }
+    elseif ($registryChecks) {
+        # Template for the PowerShell registry check for the rule
+        $psRegChecks = "    if ("
+        foreach ($reg in $registryChecks) {
+            $psRegChecks += "(Get-ItemPropertyValue -Path `""+ $reg[0] + $reg[1] + "`" -Name " + $reg[2] + " -ErrorAction Stop) -eq " + $reg[3] + " -and`r`n        "
+        }
+        # Replace last entries "-and" and close the "if" conditional
+        $psRegChecks = $psRegChecks.TrimEnd(" -and`r`n")
+        $psRegChecks += ") {"
+
+        $check = @(
+            $check
+            "try {"
+                $psRegChecks
+            "        $" + $ruleVarName + ' = $true'
+            "    } else {"
+            "        $" + $ruleVarName + ' = $false'
+            "    }"
+            "} catch {"
+            "    $" + $ruleVarName + ' = $false'
+            "}`r`n"
+        ) -join "`r`n"
+    }
+    else {
+        $check = @(
+            $check
+            "try {"
+            "    "
+            "    $" + $ruleVarName + ' = $true'
+            "} catch {"
+            "    $" + $ruleVarName + ' = $false'
+            "}`r`n`r`n"
+        ) -join "`r`n"
+        $EmptyRules++
+        $ruleId
+    }
+
+    $PsOutput += $check + "`r`n"
+
+    # Append rule entry in to output hash
+    $ReturnHash += "    '" + $settingName + "' = $" + $ruleVarName + "`r`n"
 }
 
+# Complete bottom of the PS Discovery file
+$ReturnHash += "}`r`n`r`n"
+$ReturnHash += 'return $hash | ConvertTo-Json -Compress'
+$PsOutput += $ReturnHash
+
+## Output PS and JSON files
+@{"Rules" = $JsonOutput} | ConvertTo-Json -Depth 4 | Out-File $OrgSettings.output.JSON
+$PsOutput | Out-File -FilePath $OrgSettings.output.PS
+Write-Host("There are $EmptyRules unfinished rule checks")
