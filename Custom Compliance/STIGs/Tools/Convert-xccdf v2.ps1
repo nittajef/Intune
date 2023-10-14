@@ -6,7 +6,7 @@
 ##
 # Import script generation settings, additional rule data, and rule check content.
 ##
-$OrgSettings = Import-PowerShellDataFile "Org-Settings-W10.psd1"
+$OrgSettings = Import-PowerShellDataFile "Org-Settings.psd1"
 $RuleChecks = Import-PowerShellDataFile $OrgSettings.input.Checks
 [xml]$stig = Get-Content -Path $OrgSettings.input.STIG -Encoding UTF8
 $map = Import-Csv W10-W11-rule-map.csv
