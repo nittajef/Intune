@@ -1,4 +1,4 @@
-﻿##
+##
 # Jeffrey Nitta - @nittajef
 #
 ##
@@ -8,7 +8,7 @@
 ##
 $OrgSettings = Import-PowerShellDataFile "Org-Settings.psd1"
 $RuleChecks = Import-PowerShellDataFile $OrgSettings.input.Checks
-[xml]$stig = Get-Content -Path $OrgSettings.input.STIG -Encoding UTF8
+[xml]$StigFile = Get-Content -Path $OrgSettings.input.STIG -Encoding UTF8
 $map = Import-Csv W10-W11-rule-map.csv
 
 $PsOutput = @()        # Output string for the full PowerShell discovery script.
@@ -20,6 +20,15 @@ $EmptyRules = 0        # Count of rules that don't have definitions or aren't au
 $ReturnHash = '$hash = [ordered]@{' + "`r`n"  # Create the return hash of check values
 
 ## General setup, declare variables, etc
+
+# Add to try to ingest SCAP format STIG releases (working on latest Win Firewall one)
+if ($StigFile.Benchmark) {
+    $stig = $StigFile
+}
+else {
+    #$stig.Benchmark = $stig.'data-stream-collection'.component[1].Benchmark
+    $stig = $StigFile.'data-stream-collection'.component[1]
+}
 
 $PsHeader = @(
     "##"
